@@ -1,5 +1,6 @@
 # extra
 .vscode/
+.flake8
 
 
 # Byte-compiled / optimized / DLL files
