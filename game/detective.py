@@ -8,8 +8,8 @@ class Detective(Player):
     def getOptions(self):
         pass
 
-    def move(self, destination, transport):
+    """def move(self, destination, transport):
         pass
 
     def decide(self):
-        pass
+        pass"""

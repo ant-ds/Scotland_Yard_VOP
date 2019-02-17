@@ -2,7 +2,7 @@ from game.misterx import MisterX
 from game.detective import Detective
 
 
-class Game():
+class ScotlandYard():
     def __init__(self, board=None, numDetectives=4):
         self.board = board
         self.misterx = MisterX(game=self, name="Mister X", blackCards=numDetectives)
@@ -15,6 +15,7 @@ class Game():
 
             if self.hasEnded:  # Regularly check if game has ended
                 return False
+        return True  # If the game is not done, return True so game loop keeps running
 
     @property
     def hasEnded(self):
@@ -27,3 +28,5 @@ class Game():
             if d.position == self.misterx.position:
                 return True
         return False
+
+    
