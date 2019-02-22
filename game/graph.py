@@ -23,12 +23,3 @@ def drawGraph(graph):
 
     nx.draw(graph, with_labels=True, node_color='grey', alpha=.5, edge_color=edge_color)
     plt.show()
-
-#returns a list of neighboring nodes
-def getOptions(graph,node):
-        listret = []
-        i = 0
-        for n in graph.neighbors(node):
-                listret.append(n)
-                i+= 1
-        return listret

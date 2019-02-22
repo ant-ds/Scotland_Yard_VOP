@@ -4,19 +4,31 @@ class Player():
         self.game = game
 
         self.position = self.game.board.giveStartPosition()
-
-        """self.busCard = busCard
-        self.taxiCard = taxiCard
-        self.undergroundCard = undergroundCard"""
         
-        self.cards = [busCard, taxiCard, undergroundCard]
-        self._cardTypes = ['bus', 'taxi', 'underground']
+        self.cards = {
+            'bus': busCard,
+            'taxi': taxiCard,
+            'underground': undergroundCard,
+        }
 
-        self.history = []
+        self.history = []  # TODO: implement tracking of movement: why and in what format?
 
     def update(self):
+        self._printCards()
+        print("-------------------------------------")
+        print(f"{self}'s turn")
+        print(f"Current position: {self.position}")
+
         dest, transport = self.decide()
-        self.move(dest, transport)
+        status, issue = self.move(dest, transport)
+        while not status:
+            print(f"That move was invalid: {issue}")
+            dest, transport = self.decide()
+            status, issue = self.move(dest, transport)
+        
+        self._printCards()
+        print(f"{self} ended his turn on position {self.position}")
+
     
     def decide(self):
         """
@@ -24,16 +36,20 @@ class Player():
         Returns a tuple of (destination, transportation used to get there)
         Basic interactive implementation, should be overwritten by superclasses.
         """
-        dest, transport = input("What is your destination and how do you get there?  ").split()
-        
+
+        options = self.game.board.getOptions(self.position)
+        print(f"Your options are:: {options}")
+
+        dest, transport = self._getInput()
+
         try:
-            transport = int(transport)
+            dest = int(dest)
         except ValueError:
-            transport = self._cardTypes.index(transport)  # keep track of the index instead of the human readable string
+            raise ValueError(f"Destination recieved was not a valid destination")
 
-        assert(0 <= transport < len(self._cardTypes))  # TODO: assert destination is valid, maybe though board API?
+        assert(transport in self.cards.keys())
 
-        print(f"{self} chose to move from {self.position} to {dest} by {self._cardTypes[transport]}")
+        print(f"{self} chose to move from {self.position} to {dest} by {transport}")
 
         return dest, transport
 
@@ -42,16 +58,17 @@ class Player():
         """
         Very simple implementation, no checks on possibility of move.
         """
-        self.position = destination
-        self.cards[transport] -= 1
-
-        self._printCards()
+        return self.game.board.movePlayer(self, destination, transport)        
+    
+    def _getInput(self):
+        return input("What is your destination and how do you get there?  ").split()
     
     def _printCards(self):
-        text = f"{self} now holds the following cards: "
+        """text = f"{self} now holds the following cards: "
         for i, card in enumerate(self._cardTypes):
             text += f"{(card, self.cards[i])}"
-        print(text)
+        print(text)"""
+        print(self.cards)
     
     def __str__(self):
         return self.name
