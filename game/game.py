@@ -2,6 +2,8 @@ from game.misterx import MisterX
 from game.detective import Detective
 from game.board import Board
 
+# from game.draw import drawGame
+
 
 class ScotlandYard():
     def __init__(self, size, numDetectives=4):
@@ -10,6 +12,9 @@ class ScotlandYard():
         self.misterx = MisterX(game=self, name="Mister X", blackCards=numDetectives)
 
     def update(self):
+
+        # drawGame(self)
+
         self.misterx.update()
         for detective in self.detectives:
             detective.update()

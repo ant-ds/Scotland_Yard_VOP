@@ -1,13 +1,13 @@
 import random
 
-import game.graph as g
+import game.util as util
 
 
 class Board():
     def __init__(self, size, game=None):
         self.size = size
         self.game = game
-        self.graph = g.createGraph(size)
+        self.graph = util.createGraph(size)
 
         self._usedStartingPositions = []  # Makes sure no two players start on the same spot
 
@@ -22,7 +22,7 @@ class Board():
         return pos
     
     def draw(self):
-        g.drawGraph(self.graph)
+        util.drawGraph(self.graph)
     
     def getOptions(self, startPosition):
         """
@@ -50,7 +50,7 @@ class Board():
         # Is the proposed destination an option?
         options = self.getOptions(player.position)
         tup = (destination, transport)
-        if not tup in options:
+        if tup not in options:
             return False, f"{tup} was not an option in {options}"
         
         # Is a ticket available for the transportation needed?

@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 networkx = "*"
 matplotlib = "*"
+opencv-python = "*"
 
 [dev-packages]
 "flake8" = "*"
