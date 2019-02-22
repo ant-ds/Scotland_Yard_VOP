@@ -44,6 +44,7 @@ class Board():
     def movePlayer(self, player, destination, transport):
         """
         Checks if the proposed move is valid based on the current position on the board.
+        Also hands over used cards to Mr. X
         """
 
         # Is the proposed destination an option?
@@ -62,5 +63,8 @@ class Board():
 
         player.position = destination
         player.cards[transport] -= 1
+
+        # Give the used card to Mr. X
+        self.game.misterx.cards[transport] += 1
 
         return True, None
