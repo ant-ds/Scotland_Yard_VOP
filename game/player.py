@@ -14,7 +14,6 @@ class Player():
         self.history = []  # TODO: implement tracking of movement: why and in what format?
 
     def update(self):
-        self._printCards()
         print("-------------------------------------")
         print(f"{self}'s turn")
         print(f"Current position: {self.position}")

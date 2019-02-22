@@ -53,14 +53,14 @@ class Board():
             return False, f"{tup} was not an option in {options}"
         
         # Is a ticket available for the transportation needed?
-        if not self.cards[transport] > 0:
+        if not player.cards[transport] > 0:
             return False, f"You do not have enough tickets for the {transport}"
 
-        # Is the destination not occupied?
-        if destination in self.getOccupiedPositions():
-            return False, "The destination chosen is already occupied by another player"
+        # Is the destination not occupied by a detective?
+        if destination in [d.position for d in self.game.detectives]:
+            return False, "The destination chosen is already occupied"
 
-        self.position = destination
-        self.cards[transport] -= 1
+        player.position = destination
+        player.cards[transport] -= 1
 
         return True, None
