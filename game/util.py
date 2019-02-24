@@ -15,9 +15,10 @@ def createGraph(size):
     assert(len(CONNECTIONS) == size + 1)  # size+1: Assuming 0 is not used on the physical board
 
     for i in range(1, size + 1):
-        # CONNECTIONS[i] contains list of tuples (neighbour, transport)
-        for neighbour, transport in CONNECTIONS[i]:
-            graph.add_edge(i, neighbour, transport=transport)  # If edges connect nodes not in the graph, nodes added automatically
+        # CONNECTIONS[i] contains dict with keys transport and values tuples of connections
+        for transport, neighbours in CONNECTIONS[i].items():
+            for neighbour in neighbours:
+                graph.add_edge(i, neighbour, transport=transport)  # If edges connect nodes not in the graph, nodes added automatically
     return graph
 
   
