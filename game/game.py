@@ -2,7 +2,7 @@ from game.misterx import MisterX
 from game.detective import Detective
 from game.board import Board
 
-# from game.draw import drawGame
+from game.draw import drawGame
 
 
 class ScotlandYard():
@@ -13,9 +13,10 @@ class ScotlandYard():
 
     def update(self):
 
-        # drawGame(self)
+        drawGame(self)
 
         self.misterx.update()
+        
         for detective in self.detectives:
             detective.update()
 
@@ -39,13 +40,19 @@ class ScotlandYard():
     def hasEnded(self):
         """
         Checks all parameters that indicate that the game should end
-        1) Detectives reached Mr. X's position
-        2) TODO: others?
+        1) A detective has reached Mr. X's position
+        2) Mr.x has no options left because he is surrounded  # TODO: wannneer checken, andere functie best? bord kan NoOptionsError custom throwen
+        3) No detective is able to move
 
         Returns: bool
         """
+
+        allDetectivesDefeated = True
         for d in self.detectives:
             if d.position == self.misterx.position:
                 return True
-        return False
+            if not d.defeated:
+                allDetectivesDefeated = False
+
+        return allDetectivesDefeated
     

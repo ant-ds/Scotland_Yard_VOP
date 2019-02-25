@@ -12,6 +12,13 @@ class MisterX(Player):
             'double': doubleMoveCards,
         })
     
+    def getTransportName(self, transport):
+        """Some cards can be used for multiple purposes, but are only kept track of once,
+        returns correct internal naming for this player instance"""
+        if transport == 'ferry':
+            return 'black'
+        return transport
+
     def __str__(self):
         "Overwite the string method of base class Player for consistency"
         return "Mr. X"

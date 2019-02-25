@@ -3,7 +3,7 @@ class Player():
         self.name = name
         self.game = game
 
-        self.position = self.game.board.giveStartPosition()
+        self.position = self.game.board.giveStartPosition(type(self))
         
         self.cards = {
             'bus': busCard,
@@ -43,9 +43,7 @@ class Player():
         try:
             dest = int(dest)
         except ValueError:
-            raise ValueError(f"Destination recieved was not a valid destination")
-
-        assert(transport in self.cards.keys())
+            print(f"Destination recieved was not a valid destination")
 
         print(f"{self} chose to move from {self.position} to {dest} by {transport}")
 
@@ -55,16 +53,21 @@ class Player():
         """
         Very simple implementation, no checks on possibility of move.
         """
-        return self.game.board.movePlayer(self, destination, transport)        
+        status, issue = self.game.board.movePlayer(self, destination, transport)
+        if status:
+            self.history.append((destination, transport))  # TODO: liever (start, transport) of (dest, transport)?
+        return status, issue
+    
+    def getTransportName(self, transport):
+        """Some cards can be used for multiple purposes, but are only kept track of once,
+        returns correct internal naming for this player instance"""
+        return transport
     
     def _getInput(self):
         return input("What is your destination and how do you get there?  ").split()
     
     def _printCards(self):
-        """text = f"{self} now holds the following cards: "
-        for i, card in enumerate(self._cardTypes):
-            text += f"{(card, self.cards[i])}"
-        print(text)"""
+        "Displays the cards this player is currently in possession of."
         print(self.cards)
     
     def __str__(self):
