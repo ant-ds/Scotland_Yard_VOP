@@ -2,7 +2,7 @@ from game.game import ScotlandYard
 
 
 def main():
-    game = ScotlandYard(199)
+    game = ScotlandYard()
 
     while game.update():
         pass  # Visualization function calls could be added here

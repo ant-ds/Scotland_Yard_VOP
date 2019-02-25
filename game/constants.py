@@ -10,7 +10,7 @@ IMG_TOTAL_SIZE = (3152, 2389)  # Full-scale pixel size
 POSITION_RADIUS = 23  # Pixels radius of a tile on full-scale image
 
 
-EDGE_COLORS = {  # TODO: could be removed
+EDGE_COLORS = {  # TODO: could be removed if graph not needed anymore
     'bus': 'r', 
     'taxi': 'g', 
     'underground': 'b', 

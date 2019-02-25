@@ -84,3 +84,14 @@ def drawPlayers(imgdata, positions, mrx=None):
         )
 
     return imgdata
+
+
+def isOption(options, tup):
+    if tup in options:
+        return True
+    
+    for option in options:
+        if option[0] == 'double':
+            if tup in option:
+                return True
+    return False

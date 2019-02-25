@@ -2,27 +2,25 @@ from game.misterx import MisterX
 from game.detective import Detective
 from game.board import Board
 
-from game.draw import drawGame
+# from game.draw import drawGame
 
 
 class ScotlandYard():
-    def __init__(self, size, numDetectives=4):
+    def __init__(self, size=199, numDetectives=4):
         self.board = Board(size, game=self)
         self.detectives = [Detective(name=f"Detective{i+1}", game=self) for i in range(numDetectives)]
         self.misterx = MisterX(game=self, name="Mister X", blackCards=numDetectives)
 
     def update(self):
 
-        drawGame(self)
+        # drawGame(self)
 
         self.misterx.update()
         
         for detective in self.detectives:
             detective.update()
-
-            if self.hasEnded:  # Regularly check if game has ended
-                return False
-        return True  # If the game is not done, return True so game loop keeps running
+        
+        return not self.hasEnded  # Regularly check if game has ended
 
     def addMisterX(self, misterx):
         "Overwrite the misterx instance used for playing the game"
@@ -47,11 +45,14 @@ class ScotlandYard():
         Returns: bool
         """
 
+        if self.misterx.isDefeated:
+            return True
+
         allDetectivesDefeated = True
         for d in self.detectives:
             if d.position == self.misterx.position:
                 return True
-            if not d.defeated:
+            if not d.isDefeated:
                 allDetectivesDefeated = False
 
         return allDetectivesDefeated

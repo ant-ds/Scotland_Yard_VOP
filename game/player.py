@@ -1,3 +1,6 @@
+import re
+
+
 class Player():
     def __init__(self, game, name, busCard, taxiCard, undergroundCard):
         self.name = name
@@ -11,7 +14,8 @@ class Player():
             'underground': undergroundCard,
         }
 
-        self.history = []  # TODO: implement tracking of movement: why and in what format?
+        self.history = []
+        self.defeated = False
 
     def update(self):
         print("-------------------------------------")
@@ -35,17 +39,21 @@ class Player():
         Basic interactive implementation, should be overwritten by superclasses.
         """
 
-        options = self.game.board.getOptions(self.position)
+        options = self.game.board.getOptions(self)
         print(f"Your options are:: {options}")
 
         dest, transport = self._getInput()
+        
+        if dest == 'double' and len(transport) == 4:
+            transport[0] = int(transport[0])
+            transport[2] = int(transport[2])
 
         try:
             dest = int(dest)
         except ValueError:
             print(f"Destination recieved was not a valid destination")
 
-        print(f"{self} chose to move from {self.position} to {dest} by {transport}")
+        print(f"{self} chose to move from {self.position} to {dest} via {transport}")
 
         return dest, transport
 
@@ -53,9 +61,10 @@ class Player():
         """
         Very simple implementation, no checks on possibility of move.
         """
+        startPosition = self.position
         status, issue = self.game.board.movePlayer(self, destination, transport)
         if status:
-            self.history.append((destination, transport))  # TODO: liever (start, transport) of (dest, transport)?
+            self.history.append((startPosition, transport, destination))
         return status, issue
     
     def getTransportName(self, transport):
@@ -63,9 +72,33 @@ class Player():
         returns correct internal naming for this player instance"""
         return transport
     
-    def _getInput(self):
-        return input("What is your destination and how do you get there?  ").split()
+    @property
+    def isDefeated(self):
+        if self.defeated:
+            return True
+        
+        # TODO
     
+    def _defeated(self):
+        self.defeated = True
+    
+    def _getInput(self):
+        while True:
+            recieved = input("What is your destination and how do you plan to get there?  ")
+            inputs = re.findall(r"[\w']+", recieved)  # can handle commas, spaces, ...
+        
+            if inputs[0] == 'double':
+                if len(inputs) == 5:
+                    break
+                else:
+                    print("Wat doink?")
+            else:
+                if len(inputs) == 2:
+                    break
+                else:
+                    print("Your input was invalid. Please try again:")
+        return inputs[0], inputs[1:]
+
     def _printCards(self):
         "Displays the cards this player is currently in possession of."
         print(self.cards)
