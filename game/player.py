@@ -28,7 +28,6 @@ class Player():
         self._printCards()
         print(f"{self} ended his turn on position {self.position}")
 
-    
     def decide(self):
         """
         Decide which position to move to next.
@@ -52,7 +51,6 @@ class Player():
 
         return dest, transport
 
-    
     def move(self, destination, transport):
         """
         Very simple implementation, no checks on possibility of move.
@@ -71,5 +69,3 @@ class Player():
     
     def __str__(self):
         return self.name
-
-        
