@@ -1,3 +1,9 @@
+STARTPOSITIONS = {
+    'detectives': (50, 94, 112, 103, 141, 34, 174, 53, 155, 117, 138, 123, 29, 91, 26, 13),
+    'mrx': (166, 78, 127, 172, 132, 45, 106, 51, 146, 170, 35, 71, 104)
+}
+
+
 DISPLAY_SIZE = (800, 600)  # Size for displaying image of board on screen
 
 IMG_TOTAL_SIZE = (3152, 2389)  # Full-scale pixel size
@@ -27,7 +33,7 @@ PLAYER_COLORS = {
 # Example: node 1 is connected with node 3 by a bus line => CONNECTIONS[1] = {'bus': (3)}
 CONNECTIONS = [
     None, 
-    {
+    {  # 1
         'taxi': (8, 9), 
         'bus': (58, 46), 
         'underground': (46), 
@@ -51,7 +57,7 @@ CONNECTIONS = [
         'underground': (), 
         'ferry': (), 
     }, 
-    {
+    {  # 5
         'taxi': (15, 16), 
         'bus': (), 
         'underground': (), 
@@ -81,7 +87,7 @@ CONNECTIONS = [
         'underground': (), 
         'ferry': (), 
     }, 
-    {
+    {  # 10
         'taxi': (11, 21, 34), 
         'bus': (), 
         'underground': (), 
@@ -107,11 +113,11 @@ CONNECTIONS = [
     }, 
     {
         'taxi': (25, 15), 
-        'bus': (), 
+        'bus': (15), 
         'underground': (), 
         'ferry': (), 
     }, 
-    {
+    {  # 15
         'taxi': (26, 16, 28), 
         'bus': (41, 29), 
         'underground': (), 
@@ -141,7 +147,7 @@ CONNECTIONS = [
         'underground': (), 
         'ferry': (), 
     }, 
-    {
+    {  # 20
         'taxi': (33), 
         'bus': (), 
         'underground': (), 
@@ -171,7 +177,7 @@ CONNECTIONS = [
         'underground': (), 
         'ferry': (), 
     }, 
-    {
+    {  # 25
         'taxi': (39, 38), 
         'bus': (), 
         'underground': (), 
@@ -201,7 +207,7 @@ CONNECTIONS = [
         'underground': (), 
         'ferry': (), 
     }, 
-    {
+    {  # 30
         'taxi': (42), 
         'bus': (), 
         'underground': (), 
@@ -231,7 +237,7 @@ CONNECTIONS = [
         'underground': (), 
         'ferry': (), 
     }, 
-    {
+    {  # 35
         'taxi': (36, 65, 48), 
         'bus': (), 
         'underground': (), 
@@ -321,7 +327,7 @@ CONNECTIONS = [
         'underground': (), 
         'ferry': (), 
     }, 
-    {
+    {  # 50
         'taxi': (67), 
         'bus': (), 
         'underground': (), 
@@ -330,6 +336,12 @@ CONNECTIONS = [
     {
         'taxi': (52, 68, 67), 
         'bus': (), 
+        'underground': (), 
+        'ferry': (), 
+    }, 
+    {
+        'taxi': (69), 
+        'bus': (86, 67), 
         'underground': (), 
         'ferry': (), 
     }, 
@@ -465,7 +477,7 @@ CONNECTIONS = [
         'underground': (), 
         'ferry': (), 
     }, 
-    {
+    {  # 75
         'taxi': (94), 
         'bus': (), 
         'underground': (), 
@@ -494,10 +506,22 @@ CONNECTIONS = [
         'bus': (), 
         'underground': (93, 111), 
         'ferry': (), 
+    },  
+    {  # 80
+        'taxi': (100, 99), 
+        'bus': (), 
+        'underground': (), 
+        'ferry': (), 
     }, 
     {
-        'taxi': (100, 99), 
-        'bus': (82, 100), 
+        'taxi': (100, 82), 
+        'bus': (), 
+        'underground': (), 
+        'ferry': (), 
+    }, 
+    {
+        'taxi': (101), 
+        'bus': (100, 140), 
         'underground': (), 
         'ferry': (), 
     }, 
@@ -513,7 +537,7 @@ CONNECTIONS = [
         'underground': (), 
         'ferry': (), 
     }, 
-    {
+    {  # 85
         'taxi': (103), 
         'bus': (), 
         'underground': (), 
@@ -543,7 +567,7 @@ CONNECTIONS = [
         'underground': (128), 
         'ferry': (), 
     }, 
-    {
+    {  # 90
         'taxi': (91, 105), 
         'bus': (), 
         'underground': (), 
@@ -573,7 +597,7 @@ CONNECTIONS = [
         'underground': (), 
         'ferry': (), 
     }, 
-    {
+    {  # 95
         'taxi': (122), 
         'bus': (), 
         'underground': (), 
@@ -637,7 +661,7 @@ CONNECTIONS = [
         'taxi': (106, 108), 
         'bus': (107, 108), 
         'underground': (), 
-        'ferry': (), 
+        'ferry': (115), 
     }, 
     {
         'taxi': (107), 
@@ -655,7 +679,7 @@ CONNECTIONS = [
         'taxi': (117, 119), 
         'bus': (135, 116), 
         'underground': (), 
-        'ferry': (115), 
+        'ferry': (), 
     }, 
     {
         'taxi': (110, 124), 
@@ -693,11 +717,71 @@ CONNECTIONS = [
         'underground': (), 
         'ferry': (), 
     }, 
-    {
+    {  # 115
         'taxi': (127, 126), 
         'bus': (), 
         'underground': (), 
         'ferry': (157), 
+    }, 
+    {
+        'taxi': (127, 117, 118), 
+        'bus': (127, 142), 
+        'underground': (), 
+        'ferry': (), 
+    },  
+    {
+        'taxi': (129), 
+        'bus': (), 
+        'underground': (), 
+        'ferry': (), 
+    },  
+    {
+        'taxi': (129, 134, 142), 
+        'bus': (), 
+        'underground': (), 
+        'ferry': (), 
+    },  
+    {
+        'taxi': (136), 
+        'bus': (), 
+        'underground': (), 
+        'ferry': (), 
+    },  
+    {  # 120
+        'taxi': (121, 144), 
+        'bus': (), 
+        'underground': (), 
+        'ferry': (), 
+    },  
+    {
+        'taxi': (122, 145), 
+        'bus': (), 
+        'underground': (), 
+        'ferry': (), 
+    },  
+    {
+        'taxi': (146, 123), 
+        'bus': (123, 144), 
+        'underground': (), 
+        'ferry': (), 
+    },  
+    {
+        'taxi': (124, 137, 148, 149), 
+        'bus': (124, 165, 144), 
+        'underground': (), 
+        'ferry': (), 
+    },  
+    {
+        'taxi': (138), 
+        'bus': (153), 
+        'underground': (), 
+        'ferry': (), 
+    },  
+    {  # 125
+        'taxi': (131), 
+        'bus': (), 
+        'underground': (), 
+        'ferry': (), 
     }, 
     {
         'taxi': (127, 140), 
@@ -1095,6 +1179,12 @@ CONNECTIONS = [
         'underground': (), 
         'ferry': (), 
     }, 
+    {
+        'taxi': (194), 
+        'bus': (), 
+        'underground': (), 
+        'ferry': (), 
+    },  
     {
         'taxi': (194), 
         'bus': (), 

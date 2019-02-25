@@ -12,11 +12,17 @@ def createGraph(size):
 
     graph.add_nodes_from(range(1, size + 1))  # size+1: Assuming 0 is not used on the physical board
 
-    assert(len(CONNECTIONS) == size + 1)  # size+1: Assuming 0 is not used on the physical board
+    try:
+        assert(len(CONNECTIONS) == size + 1)  # size+1: Assuming 0 is not used on the physical board
+    except AssertionError:
+        raise AssertionError(f"Wrong size variable: {len(CONNECTIONS)} != {size + 1}")
 
     for i in range(1, size + 1):
         # CONNECTIONS[i] contains dict with keys transport and values tuples of connections
         for transport, neighbours in CONNECTIONS[i].items():
+            if isinstance(neighbours, int):
+                # Tuple with one element is interpreted as regular int
+                neighbours = [neighbours]
             for neighbour in neighbours:
                 graph.add_edge(i, neighbour, transport=transport)  # If edges connect nodes not in the graph, nodes added automatically
     return graph
