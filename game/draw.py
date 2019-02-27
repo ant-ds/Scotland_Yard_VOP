@@ -5,7 +5,6 @@ from game.constants import DISPLAY_SIZE
 
 
 def drawGame(game):
-    # TODO: convert to RGB
     img = cv2.imread('board.jpg', cv2.IMREAD_COLOR)
     img = cv2.resize(img, DISPLAY_SIZE)
 

@@ -18,12 +18,12 @@ EDGE_COLORS = {  # TODO: could be removed if graph not needed anymore
 }
 
 PLAYER_COLORS = {
-    'detectives': [
-        (200, 0, 0), 
-        (0, 200, 0), 
-        (0, 0, 200), 
-        (200, 200, 0), 
-        (0, 200, 200), 
+    'detectives': [  # no (0, 200, 0), because bad visibility
+        (200, 0, 0),
+        (0, 0, 200),
+        (200, 0, 200), 
+        (0, 200, 200),
+        (200, 200, 200),
     ], 
     'mrx': (0, 0, 0)
 }
