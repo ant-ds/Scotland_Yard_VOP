@@ -10,10 +10,12 @@ class ScotlandYard():
         self.board = Board(size, game=self)
         self.detectives = [Detective(name=f"Detective{i+1}", game=self) for i in range(numDetectives)]
         self.misterx = MisterX(game=self, name="Mister X", blackCards=numDetectives)
+        self.turn = 0  # Keep track of turns
 
         self.visualize = visualize
 
     def update(self):
+        self.turn += 1
 
         if self.visualize:
             drawGame(self)
