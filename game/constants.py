@@ -202,7 +202,7 @@ CONNECTIONS = [
         'ferry': (), 
     }, 
     {
-        'taxi': (42, 55, 41), 
+        'taxi': (42, 41), 
         'bus': (42, 55, 41), 
         'underground': (), 
         'ferry': (), 
@@ -328,7 +328,7 @@ CONNECTIONS = [
         'ferry': (), 
     }, 
     {  # 50
-        'taxi': (67), 
+        'taxi': (), 
         'bus': (), 
         'underground': (), 
         'ferry': (), 
@@ -377,7 +377,7 @@ CONNECTIONS = [
     }, 
     {
         'taxi': (59, 74), 
-        'bus': (74), 
+        'bus': (74, 77), 
         'underground': (), 
         'ferry': (), 
     }, 
@@ -388,7 +388,7 @@ CONNECTIONS = [
         'ferry': (), 
     }, 
     {  # 60
-        'taxi': (61, 74), 
+        'taxi': (61, 76), 
         'bus': (), 
         'underground': (), 
         'ferry': (), 
@@ -485,7 +485,7 @@ CONNECTIONS = [
     }, 
     {
         'taxi': (77), 
-        'bus': (), 
+        'bus': (77), 
         'underground': (), 
         'ferry': (), 
     }, 
@@ -564,7 +564,7 @@ CONNECTIONS = [
     {
         'taxi': (105), 
         'bus': (105), 
-        'underground': (128), 
+        'underground': (128, 140), 
         'ferry': (), 
     }, 
     {  # 90
@@ -645,7 +645,7 @@ CONNECTIONS = [
         'underground': (), 
         'ferry': (), 
     }, 
-    {  # eerste lege lol: 103
+    {
         'taxi': (), 
         'bus': (), 
         'underground': (), 
@@ -661,7 +661,7 @@ CONNECTIONS = [
         'taxi': (106, 108), 
         'bus': (107, 108), 
         'underground': (), 
-        'ferry': (115), 
+        'ferry': (), 
     }, 
     {
         'taxi': (107), 
@@ -679,7 +679,7 @@ CONNECTIONS = [
         'taxi': (117, 119), 
         'bus': (135, 116), 
         'underground': (), 
-        'ferry': (), 
+        'ferry': (115), 
     }, 
     {
         'taxi': (110, 124), 
@@ -772,7 +772,7 @@ CONNECTIONS = [
         'ferry': (), 
     },  
     {
-        'taxi': (138), 
+        'taxi': (130, 138), 
         'bus': (153), 
         'underground': (), 
         'ferry': (), 
@@ -958,7 +958,7 @@ CONNECTIONS = [
         'ferry': (), 
     }, 
     {
-        'taxi': (156, 168), 
+        'taxi': (156, 167, 168), 
         'bus': (), 
         'underground': (), 
         'ferry': (), 
@@ -1156,7 +1156,7 @@ CONNECTIONS = [
         'ferry': (), 
     }, 
     {
-        'taxi': (199, 173), 
+        'taxi': (199), 
         'bus': (), 
         'underground': (), 
         'ferry': (), 
