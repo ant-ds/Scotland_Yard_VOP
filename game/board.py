@@ -44,8 +44,9 @@ class Board():
             startPosition = customStartPosition
         else:
             startPosition = player.position
-            
+        
         options = []
+        
         # for nbr in G[n]: iterates through neighbors
         for nbr in self.graph[startPosition]:
             transport = self.graph.get_edge_data(startPosition, nbr)[0]['transport']
@@ -100,8 +101,9 @@ class Board():
         player.position = destination
         player.cards[transport] -= 1
 
-        # Give the used card to Mr. X
-        self.game.misterx.cards[transport] += 1
+        # Give the used card to Mr. X, except for black and doubles
+        if transport not in ['black', 'double']:
+            self.game.misterx.cards[transport] += 1
 
         return True, None
     
@@ -139,3 +141,20 @@ class Board():
                 transport = player.getTransportName(move[1])  # Convert to correct naming convention inside player instance
                 player.position = move[0]
                 player.cards[transport] += 1
+    
+    def possiblePositions(self, start, moves=[]):
+        """
+        Returns a list of possible locations a player could have moved to with the given
+        list containing means of transport used.
+        """
+        options = [start]
+        for move in moves:
+            newOptions = []  # new list of possible locations
+            for position in options:
+                for nbr in self.graph[position]:
+                    transport = self.graph.get_edge_data(position, nbr)[0]['transport']
+                    if move == transport or move == 'black':  # black move could be any move
+                        newOptions.append(nbr)
+            options = list(set(newOptions))  # eliminate doubles for performance
+        
+        return sorted(options)  # sort in ascending order

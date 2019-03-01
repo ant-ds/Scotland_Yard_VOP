@@ -91,7 +91,15 @@ def isOption(options, tup):
         return True
     
     for option in options:
-        if option[0] == 'double':
-            if tup in option:
+        if option[0] == 'double':  # for double moves, check if move is one of the two internal options
+            hits = 0
+            for t in tup[1:]:
+                if isOption(option[1:], t):  # use recursive call to check more easily for 'black' transport calls
+                    hits += 1
+            if hits == len(tup[1:]):
                 return True
+        
+        if tup == (option[0], 'black'):  # black is a valid transportation as long as the destination is reachable
+            return True
+
     return False
