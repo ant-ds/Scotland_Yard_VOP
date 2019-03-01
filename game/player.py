@@ -40,6 +40,7 @@ class Player():
         """
 
         options = self.game.board.getOptions(self)
+        options = sorted(options, key=lambda x: x[0] == 'double')  # display signgle moves first
         print(f"Your options are:: {options}")
 
         dest, transport = self._getInput()

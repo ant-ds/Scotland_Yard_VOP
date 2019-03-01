@@ -6,6 +6,9 @@ from game.draw import drawGame
 
 
 class ScotlandYard():
+    """
+    Class with implementation of the strategic boardgame Scotland Yard.
+    """
     def __init__(self, size=199, numDetectives=4, visualize=False):
         self.board = Board(size, game=self)
         self.detectives = [Detective(name=f"Detective{i+1}", game=self) for i in range(numDetectives)]

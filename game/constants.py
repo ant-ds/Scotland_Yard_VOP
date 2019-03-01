@@ -881,7 +881,7 @@ CONNECTIONS = [
     }, 
     {
         'taxi': (143, 158), 
-        'bus': (), 
+        'bus': (157), 
         'underground': (), 
         'ferry': (), 
     }, 
