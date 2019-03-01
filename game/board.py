@@ -49,9 +49,10 @@ class Board():
         
         # for nbr in G[n]: iterates through neighbors
         for nbr in self.graph[startPosition]:
-            transport = self.graph.get_edge_data(startPosition, nbr)[0]['transport']
-            if player.cards[player.getTransportName(transport)] > 0:
-                options.append((nbr, transport))
+            for k, transportDict in self.graph.get_edge_data(startPosition, nbr).items():  # edge data is a dict of dicts
+                transport = transportDict['transport']
+                if player.cards[player.getTransportName(transport)] > 0 and nbr not in self.getOccupiedPositions():
+                    options.append((nbr, transport))
 
         if doubleAllowed and isinstance(player, MisterX) and player.cards['double'] > 0:  # Double move
             optionsSet = set(options)
