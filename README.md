@@ -13,7 +13,7 @@ Using Homebrew (Mac):
 $ brew install pipenv
 ```
 
-### Installing pyenv
+### Installing pyenv (not sure if this works in windows)
 
 This will get you going with the latest version of pyenv and make it
 easy to fork and contribute any changes back upstream.
