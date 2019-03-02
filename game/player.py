@@ -18,19 +18,27 @@ class Player():
         self.defeated = False
 
     def update(self):
-        print("-------------------------------------")
-        print(f"{self}'s turn")
-        print(f"Current position: {self.position}")
+        self.print_("-------------------------------------")
+        self.print_(f"{self}'s turn")
+        self.print_(f"Current position: {self.position}")
 
         dest, transport = self.decide()
         status, issue = self.move(dest, transport)
+        if status is None:
+            self._defeated()
+            return False
         while not status:
-            print(f"That move was invalid: {issue}")
+            self.print_(f"That move was invalid: {issue}")
             dest, transport = self.decide()
             status, issue = self.move(dest, transport)
+            if status is None:
+                self._defeated()
+                return False
 
         self._printCards()
-        print(f"{self} ended his turn on position {self.position}")
+        self.print_(f"{self} ended his turn on position {self.position}")
+
+        return True  # if everything in update went smooth, return True
 
     def decide(self):
         """
@@ -41,7 +49,7 @@ class Player():
 
         options = self.game.board.getOptions(self)
         options = sorted(options, key=lambda x: x[0] == 'double')  # display signgle moves first
-        print(f"Your options are:: {options}")
+        self.print_(f"Your options are:: {options}")
 
         dest, transport = self._getInput()
 
@@ -52,9 +60,9 @@ class Player():
         try:
             dest = int(dest)
         except ValueError:
-            print(f"Destination recieved was not a valid destination")
+            self.print_(f"Destination recieved was not a valid destination")
 
-        print(f"{self} chose to move from {self.position} to {dest} via {transport}")
+        self.print_(f"{self} chose to move from {self.position} to {dest} via {transport}")
 
         return dest, transport
 
@@ -96,17 +104,20 @@ class Player():
                 if len(inputs) == 5:
                     break
                 else:
-                    print("Wat doink?")
+                    self.print_("Wat doink?")
             else:
                 if len(inputs) == 2:
                     break
                 else:
-                    print("Your input was invalid. Please try again:")
+                    self.print_("Your input was invalid. Please try again:")
         return inputs[0], inputs[1:]
 
     def _printCards(self):
         "Displays the cards this player is currently in possession of."
-        print(self.cards)
+        self.game.print_(self.cards)
     
     def __str__(self):
         return self.name
+
+    def print_(self, msg):
+        self.game.print_(msg)

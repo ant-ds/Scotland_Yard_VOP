@@ -5,6 +5,12 @@ START_POSITIONS = {
 
 MRX_OPEN_TURNS = [3, 8, 13, 18]
 
+GAME_END_MESSAGES = [
+    "A detective has reached Mr. X's position",
+    "Mr.x has no options left because he is surrounded",
+    "No detective is able to move",
+]
+
 
 DISPLAY_SIZE = (800, 600)  # Size for displaying image of board on screen
 

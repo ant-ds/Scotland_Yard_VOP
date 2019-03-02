@@ -51,7 +51,7 @@ class Board():
         for nbr in self.graph[startPosition]:
             for k, transportDict in self.graph.get_edge_data(startPosition, nbr).items():  # edge data is a dict of dicts
                 transport = transportDict['transport']
-                if player.cards[player.getTransportName(transport)] > 0 and nbr not in self.getOccupiedPositions():
+                if player.cards[player.getTransportName(transport)] > 0 and nbr not in [d.position for d in self.game.detectives]:
                     options.append((nbr, transport))
 
         if doubleAllowed and isinstance(player, MisterX) and player.cards['double'] > 0:  # Double move
