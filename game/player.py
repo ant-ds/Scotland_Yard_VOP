@@ -14,7 +14,7 @@ class Player():
             'underground': undergroundCard,
         }
 
-        self.history = []
+        self.history = []  # format: (startPosition, transport, destination)
         self.defeated = False
 
     def update(self):
@@ -28,7 +28,7 @@ class Player():
             print(f"That move was invalid: {issue}")
             dest, transport = self.decide()
             status, issue = self.move(dest, transport)
-        
+
         self._printCards()
         print(f"{self} ended his turn on position {self.position}")
 
@@ -44,7 +44,7 @@ class Player():
         print(f"Your options are:: {options}")
 
         dest, transport = self._getInput()
-        
+
         if dest == 'double' and len(transport) == 4:
             transport[0] = int(transport[0])
             transport[2] = int(transport[2])
@@ -67,12 +67,12 @@ class Player():
         if status:
             self.history.append((startPosition, transport, destination))
         return status, issue
-    
+
     def getTransportName(self, transport):
         """Some cards can be used for multiple purposes, but are only kept track of once,
         returns correct internal naming for this player instance"""
         return transport
-    
+
     @property
     def isDefeated(self):
         if self.defeated:
@@ -82,6 +82,10 @@ class Player():
     
     def _defeated(self):
         self.defeated = True
+    
+    @property
+    def turn(self):
+        return len(self.history)
     
     def _getInput(self):
         while True:

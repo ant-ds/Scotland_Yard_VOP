@@ -3,6 +3,8 @@ START_POSITIONS = {
     'mrx': (166, 78, 127, 172, 132, 45, 106, 51, 146, 170, 35, 71, 104)
 }
 
+MRX_OPEN_TURNS = [3, 8, 13, 18]
+
 
 DISPLAY_SIZE = (800, 600)  # Size for displaying image of board on screen
 
