@@ -161,9 +161,10 @@ class Board():
             newOptions = []  # new list of possible locations
             for position in options:
                 for nbr in self.graph[position]:
-                    transport = self.graph.get_edge_data(position, nbr)[0]['transport']  # TODO!
-                    if move == transport or move == 'black':  # black move could be any move
-                        newOptions.append(nbr)
+                    for k, transportDict in self.graph.get_edge_data(position, nbr).items():  # edge data is a dict of dicts
+                        transport = transportDict['transport']
+                        if move == transport or move == 'black':  # black move could be any move
+                            newOptions.append(nbr)
             options = list(set(newOptions))  # eliminate doubles for performance
         
         return sorted(options)  # sort in ascending order
@@ -177,8 +178,7 @@ class Board():
             moves = [hist[1] for hist in mrx.history]
             for s in const.START_POSITIONS['mrx']:
                 options += self.possiblePositions(s, moves=moves)
-                print(f"from {s} with {moves}: options {options}")
-            return sorted(options)  # sort in ascending order
+            return sorted(list(set(options)))  # sort in ascending order and make unique
         
         sliceStart = 0
 
