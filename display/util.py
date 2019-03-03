@@ -1,8 +1,12 @@
 import cv2
 import math
 
-import display.constants as dconst
-import game.constants as gconst
+import display.constants as const
+
+
+def getDisplaySize():
+    displayMode = const.DISPLAY_MODE
+    return const.DISPLAY_SIZE_OPTIONS[displayMode]
 
 
 def drawPlayers(imgdata, positions, mrx=None):
@@ -15,15 +19,16 @@ def drawPlayers(imgdata, positions, mrx=None):
         assert(isinstance(pos, int))
     assert(mrx is None or isinstance(mrx, int))
 
-    frac = [float(dconst.DISPLAY_SIZE[i]) / float(dconst.IMG_TOTAL_SIZE[i]) for i in range(2)]
+    displaySize = getDisplaySize()
+    frac = [float(displaySize[i]) / float(const.IMG_TOTAL_SIZE[i]) for i in range(2)]
 
-    dimensions = tuple([math.floor(dconst.POSITION_RADIUS * dim) for dim in frac])
+    dimensions = tuple([math.floor(const.POSITION_RADIUS * dim) for dim in frac])
 
     for i, pos in enumerate(positions):
-        position = gconst.VERTEX_POSITIONS[pos]
+        position = const.VERTEX_POSITIONS[pos]
         position = tuple(math.ceil(frac[i] * position[i]) for i in range(2))  # resized to DISPLAY_SIZE
 
-        color = dconst.PLAYER_COLORS['detectives'][i]
+        color = const.PLAYER_COLORS['detectives'][i]
 
         cv2.ellipse(
             imgdata, 
@@ -37,10 +42,10 @@ def drawPlayers(imgdata, positions, mrx=None):
         )
 
     if mrx is not None:
-        position = gconst.VERTEX_POSITIONS[mrx]
+        position = const.VERTEX_POSITIONS[mrx]
         position = tuple(math.ceil(frac[i] * position[i]) for i in range(2))  # resized to DISPLAY_SIZE
 
-        color = dconst.PLAYER_COLORS['mrx']
+        color = const.PLAYER_COLORS['mrx']
 
         cv2.ellipse(
             imgdata, 
@@ -58,7 +63,9 @@ def drawPlayers(imgdata, positions, mrx=None):
 
 def drawData(game):
     img = cv2.imread('board.jpg', cv2.IMREAD_COLOR)
-    img = cv2.resize(img, dconst.DISPLAY_SIZE)
+
+    displaySize = getDisplaySize()
+    img = cv2.resize(img, displaySize)
 
     dPositions = [d.position for d in game.detectives]
     img = drawPlayers(img, dPositions, mrx=game.misterx.lastKnownPosition)

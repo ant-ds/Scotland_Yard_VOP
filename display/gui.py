@@ -15,6 +15,14 @@ def createGui(game):
     game.addGui(main_widget.getGameInteraction())
 
     main_window.setCentralWidget(main_widget)
-    main_window.show()
+
+    displayMode = const.DISPLAY_MODE
+    displayMode = const.DISPLAY_MODE_OPTIONS[displayMode]
+    if displayMode == "Fullscreen":
+        main_window.showFullScreen()
+    elif displayMode == "Maximized":
+        main_window.showMaximized()
+    else:
+        main_window.show()
 
     return main_window
