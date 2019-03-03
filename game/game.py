@@ -2,7 +2,7 @@ from game.misterx import MisterX
 from game.detective import Detective
 from game.board import Board
 
-from game.draw import drawGame
+import display.util as util
 
 
 class ScotlandYard():
@@ -18,11 +18,13 @@ class ScotlandYard():
         self.visualize = visualize
         self.verbose = verbose
 
+        self.gui = None  # Gui can be added later if a one is available
+
     def update(self):
         self.turn += 1
 
         if self.visualize:
-            drawGame(self)
+            util.drawGame(self)
 
         if not self.misterx.update():
             # misterx has been eliminated
@@ -77,3 +79,9 @@ class ScotlandYard():
     def print_(self, msg):
         if self.verbose:
             print(msg)
+
+    def getDrawData(self):
+        return util.drawData(self)
+    
+    def addGui(self, gui):
+        self.gui = gui
