@@ -70,10 +70,8 @@ class Player():
         """
         Very simple implementation, no checks on possibility of move.
         """
-        startPosition = self.position
         status, issue = self.game.board.movePlayer(self, destination, transport)
-        if status:
-            self.history.append((startPosition, transport, destination))
+        
         return status, issue
 
     def getTransportName(self, transport):

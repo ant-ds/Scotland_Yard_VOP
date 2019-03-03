@@ -1,5 +1,6 @@
 import cv2
 import math
+import numpy as np
 
 import display.constants as const
 
@@ -61,6 +62,61 @@ def drawPlayers(imgdata, positions, mrx=None):
     return imgdata
 
 
+def drawCross(imgdata, position):
+    displaySize = getDisplaySize()
+    frac = [float(displaySize[i]) / float(const.IMG_TOTAL_SIZE[i]) for i in range(2)]
+
+    position = const.VERTEX_POSITIONS[position]
+    position = tuple(math.ceil(frac[i] * position[i]) for i in range(2))  # resized to DISPLAY_SIZE
+
+    dimensions = tuple([math.floor(const.POSITION_RADIUS * dim) for dim in frac])
+
+    vertices = []
+    vertexOffset = tuple([int(float(dim) / 3.0) for dim in dimensions])
+
+    # Top left
+    pos = [int(position[i] - dimensions[i]) for i in range(2)]
+    vertices += [pos[0] - vertexOffset[0], pos[1] + vertexOffset[1]]
+    vertices += [pos[0] + vertexOffset[0], pos[1] - vertexOffset[1]]
+
+    # Center top
+    vertices += [position[0], position[1] - vertexOffset[1]]
+
+    # Top right
+    pos = [position[0] + dimensions[0], position[1] - dimensions[1]]
+    vertices += [pos[0] - vertexOffset[0], pos[1] - vertexOffset[1]]
+    vertices += [pos[0] + vertexOffset[0], pos[1] + vertexOffset[1]]
+
+    # Center right
+    vertices += [position[0] + vertexOffset[0], position[1]]
+
+    # Bottom right
+    pos = [int(position[i] + dimensions[i]) for i in range(2)]
+    vertices += [pos[0] + vertexOffset[0], pos[1] - vertexOffset[1]]
+    vertices += [pos[0] - vertexOffset[0], pos[1] + vertexOffset[1]]
+
+    # Center bottom
+    vertices += [position[0], position[1] + vertexOffset[1]]
+    
+    # Bottom left
+    pos = [position[0] - dimensions[0], position[1] + dimensions[1]]
+    vertices += [pos[0] + vertexOffset[0], pos[1] + vertexOffset[1]]
+    vertices += [pos[0] - vertexOffset[0], pos[1] - vertexOffset[1]]
+
+    # Center left
+    vertices += [position[0] - vertexOffset[0], position[1]]
+    
+    pts = np.array([vertices], np.int32)
+    pts = pts.reshape((-1, 1, 2))
+
+    cv2.fillPoly(
+        imgdata,
+        [pts],
+        (0, 0, 0))
+    
+    return imgdata
+
+
 def drawData(game):
     img = cv2.imread('board.jpg', cv2.IMREAD_COLOR)
 
@@ -69,6 +125,9 @@ def drawData(game):
 
     dPositions = [d.position for d in game.detectives]
     img = drawPlayers(img, dPositions, mrx=game.misterx.lastKnownPosition)
+    
+    for pos in game.board.possibleMisterXPositions():
+        img = drawCross(img, pos)
 
     return img
 
