@@ -25,7 +25,7 @@ class MisterX(Player):
         lastKnown = None
         for i in const.MRX_OPEN_TURNS:
             try:
-                lastKnown = self.history[i][2]  # history has format (start, transport, dest)
+                lastKnown = self.history[i - 1][2]  # history has format (start, transport, dest)
             except IndexError:  # once index too high, return last confirmed value
                 return lastKnown
         return lastKnown
