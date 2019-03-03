@@ -3,7 +3,7 @@ import random
 from game.misterx import MisterX
 
 import game.util as util
-import game.constants as c
+import game.constants as const
 
 
 class Board():
@@ -23,10 +23,10 @@ class Board():
         else:
             playertype = 'mrx'
         
-        pos = random.choice(c.START_POSITIONS[playertype])
+        pos = random.choice(const.START_POSITIONS[playertype])
 
         while pos in self._usedStartingPositions:
-            pos = random.choice(c.START_POSITIONS[playertype])
+            pos = random.choice(const.START_POSITIONS[playertype])
         self._usedStartingPositions.append(pos)
         return pos
     
@@ -51,7 +51,11 @@ class Board():
         for nbr in self.graph[startPosition]:
             for k, transportDict in self.graph.get_edge_data(startPosition, nbr).items():  # edge data is a dict of dicts
                 transport = transportDict['transport']
-                if player.cards[player.getTransportName(transport)] > 0 and nbr not in self.getOccupiedPositions():
+                try:  # Sometimes a black Card check can be performed on a Detective
+                    hasCard = player.cards[player.getTransportName(transport)] > 0
+                except KeyError:
+                    hasCard = False
+                if hasCard and nbr not in [d.position for d in self.game.detectives]:
                     options.append((nbr, transport))
 
         if doubleAllowed and isinstance(player, MisterX) and player.cards['double'] > 0:  # Double move
@@ -98,9 +102,13 @@ class Board():
         # Is a ticket available for the transportation needed?
         if not player.cards[transport] > 0:
             return False, f"You do not have enough tickets for the {transport}"
-
+        
+        startPosition = player.position
         player.position = destination
         player.cards[transport] -= 1
+
+        # Record the move in player's history
+        player.history.append((startPosition, transport, destination))
 
         # Give the used card to Mr. X, except for black and doubles
         if transport not in ['black', 'double']:
@@ -153,9 +161,32 @@ class Board():
             newOptions = []  # new list of possible locations
             for position in options:
                 for nbr in self.graph[position]:
-                    transport = self.graph.get_edge_data(position, nbr)[0]['transport']
-                    if move == transport or move == 'black':  # black move could be any move
-                        newOptions.append(nbr)
+                    for k, transportDict in self.graph.get_edge_data(position, nbr).items():  # edge data is a dict of dicts
+                        transport = transportDict['transport']
+                        if move == transport or move == 'black':  # black move could be any move
+                            newOptions.append(nbr)
             options = list(set(newOptions))  # eliminate doubles for performance
         
         return sorted(options)  # sort in ascending order
+
+    def possibleMisterXPositions(self):
+        mrx = self.game.misterx
+        start = mrx.lastKnownPosition
+        options = []
+
+        if start is None:
+            moves = [hist[1] for hist in mrx.history]
+            for s in const.START_POSITIONS['mrx']:
+                options += self.possiblePositions(s, moves=moves)
+            return sorted(list(set(options)))  # sort in ascending order and make unique
+        
+        sliceStart = 0
+
+        for i in const.MRX_OPEN_TURNS:
+            try:
+                _ = mrx.history[i - 1][2]  # history has format (start, transport, dest)
+                sliceStart = i
+            except IndexError:  # once index too high, return last confirmed value
+                break
+        moves = [hist[1] for hist in mrx.history[sliceStart:]]
+        return self.possiblePositions(start, moves=moves)

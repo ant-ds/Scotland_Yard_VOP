@@ -13,19 +13,12 @@ class MisterX(Player):
             'double': doubleMoveCards,
         })
     
-    def getTransportName(self, transport):
-        """Some cards can be used for multiple purposes, but are only kept track of once,
-        returns correct internal naming for this player instance"""
-        if transport == 'ferry':
-            return 'black'
-        return transport
-    
     @property
     def lastKnownPosition(self):
         lastKnown = None
         for i in const.MRX_OPEN_TURNS:
             try:
-                lastKnown = self.history[i][2]  # history has format (start, transport, dest)
+                lastKnown = self.history[i - 1][2]  # history has format (start, transport, dest)
             except IndexError:  # once index too high, return last confirmed value
                 return lastKnown
         return lastKnown

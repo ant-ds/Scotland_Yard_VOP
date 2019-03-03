@@ -116,4 +116,26 @@ This guarantees some of the more annoying warnings by flake8 will be ignored suc
 ### Testing and local files
 Our .gitignore allows you to have certain local files inside the project-gravensburger directory: test.py and notes.txt. You can freely use files with these names to keep track of notes or circumstances during development or to run a testversion of your code.
 
+## Integrating a custom AI
+
+1. Create a class inheriting from the MisterX or Detective class, template:
+
+
+```python
+from game.misterx import MisterX
+
+
+class ExampleAIImplementationMisterX(MisterX):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+    
+    # Should return a tuple (destination:int, transportation:string)
+    def decide(self):
+        return 153, 'taxi'
+```
+
+2. Add your custom class to the game instance. Game automatically generates its players, but allows you to overwrite them with two methods: *addMisterX* and *addDetectives*, which take your custom instances as arguments.
+
+3. Run the game like any other game instance with your custom AI.
+
 ## Have fun developing :)
