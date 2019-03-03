@@ -3,7 +3,7 @@ import random
 from game.misterx import MisterX
 
 import game.util as util
-import game.constants as c
+import game.constants as const
 
 
 class Board():
@@ -23,10 +23,10 @@ class Board():
         else:
             playertype = 'mrx'
         
-        pos = random.choice(c.START_POSITIONS[playertype])
+        pos = random.choice(const.START_POSITIONS[playertype])
 
         while pos in self._usedStartingPositions:
-            pos = random.choice(c.START_POSITIONS[playertype])
+            pos = random.choice(const.START_POSITIONS[playertype])
         self._usedStartingPositions.append(pos)
         return pos
     

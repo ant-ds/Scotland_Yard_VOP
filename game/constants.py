@@ -11,31 +11,6 @@ GAME_END_MESSAGES = [
     "No detective is able to move",
 ]
 
-
-DISPLAY_SIZE = (800, 600)  # Size for displaying image of board on screen
-
-IMG_TOTAL_SIZE = (3152, 2389)  # Full-scale pixel size
-POSITION_RADIUS = 23  # Pixels radius of a tile on full-scale image
-
-
-EDGE_COLORS = {  # TODO: could be removed if graph not needed anymore
-    'bus': 'r', 
-    'taxi': 'g', 
-    'underground': 'b', 
-    'ferry': 'black', 
-}
-
-PLAYER_COLORS = {
-    'detectives': [  # no (0, 200, 0), because bad visibility
-        (200, 0, 0),
-        (0, 0, 200),
-        (200, 0, 200), 
-        (0, 200, 200),
-        (200, 200, 200),
-    ], 
-    'mrx': (0, 0, 0)
-}
-
 # List with index as starting position containing dicttionaries with keys 'taxi', 'bus', 'underground' and 'ferry'
 # and as value per key a tuple of connected positions via that mode of transportation
 # Example: node 1 is connected with node 3 by a bus line => CONNECTIONS[1] = {'bus': (3)}
