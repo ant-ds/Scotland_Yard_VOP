@@ -6,10 +6,12 @@ import display.gui as gui
 import game.util as util
 import display.constants as const
 
+from ai.human.detective import ExampleAIImplementationDetective
 def main():
     app = gui.createApp(sys.argv)
 
     game = ScotlandYard(visualize=True, verbose=True)
+    game.addDetectives([ExampleAIImplementationDetective(name=f"Detective{i+1}", game=ScotlandYard()) for i in range(4)])
     guiInstance = gui.createGui(game)
 
     if const.MULTITHREADED_DRAWING:
