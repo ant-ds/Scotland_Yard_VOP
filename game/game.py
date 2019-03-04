@@ -2,6 +2,7 @@ from game.misterx import MisterX
 from game.detective import Detective
 from game.board import Board
 
+import game.constants as const
 import display.util as util
 
 
@@ -85,3 +86,15 @@ class ScotlandYard():
     
     def addGui(self, gui):
         self.gui = gui
+
+    def loop(self):
+        stop = False
+        while not stop:
+            stop, status = self.update()
+            pass  # Visualization function calls could be added here
+        
+        self.statuscode = status
+        print(f"Game ended with status {status}::  {const.GAME_END_MESSAGES[status]}")
+
+        # TODO: save game data
+        pass

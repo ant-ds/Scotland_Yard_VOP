@@ -1,7 +1,9 @@
-DISPLAY_SIZE_OPTIONS = [(1920, 1080), (1600, 900), (800, 600)]
-# DISPLAY_SIZE = (1920, 1080)  # (800, 600)  # Size for displaying image of board on screen
+MULTITHREADED_DRAWING = True
+DISPLAY_MODE = 1
+
+DISPLAY_SIZE_OPTIONS = [(1920, 1080), (1800, 900), (800, 600)]
 DISPLAY_MODE_OPTIONS = ["Fullscreen", "Maximized", "Default"]
-DISPLAY_MODE = -1
+
 REFRESH_RATE = 500  # Refresh delay in ms
 
 IMG_TOTAL_SIZE = (3152, 2389)  # Full-scale pixel size
