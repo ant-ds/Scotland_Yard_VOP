@@ -11,6 +11,7 @@ class BoardWidget(QtWidgets.QWidget):
 
     def image_data_slot(self, image_data):
         self.image = self.get_qimage(image_data)
+        
         if self.image.size() != self.size():
             self.setFixedSize(self.image.size())
 
@@ -20,7 +21,7 @@ class BoardWidget(QtWidgets.QWidget):
         height, width, colors = image.shape
         bytesPerLine = 3 * width
         QImage = QtGui.QImage
-
+        
         image = QImage(image.data,
                        width,
                        height,
