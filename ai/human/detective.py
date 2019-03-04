@@ -2,21 +2,36 @@ from game.detective import Detective
 from game.board import Board
 from game.game import ScotlandYard
 import game.constants as const
+import networkx as nx
 
 class ExampleAIImplementationDetective(Detective):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
     
-    # def getMetroDistance(self):
-    #     "Returns list of distance of a player to all metros"
-    #     for metro in const.METRO_STATIONS:
-    #         print(metro)
-    #     return 0
-
     # Should return a tuple (destination:int, transportation:string)
     def decide(self):
+        print("#####---DETECTIVE AI RUNNING---#####")
+        dist = self.getMetroDistances()
+        input("Press Enter to continue...")
         return 153, 'taxi'
 
+
+    def getMetroDistances(self):
+        "Returns list of distance of a player to all metros"
+        dist = []
+        for detective in self.game.detectives:
+            metrodist = []
+            for metro in const.METRO_STATIONS:
+                metrodist.append([metro, nx.shortest_path_length(self.game.board.graph, metro, detective.position)])
+            dist.append(metrodist)
+            print(metrodist)
+        #print(dist)
+        return dist
+
+    def assignMetro(self):
+        "Assign metro to every detective"
+        
+        return 0
 
 
     # # TODO
