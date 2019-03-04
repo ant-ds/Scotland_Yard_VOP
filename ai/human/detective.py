@@ -11,7 +11,7 @@ class ExampleAIImplementationDetective(Detective):
     # Should return a tuple (destination:int, transportation:string)
     def decide(self):
         print("#####---DETECTIVE AI RUNNING---#####")
-        dist = self.getMetroDistances()
+        self.assignMetro()
         input("Press Enter to continue...")
         return 153, 'taxi'
 
@@ -30,7 +30,8 @@ class ExampleAIImplementationDetective(Detective):
 
     def assignMetro(self):
         "Assign metro to every detective"
-        
+        dist = self.getMetroDistances()
+        #continue here
         return 0
 
 
