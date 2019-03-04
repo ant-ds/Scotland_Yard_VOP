@@ -95,3 +95,6 @@ class ScotlandYard():
         
         self.statuscode = status
         print(f"Game ended with status {status}::  {const.GAME_END_MESSAGES[status]}")
+
+        # TODO: save game data
+        pass
