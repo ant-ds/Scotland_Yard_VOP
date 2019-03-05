@@ -1,20 +1,26 @@
 import sys
+import configparser
 
 from game.game import ScotlandYard
 from ai.human import misterx
 import display.gui as gui
 
 import game.util as util
-import display.constants as const
+
 
 def main():
     app = gui.createApp(sys.argv)
+    config = configparser.ConfigParser()
+    config.read('settings.ini')
 
-    game = ScotlandYard(visualize=True, verbose=True)
+    if len(config.keys()) == 1:  # File doesn't exist, only default key present
+        config = util.generateDefaultConfig(config)
+
+    game = ScotlandYard(cfg=config)
     game.addMisterX(misterx.ExampleAIImplementationMisterX(game=game, name="AI Mister X", blackCards=4))
     guiInstance = gui.createGui(game)
 
-    if const.MULTITHREADED_DRAWING:
+    if config['DISPLAY'].getboolean('multithreaded_drawing'):
         app.exec()
     else:
         game.loop()

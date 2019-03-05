@@ -10,16 +10,14 @@ class ScotlandYard():
     """
     Class with implementation of the strategic boardgame Scotland Yard.
     """
-    def __init__(self, size=199, numDetectives=4, visualize=False, verbose=False):
+    def __init__(self, size=199, numDetectives=4, cfg=None):
         self.board = Board(size, game=self)
         self.detectives = [Detective(name=f"Detective{i+1}", game=self) for i in range(numDetectives)]
         self.misterx = MisterX(game=self, name="Mister X", blackCards=numDetectives)
         self.turn = 0  # Keep track of turns
 
-        self.visualize = visualize
-        self.verbose = verbose
-
         self.gui = None  # Gui can be added later if a one is available
+        self.config = cfg
 
     def update(self):
         self.turn += 1
@@ -98,3 +96,14 @@ class ScotlandYard():
 
         # TODO: save game data
         pass
+    
+    @property
+    def verbose(self):
+        return self.config['OUTPUT'].getboolean('verbose')
+
+    @property
+    def visualize(self):
+        return self.config['OUTPUT'].getboolean('visualization')
+
+    def checkConfig(self):
+        return True  # TODO

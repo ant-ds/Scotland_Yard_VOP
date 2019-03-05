@@ -4,8 +4,6 @@ from PyQt5 import QtCore
 from display.board import BoardWidget
 from display.game import GameInteraction
 
-import display.constants as const
-
 
 class MainWidget(QtWidgets.QWidget):
     def __init__(self, game, refreshSpeed, **kwargs):
@@ -31,7 +29,7 @@ class MainWidget(QtWidgets.QWidget):
 
         layout.addWidget(self.board_widget)
 
-        if const.MULTITHREADED_DRAWING:
+        if game.config['DISPLAY'].getboolean('multithreaded_drawing'):
             self.run_button = QtWidgets.QPushButton('Start')
             self.run_button.clicked.connect(self.game_interaction.start_game_thread)
             layout.addWidget(self.run_button)

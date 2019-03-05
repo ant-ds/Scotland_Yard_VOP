@@ -48,3 +48,19 @@ def clear(items):
     f.i. PyQt5 app instances"""
     for i in range(len(items)):
         items[i] = None
+
+
+def generateDefaultConfig(config, path='settings.ini'):
+    config['DISPLAY'] = {
+        'multithreaded_drawing': 'true',
+        'display_mode': -1,
+    }
+    config['OUTPUT'] = {
+        'verbose': 'true',
+        'visualization': 'true',
+    }
+    
+    with open(path, 'w') as configfile:
+        config.write(configfile)
+    
+    return config
