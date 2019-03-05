@@ -11,6 +11,8 @@ GAME_END_MESSAGES = [
     "No detective is able to move", 
 ]
 
+METRO_STATIONS = [1, 13, 46, 67, 74, 79, 89, 93, 111, 128, 140, 153, 163, 165]
+
 # List with index as starting position containing dicttionaries with keys 'taxi', 'bus', 'underground' and 'ferry'
 # and as value per key a tuple of connected positions via that mode of transportation
 # Example: node 1 is connected with node 3 by a bus line => CONNECTIONS[1] = {'bus': (3)}

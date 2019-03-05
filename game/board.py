@@ -32,8 +32,8 @@ class Board():
         self._usedStartingPositions.append(pos)
         return pos
     
-    def draw(self):
-        util.drawGraph(self.graph)
+    # def draw(self):
+    #     util.drawGraph(self.graph)
     
     def getOptions(self, player, customStartPosition=None, doubleAllowed=True):
         """
