@@ -2,7 +2,9 @@ import sys
 import configparser
 
 from game.game import ScotlandYard
+# from ai.human import misterx
 from ai.human import misterx
+from ai.human import detective
 import display.gui as gui
 
 import game.util as util
@@ -19,8 +21,7 @@ def main():
 
     game = ScotlandYard(cfg=config)
     game.addMisterX(misterx.ExampleAIImplementationMisterX(game=game, name="AI Mister X", blackCards=4))
-    game = ScotlandYard(visualize=True, verbose=True)
-    game.addDetectives([ExampleAIImplementationDetective(name=f"Detective{i+1}", game=ScotlandYard()) for i in range(4)])
+    game.addDetectives([detective.ExampleAIImplementationDetective(game=game, name=f"Detective{i+1}") for i in range(4)])
 
     guiInstance = gui.createGui(game)
 
