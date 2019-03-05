@@ -16,7 +16,7 @@ def createGui(game):
 
     main_window.setCentralWidget(main_widget)
 
-    displayMode = const.DISPLAY_MODE
+    displayMode = int(game.config['DISPLAY']['display_mode'])
     displayMode = const.DISPLAY_MODE_OPTIONS[displayMode]
     if displayMode == "Fullscreen":
         main_window.showFullScreen()

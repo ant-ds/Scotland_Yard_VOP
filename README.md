@@ -1,5 +1,23 @@
 # VOP: Project - Gravensburger
 
+## Custom Settings and parameters
+
+Some settings, like allowing for Multithreaded drawing, size of the window drawn, verbosity, ... should be kept user-specific and thus outside of
+the git repository. Therefore you should run the code once, this will auto-generate a config file called *settings.ini*. Here you can keep all your desired settings for this project without having to change them for after every commit. An example default generated file can be seen below:
+
+```ini
+[DISPLAY]
+multithreaded_drawing = true
+display_mode = -1
+
+
+[OUTPUT]
+verbose = true
+visualize = true
+```
+
+This file will be updated more in the future.
+
 ## Building
 ### Installing pipenv
 

@@ -18,10 +18,12 @@ class Board():
         """
         Assigns a starting position to a new player.
         """
-        if playertype.__name__.lower() == 'detective':
+        if 'detective' in playertype.__name__.lower():
             playertype = 'detectives'
-        else:
+        elif 'misterx' in playertype.__name__.lower():
             playertype = 'mrx'
+        else:  # TODO
+            raise ValueError("Jonas lets you know that your Player class was maybe not correctly recognized. Please send him a message or fix it yourself :)")
         
         pos = random.choice(const.START_POSITIONS[playertype])
 

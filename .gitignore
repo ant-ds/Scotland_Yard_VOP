@@ -1,3 +1,6 @@
+#configuration
+settings.ini
+
 # extra
 .vscode/
 .flake8

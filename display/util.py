@@ -1,12 +1,15 @@
 import cv2
 import math
 import numpy as np
+import configparser
 
 import display.constants as const
 
 
 def getDisplaySize():
-    displayMode = const.DISPLAY_MODE
+    config = configparser.ConfigParser()
+    config.read('settings.ini')
+    displayMode = int(config['DISPLAY']['display_mode'])
     return const.DISPLAY_SIZE_OPTIONS[displayMode]
 
 
@@ -125,7 +128,7 @@ def drawData(game):
 
     dPositions = [d.position for d in game.detectives]
     img = drawPlayers(img, dPositions, mrx=game.misterx.lastKnownPosition)
-    
+
     for pos in game.board.possibleMisterXPositions():
         img = drawCross(img, pos)
 
@@ -141,5 +144,3 @@ def drawGame(game):
         cv2.imshow('Scotland Yard', img)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
-
-
