@@ -14,7 +14,7 @@ def getDisplaySize():
 
 
 def drawBoard():
-    img = cv2.imread('board.jpg', cv2.IMREAD_COLOR)
+    img = cv2.imread('assets/board.jpg', cv2.IMREAD_COLOR)
     displaySize = getDisplaySize()
     img = cv2.resize(img, displaySize)
     return img

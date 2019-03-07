@@ -10,6 +10,7 @@ def createApp(*args, **kwargs):
 
 def createGui(game):
     main_window = QtWidgets.QMainWindow()
+    main_window.setWindowTitle("Scotland Yard VOP Edition")
     main_widget = main.MainWidget(game, speed=const.REFRESH_RATE)
 
     game.addGui(main_widget.getGameInteraction())
