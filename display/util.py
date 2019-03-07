@@ -13,6 +13,13 @@ def getDisplaySize():
     return const.DISPLAY_SIZE_OPTIONS[displayMode]
 
 
+def drawBoard():
+    img = cv2.imread('board.jpg', cv2.IMREAD_COLOR)
+    displaySize = getDisplaySize()
+    img = cv2.resize(img, displaySize)
+    return img
+
+
 def drawPlayers(imgdata, positions, mrx=None):
     """
     Given image data and a list of detectives' positions, draws circles indicating these
@@ -121,10 +128,7 @@ def drawCross(imgdata, position):
 
 
 def drawData(game):
-    img = cv2.imread('board.jpg', cv2.IMREAD_COLOR)
-
-    displaySize = getDisplaySize()
-    img = cv2.resize(img, displaySize)
+    img = drawBoard()
 
     dPositions = [d.position for d in game.detectives]
     img = drawPlayers(img, dPositions, mrx=game.misterx.lastKnownPosition)
@@ -136,11 +140,16 @@ def drawData(game):
 
 
 def drawGame(game):
-    img = drawData(game)
-
     if game.gui is not None:
         game.gui.update()
     else:
+        img = drawData(game)
         cv2.imshow('Scotland Yard', img)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
+
+
+def drawReplay(dPositions, mrx=None):
+    img = drawBoard()
+    img = drawPlayers(img, dPositions, mrx=mrx)
+    return img

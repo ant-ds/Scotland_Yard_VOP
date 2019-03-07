@@ -1,3 +1,6 @@
+import numpy as np
+import datetime
+
 from game.misterx import MisterX
 from game.detective import Detective
 from game.board import Board
@@ -94,8 +97,21 @@ class ScotlandYard():
         self.statuscode = status
         print(f"Game ended with status {status}::  {const.GAME_END_MESSAGES[status]}")
 
-        # TODO: save game data
-        pass
+        self.print_("Saving game data...")
+
+        data = [self.statuscode]
+        data.append([self.misterx.history, self.misterx.doubleMoves])
+        data.append([det.history for det in self.detectives])
+        data = np.array(data)
+
+        curDateTime = datetime.datetime.now()
+        filepath = f"history/scly-replay-{curDateTime}"
+        for char in [" ", ".", ":", "-"]:
+            filepath = filepath.replace(char, "_")
+        
+        np.save(filepath, data)
+
+        self.print_("Done saving game data.")
     
     @property
     def verbose(self):

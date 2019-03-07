@@ -12,6 +12,8 @@ class MisterX(Player):
             'black': blackCards,
             'double': doubleMoveCards,
         })
+
+        self.doubleMoves = []
     
     @property
     def lastKnownPosition(self):
