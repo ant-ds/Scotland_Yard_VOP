@@ -53,6 +53,9 @@ class Player():
 
         dest, transport = self._getInput()
 
+        if dest is None and transport is None:
+            return None, None  # player will be defeated after this
+
         if dest == 'double' and len(transport) == 4:
             transport[0] = int(transport[0])
             transport[2] = int(transport[2])
@@ -105,6 +108,8 @@ class Player():
                     break
                 else:
                     self.print_("Wat doink?")
+            elif inputs[0] == 'suicide':
+                return None, None
             else:
                 if len(inputs) == 2:
                     break
