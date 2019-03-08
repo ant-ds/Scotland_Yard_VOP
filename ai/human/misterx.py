@@ -12,19 +12,19 @@ class ExampleAIImplementationMisterX(MisterX):
 
         # get options for MrX
         mrxOptions = self.game.board.getOptions(self, doubleAllowed=False)
-        print(f"{self} his options are: {mrxOptions}")
+        self.print_(f"{self} his options are: {mrxOptions}")
 
         # give scores to each neighbour based on the shortest path of each neighbour to the detectives (higher score is better)
         scores = [(nbr, min(nx.shortest_path_length(self.game.board.graph, nbr, detective.position)
                   for detective in self.game.detectives) + self.game.board.graph.degree(nbr) % 4)
                   for nbr in self.game.board.graph[self.position]]
-        print(f"Scores for each neighbour of {self}: {scores}")
+        self.print_(f"Scores for each neighbour of {self}: {scores}")
         scores = [tuple for tuple in scores if tuple[1] == max(score[1] for score in scores)]
-        print(f"Maximal scores for neighbours of {self}: {scores}")
+        self.print_(f"Maximal scores for neighbours of {self}: {scores}")
 
         # determine options with maximal scores
         bestOptions = [option for option in mrxOptions if option[0] in [score[0] for score in scores]]
-        print(f"Choices with maximal scores: {bestOptions}")
+        self.print_(f"Choices with maximal scores: {bestOptions}")
 
         # choose random option from options with maximal scores
         decision = random.choice(bestOptions)
