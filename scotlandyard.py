@@ -1,6 +1,8 @@
 from game.game import ScotlandYard
-from ai.human import misterx, detective, random
+from ai.human import misterx, detective
 import display.gui as gui
+import ai.random.misterx as randomMrX
+import ai.random.detective as randomDetective
 
 import game.util as util
 
@@ -8,10 +10,12 @@ import game.util as util
 def main():
     config = util.readConfig('settings.ini')
     
-    game = ScotlandYard(cfg=config)
-    game.addMisterX(misterx.ExampleAIImplementationMisterX(game=game, name="AI Mister X", blackCards=4))
+    game = ScotlandYard(cfg=config)    
+
+    # game.addMisterX(misterx.ExampleAIImplementationMisterX(game=game, name="AI Mister X", blackCards=4))
+    game.addMisterX(randomMrX.ExampleAIImplementationRandomMisterX(name=f"Random Mr. X", game=game, blackCards=4))
     # game.addDetectives([detective.ExampleAIImplementationDetective(name=f"Detective{i+1}", game=game) for i in range(4)])
-    # game.addDetectives([random.ExampleAIImplementationRandomDetective(name=f"Detective{i+1}", game=game) for i in range(4)])
+    game.addDetectives([randomDetective.ExampleAIImplementationRandomDetective(name=f"Detective{i+1}", game=game) for i in range(4)])
 
     if config['OUTPUT'].getboolean('visualization'):
         app = gui.createApp([])
