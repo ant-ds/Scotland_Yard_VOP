@@ -33,7 +33,7 @@ class ScotlandYard():
             return self.hasEnded()
         
         for detective in self.detectives:
-            if not detective.isDefeated:
+            if not detective.defeated:
                 detective.update()
         
         return self.hasEnded()  # Regularly check if game has ended
@@ -65,14 +65,14 @@ class ScotlandYard():
             if d.position == self.misterx.position:
                 status = 0
                 return True, status
-            if not d.isDefeated:
+            if not d.defeated:
                 allDetectivesDefeated = False
             
         if allDetectivesDefeated:
             status = -1
             return True, status
         
-        if self.misterx.isDefeated:
+        if self.misterx.defeated:
             status = 1
             return True, status
 
@@ -120,6 +120,3 @@ class ScotlandYard():
     @property
     def visualize(self):
         return self.config['OUTPUT'].getboolean('visualization')
-
-    def checkConfig(self):
-        return True  # TODO

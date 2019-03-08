@@ -6,21 +6,13 @@ REFRESH_RATE = 500  # Refresh delay in ms
 IMG_TOTAL_SIZE = (3152, 2389)  # Full-scale pixel size
 POSITION_RADIUS = 23  # Pixels radius of a tile on full-scale image
 
-
-EDGE_COLORS = {  # TODO: could be removed if graph not needed anymore
-    'bus': 'r', 
-    'taxi': 'g', 
-    'underground': 'b', 
-    'ferry': 'black', 
-}
-
-PLAYER_COLORS = {
+PLAYER_COLORS = {  # In BGR notation (not RGB!)
     'detectives': [  # no (0, 200, 0), because bad visibility
-        (200, 0, 0), #red
-        (0, 0, 200), #blue
-        (200, 0, 200), #pink
-        (0, 200, 200), #yellow?
-        (200, 200, 200), #grey?
+        (200, 0, 0),  # blue
+        (0, 0, 200),  # red
+        (200, 0, 200),  # pink
+        (0, 200, 200),  # yellow
+        (200, 200, 200),  # grey
     ], 
     'mrx': (0, 0, 0)
 }

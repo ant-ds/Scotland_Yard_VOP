@@ -75,7 +75,3 @@ def readConfig(path='settings.ini'):
     if len(config.keys()) == 1:  # Settings file doesn't exist because only default key present
         config = generateDefaultConfig(config)
     return config
-
-
-def validateSavedData(data):
-    return True  # TODO

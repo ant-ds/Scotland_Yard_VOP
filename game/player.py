@@ -83,13 +83,6 @@ class Player():
         if transport == 'ferry':
             return 'black'
         return transport
-
-    @property
-    def isDefeated(self):
-        if self.defeated:
-            return True
-        
-        # TODO
     
     def _defeated(self):
         self.defeated = True
