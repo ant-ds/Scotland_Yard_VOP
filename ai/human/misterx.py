@@ -27,7 +27,10 @@ class ExampleAIImplementationMisterX(MisterX):
         self.print_(f"Choices with maximal scores: {bestOptions}")
 
         # choose random option from options with maximal scores
-        decision = random.choice(bestOptions)
+        if bestOptions:
+            decision = random.choice(bestOptions)
+        if not bestOptions:
+            return None, None
 
         if self.game.turn in [4, 9, 14, 19] and self.cards['black'] > 0 and ['underground', 'bus'] in [option[1] for option in mrxOptions]:
             decision = (decision[0], 'black')
