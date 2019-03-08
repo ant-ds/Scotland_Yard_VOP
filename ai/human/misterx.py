@@ -36,5 +36,5 @@ class ExampleAIImplementationMisterX(MisterX):
             decision = (decision[0], 'black')
         if decision[1] in ['bus', 'underground'] and (decision[0], 'taxi') in mrxOptions:
             decision = (decision[0], 'taxi')
-        print(f"{self} chose to move from {self.position} to {decision[0]} via {decision[1]}")
+        self.print_(f"{self} chose to move from {self.position} to {decision[0]} via {decision[1]}")
         return decision[0], decision[1]
