@@ -111,13 +111,27 @@ To run code for project-gravensburger, use commands you are familiar with, prefi
 $ pipenv run python scotlandyard.py
 ```
 
-For running a 'data farm' you can run a script like:
+For running a 'data farm' you can run a script like the following
 
+For Windows: 
 ```sh
 #!/bin/sh
 for i in {1..15000}
 do
   pipenv run python scotlandyard.py
+done
+```
+
+or for Unix systems:
+```sh
+#!/bin/bash
+echo "Started"
+for i in {1..5000}
+do
+  pipenv run python scotlandyard.py >> /dev/null
+  if ! ((i % 100)); then
+    echo "$i/5k done"
+  fi
 done
 ```
 

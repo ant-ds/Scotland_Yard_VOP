@@ -60,6 +60,9 @@ def generateDefaultConfig(config, path='settings.ini'):
         'verbose': 'true',
         'visualization': 'true',
     }
+    config['OS'] = {
+        'unix': 'false',
+    }
     
     with open(path, 'w') as configfile:
         config.write(configfile)
