@@ -25,10 +25,13 @@ def drawPlayers(imgdata, positions, mrx=None):
     Given image data and a list of detectives' positions, draws circles indicating these
     positions using parameters defined in constants
     """
-    assert(isinstance(positions, list))
-    for pos in positions:
-        assert(isinstance(pos, int))
-    assert(mrx is None or isinstance(mrx, int))
+    try:
+        assert(isinstance(positions, list))
+        for pos in positions:
+            assert(isinstance(pos, int))
+        assert(mrx is None or isinstance(mrx, int))
+    except AssertionError as e:
+        raise AssertionError(f"{positions}\n{mrx}\n{e}; Couldn't guarantee correct drawing with these inputs")
 
     displaySize = getDisplaySize()
     frac = [float(displaySize[i]) / float(const.IMG_TOTAL_SIZE[i]) for i in range(2)]
