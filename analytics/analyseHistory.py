@@ -4,7 +4,7 @@ import numpy as np
 
 def score(arr):
     if sum(arr) > 0:
-        return f"\tDetectives: {arr[0]}; ({arr[0]/sum(arr)*100}%)\n\tMrx: {arr[1]}; ({arr[1]/sum(arr)*100}%)"
+        return f"\tDetectives: {arr[0]}; ({arr[0]/sum(arr)*100:.3f}%)\n\tMrx: {arr[1]}; ({arr[1]/sum(arr)*100:.3f}%)"
     return "\tEmpty"
 
 
@@ -49,3 +49,7 @@ def main(unix: bool):
         else:
             r = readFile(data, r)
     printResult("Main folder", r)
+
+
+if __name__ == '__main__':
+    main(False)
