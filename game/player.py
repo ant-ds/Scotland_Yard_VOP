@@ -95,6 +95,9 @@ class Player():
         while True:
             recieved = input("What is your destination and how do you plan to get there?  ")
             inputs = re.findall(r"[\w']+", recieved)  # can handle commas, spaces, ...
+            
+            if inputs == []:
+                continue
         
             if inputs[0] == 'double':
                 if len(inputs) == 5:
@@ -108,6 +111,7 @@ class Player():
                     break
                 else:
                     self.print_("Your input was invalid. Please try again:")
+                    continue
         return inputs[0], inputs[1:]
 
     def _printCards(self):
