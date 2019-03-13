@@ -240,11 +240,21 @@ class MainReplayWidget(QtWidgets.QWidget):
         game = ScotlandYard(numDetectives=self.numDetectives)
         game.misterx.position = self.positions[0]
         numMovesDone = self.indices[0]
-        game.misterx.history = self.totalHistory[0][:numMovesDone + 1]
+        hist = []
+        for i in range(numMovesDone + 1):
+            move = self.totalHistory[0][i]
+            if len(move) == 2:
+                # Double move
+                for i in range(2):
+                    hist.append(move[i])
+            else:
+                hist.append(move)
+        game.misterx.history = hist
         for i, d in enumerate(game.detectives):
             d.position = self.positions[i + 1]
         
         self.possibleMrxPos = game.board.possibleMisterXPositions()
+        print(f"After the following moves: {game.misterx.history}; We have a chance to find Mr. X at the following locations {self.possibleMrxPos}")
 
     def toggle_misterx_possible(self):
         self.drawPossibleMrxPos = not self.drawPossibleMrxPos
