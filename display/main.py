@@ -8,6 +8,8 @@ from display.game import GameInteraction
 
 import display.util as util
 
+from game.game import ScotlandYard
+
 
 class MainWidget(QtWidgets.QWidget):
     def __init__(self, game, speed=500):
@@ -18,7 +20,7 @@ class MainWidget(QtWidgets.QWidget):
         self.setAutoFillBackground(True)
 
         p = self.palette()
-        p.setColor(self.backgroundRole(), QtCore.Qt.black)
+        p.setColor(self.backgroundRole(), QtCore.Qt.gray)
         self.setPalette(p)
 
         self.game_interaction = GameInteraction(game)
@@ -35,10 +37,14 @@ class MainWidget(QtWidgets.QWidget):
 
         if game.config['DISPLAY'].getboolean('multithreaded_drawing'):
             self.run_button = QtWidgets.QPushButton('Start')
-            self.run_button.clicked.connect(self.game_interaction.start_game_thread)
+            self.run_button.clicked.connect(self.start_pressed)
             layout.addWidget(self.run_button)
 
         self.setLayout(layout)
+
+    def start_pressed(self):
+        self.game_interaction.start_game_thread()
+        self.run_button.deleteLater()
     
     def getGameInteraction(self):
         return self.game_interaction
@@ -88,18 +94,42 @@ class MainReplayWidget(QtWidgets.QWidget):
             self.board_widget = BoardWidget()
             self.layout().addWidget(self.board_widget)
 
+            hboxLayout = QtWidgets.QHBoxLayout()
+            self.horizontalButtonBox = QtWidgets.QGroupBox("Controls")
+            self.horizontalButtonBox.setLayout(hboxLayout)
+
             self.back_button = QtWidgets.QPushButton('<- go back')
-            self.next_button = QtWidgets.QPushButton('next ->')
-
             self.back_button.clicked.connect(self.back)
-            self.next_button.clicked.connect(self.next)
+            hboxLayout.addWidget(self.back_button)
 
-            self.layout().addWidget(self.back_button)
-            self.layout().addWidget(self.next_button)
+            self.next_button = QtWidgets.QPushButton('next ->')
+            self.next_button.clicked.connect(self.next)
+            hboxLayout.addWidget(self.next_button)
+
+            self.mrx_toggle_button = QtWidgets.QCheckBox("Secret Mister X")
+            self.drawMrx = True
+            self.mrx_toggle_button.stateChanged.connect(self.toggle_misterx)
+            hboxLayout.addWidget(self.mrx_toggle_button)
+
+            self.mrx_possible_toggle_button = QtWidgets.QCheckBox("Mister X Possible Positions")
+            self.drawPossibleMrxPos = False
+            self.mrx_possible_toggle_button.stateChanged.connect(self.toggle_misterx_possible)
+            hboxLayout.addWidget(self.mrx_possible_toggle_button)
+
+            hboxLayout.addStretch()
+
+            self.exit_button = QtWidgets.QPushButton("<Exit>")
+            self.exit_button.clicked.connect(self.exit)
+            hboxLayout.addWidget(self.exit_button)
+
+            self.refresh_button = QtWidgets.QPushButton("Refresh")
+            self.refresh_button.clicked.connect(self.update)
+            hboxLayout.addWidget(self.refresh_button)
+            
+            self.layout().addWidget(self.horizontalButtonBox)
             
             self.board_widget.hide()
-            self.back_button.hide()
-            self.next_button.hide()
+            self.horizontalButtonBox.hide()
 
         self.parseData()  
             
@@ -110,8 +140,7 @@ class MainReplayWidget(QtWidgets.QWidget):
 
         # Show new widgets
         self.board_widget.show()
-        self.back_button.show()
-        self.next_button.show()
+        self.horizontalButtonBox.show()
 
         self.parseData()            
         self.update()
@@ -120,87 +149,106 @@ class MainReplayWidget(QtWidgets.QWidget):
         data = self.data
 
         self.numDetectives = len(data[2])
-        self.startPositions = {
-            'detectives': [det[0][0] for det in data[2]],
-            'mrx': data[1][0][0][0],
-        }
-        self.turns = self.createTurns(data)
-        self.positions = {
-            'detectives': self.startPositions['detectives'],
-            'mrx': self.startPositions['mrx'],
-        }
+        self.startPositions = [data[1][0][0][0]] + [det[0][0] for det in data[2]]
+        self.positions = self.startPositions
+        self.createTurns(data)
         self.idx = -1  # Index of turn currently showing, -1 for startpositions
     
-    def swapStartDest(self, start, dest):
-        if self.positions['mrx'] == start:
-            self.positions['mrx'] = dest
-        else:
-            for i in range(self.numDetectives):
-                if self.positions['detectives'][i] == start:
-                    self.positions['detectives'][i] = dest
-        
-    def back(self):
-        if self.idx is None:
-            return self.update()
-        if self.idx == 0:
-            self.positions = {
-                'detectives': self.startPositions['detectives'],
-                'mrx': self.startPositions['mrx'],
-            }
-            self.idx = -1
-            return self.update()
-        # default scenario
-        self.idx -= 1
-        move = self.turns[self.idx]
-        if len(move) == 2:
-            # double move
-            for i in range(2):
-                dest, _, start = move[i]
-                self.swapStartDest(start, dest)
-        else:
-            dest, _, start = move
-            self.swapStartDest(start, dest)
-        return self.update()    
-
-    def next(self):
-        if self.idx == len(self.turns) - 1:
-            return self.update()
-        self.idx += 1
-        move = self.turns[self.idx]
-        if len(move) == 2:
-            # double move
-            for i in range(2):
-                start, _, dest = move[i]
-                self.swapStartDest(start, dest)
-        else:
-            start, _, dest = move
-            self.swapStartDest(start, dest)
-        return self.update()        
-
     def createTurns(self, data):
-        turns = []
+        self.turns = []
+        self.totalHistory = [[] for _ in range(self.numDetectives + 1)]  # One list for mrx and one per detective
+        self.indices = [-1 for _ in range(self.numDetectives + 1)]  # One list for mrx and one per detective
         xindex = 0
-        dindices = [0] * len(data[2])
+        dindices = [0] * self.numDetectives
         allDone = False
         while not allDone:
             allDone = True
             if xindex < len(data[1][0]):
                 allDone = False
-                turns.append(data[1][0][xindex])
+                self.totalHistory[0].append(data[1][0][xindex])
+                self.turns.append(0)
                 if xindex in data[1][1]:
-                    # overwrite because double so put together
-                    turns[-1] = [data[1][0][xindex], data[1][0][xindex + 1]]
+                    # overwrite because double so put both moves together
+                    self.totalHistory[0][-1] = [data[1][0][xindex], data[1][0][xindex + 1]]
                     xindex += 1
                 xindex += 1
             for i, idx in enumerate(dindices):
                 if idx < len(data[2][i]):
                     allDone = False
-                    turns.append(data[2][i][idx])
+                    self.totalHistory[i + 1].append(data[2][i][idx])
+                    self.turns.append(i + 1)
                     dindices[i] += 1
-        return turns
-
+    
     def update(self):
-        dpos = self.positions['detectives']
-        mrx = self.positions['mrx']
-        img = util.drawReplay(dpos, mrx)
+        dpos = self.positions[1:]
+        # Only draw Mrx's position if asked
+        if self.drawMrx:
+            mrx = self.positions[0]
+            img = util.drawReplay(dpos, mrx)
+        else:
+            img = util.drawReplay(dpos)
+        
+        # Draw registered possible mrx locations
+        if self.drawPossibleMrxPos:
+            self.updatePossibleMrxPositions()
+            for pos in self.possibleMrxPos:
+                img = util.drawCross(img, pos)
+        
         self.board_widget.image_data_slot(img)
+    
+    def next(self):
+        if self.idx + 1 >= len(self.turns):
+            return self.update()
+        self.idx += 1
+        playerIndex = self.turns[self.idx]
+        self.indices[playerIndex] += 1
+        moveIndex = self.indices[playerIndex]
+        move = self.totalHistory[playerIndex][moveIndex]
+
+        if len(move) == 2:
+            # Double move
+            move = move[1]
+
+        dest = move[-1]
+        self.positions[playerIndex] = dest
+
+        return self.update()
+    
+    def back(self):
+        if self.idx == -1:
+            return self.update()
+        playerIndex = self.turns[self.idx]
+        moveIndex = self.indices[playerIndex]
+        move = self.totalHistory[playerIndex][moveIndex]
+
+        if len(move) == 2:
+            # Double move
+            move = move[0]
+
+        dest = move[0]
+        self.positions[playerIndex] = dest
+        
+        self.idx -= 1
+        self.indices[playerIndex] -= 1
+        return self.update()
+        
+    def toggle_misterx(self):
+        self.drawMrx = not self.drawMrx
+        self.update()
+    
+    def updatePossibleMrxPositions(self):
+        game = ScotlandYard(numDetectives=self.numDetectives)
+        game.misterx.position = self.positions[0]
+        numMovesDone = self.indices[0]
+        game.misterx.history = self.totalHistory[0][:numMovesDone + 1]
+        for i, d in enumerate(game.detectives):
+            d.position = self.positions[i + 1]
+        
+        self.possibleMrxPos = game.board.possibleMisterXPositions()
+
+    def toggle_misterx_possible(self):
+        self.drawPossibleMrxPos = not self.drawPossibleMrxPos
+        self.update()
+
+    def exit(self):
+        QtCore.QCoreApplication.quit()
