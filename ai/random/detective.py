@@ -17,5 +17,5 @@ class ExampleAIImplementationRandomDetective(Detective):
 
         # choose random option from options
         decision = random.choice(options)
-
+        print(self.id)
         return decision[0], decision[1]

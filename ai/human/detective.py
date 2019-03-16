@@ -6,17 +6,31 @@ import networkx as nx
 
 from operator import itemgetter
 
+
 class ExampleAIImplementationDetective(Detective):
     def __init__(self, *args, **kwargs):
+        self.futureMoves = [] # List of lists of futuremoves for every detective
         super().__init__(*args, **kwargs)
     
+    
+
     # Should return a tuple (destination:int, transportation:string)
     def decide(self):
         print("#####---DETECTIVE AI RUNNING---#####")
-        self.assignMetro()
+        
+        #only calculate everything for first player, execute for all
+        if self.id == 0:
+            self.metroMove()
+        
+        # get transport option for chosen move
+        options = self.game.board.getOptions(self, doubleAllowed=False)
+        options = dict(options)
+        
+        # TODO: this options[...] will return first transport for a node, even if there are multiple options
+        print(f"Going to play detective {self.id} to {self.futureMoves[self.id][0]} using {options[self.futureMoves[self.id][0]]}")
         input("Press Enter to continue...")
-        return 153, 'taxi'
-
+        
+        return self.futureMoves[self.id][0],options[self.futureMoves[self.id][0]]
 
     def getMetroDistances(self):
         "Returns list of distance of a player to all metros that are within reach in 3 turns" #TODO: exclude metros from shortest path (max 1 metro?)
@@ -36,12 +50,21 @@ class ExampleAIImplementationDetective(Detective):
     def assignMetro(self):
         "Assign metro to every detective" #TODO: don't just take first min, but consider other equal values
         dist = self.getMetroDistances()
-        assignList = []
-        for test in dist:
-            assignList.append(min(test, key=itemgetter(1)))
-        print(assignList)
-        return assignList
+        targetMetro = []
+        for possibilities in dist:
+            targetMetro.append(min(possibilities, key=itemgetter(1)))
+        print(targetMetro)
+        return targetMetro
 
     def metroMove(self):
         "Decides which moves to make for every detective"
+        targetMetro = self.assignMetro()
+
+        for i in range(0,len(targetMetro)):
+            # print(targetMetro[i][0])
+            path = nx.shortest_path(self.game.board.graph, self.game.detectives[i].position, targetMetro[i][0])
+            print(f"Future moves for detective {i}:  {path}")
+            self.futureMoves.append(path[1:])
+            print(f"Shortened: {self.futureMoves[i]}")
+        
         return 0
