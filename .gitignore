@@ -5,9 +5,11 @@ settings.ini
 .vscode/
 .flake8
 
-# local testfiles
+# local (test)files
 test.py
 notes.txt
+history/
+run.sh
 
 
 # Byte-compiled / optimized / DLL files

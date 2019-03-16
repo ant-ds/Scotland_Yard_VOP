@@ -1,4 +1,5 @@
 import networkx as nx
+import configparser
 
 import game.constants as const
 
@@ -59,8 +60,21 @@ def generateDefaultConfig(config, path='settings.ini'):
         'verbose': 'true',
         'visualization': 'true',
     }
+    config['OS'] = {
+        'unix': 'false',
+    }
     
     with open(path, 'w') as configfile:
         config.write(configfile)
     
+    return config
+
+
+def readConfig(path='settings.ini'):
+    # Read configuration file
+    config = configparser.ConfigParser()
+    config.read('settings.ini')
+
+    if len(config.keys()) == 1:  # Settings file doesn't exist because only default key present
+        config = generateDefaultConfig(config)
     return config

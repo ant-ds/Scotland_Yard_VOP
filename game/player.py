@@ -53,6 +53,9 @@ class Player():
 
         dest, transport = self._getInput()
 
+        if dest is None and transport is None:
+            return None, None  # player will be defeated after this
+
         if dest == 'double' and len(transport) == 4:
             transport[0] = int(transport[0])
             transport[2] = int(transport[2])
@@ -80,13 +83,6 @@ class Player():
         if transport == 'ferry':
             return 'black'
         return transport
-
-    @property
-    def isDefeated(self):
-        if self.defeated:
-            return True
-        
-        # TODO
     
     def _defeated(self):
         self.defeated = True
@@ -99,17 +95,23 @@ class Player():
         while True:
             recieved = input("What is your destination and how do you plan to get there?  ")
             inputs = re.findall(r"[\w']+", recieved)  # can handle commas, spaces, ...
+            
+            if inputs == []:
+                continue
         
             if inputs[0] == 'double':
                 if len(inputs) == 5:
                     break
                 else:
                     self.print_("Wat doink?")
+            elif inputs[0] == 'suicide':
+                return None, None
             else:
                 if len(inputs) == 2:
                     break
                 else:
                     self.print_("Your input was invalid. Please try again:")
+                    continue
         return inputs[0], inputs[1:]
 
     def _printCards(self):

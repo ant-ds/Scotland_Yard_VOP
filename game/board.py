@@ -22,7 +22,7 @@ class Board():
             playertype = 'detectives'
         elif 'misterx' in playertype.__name__.lower():
             playertype = 'mrx'
-        else:  # TODO
+        else:  # temporary
             raise ValueError("Jonas lets you know that your Player class was maybe not correctly recognized. Please send him a message or fix it yourself :)")
         
         pos = random.choice(const.START_POSITIONS[playertype])
@@ -88,6 +88,9 @@ class Board():
             return self._doubleMovePlayer(player, transport)
         elif isinstance(transport, list):
             transport = transport[0]
+        
+        if destination is None and transport is None:
+            return None, None  # Suicide-move
 
         # Is the proposed destination an option?
         options = self.getOptions(player)
@@ -136,6 +139,7 @@ class Board():
                 return status, issue
         
         player.cards['double'] -= 1
+        player.doubleMoves.append(len(player.history) - 2)  # index in history for first of the double move
         return True, None
 
     def _resetCards(self, player, turns=1):
