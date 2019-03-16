@@ -1,5 +1,7 @@
 from game.game import ScotlandYard
+
 from ai.human import misterx, detective
+
 import display.gui as gui
 import ai.random.misterx as randomMrX
 import ai.random.detective as randomDetective
@@ -8,6 +10,7 @@ import game.util as util
 
 
 def main():
+
     config = util.readConfig('settings.ini')
     
     game = ScotlandYard(cfg=config)    
@@ -28,6 +31,7 @@ def main():
 
         # Please linter, use app and guiInstance somewhere
         util.clear([app, guiInstance])
+
     else:
         game.loop()
 

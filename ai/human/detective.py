@@ -4,6 +4,8 @@ from game.game import ScotlandYard
 import game.constants as const
 import networkx as nx
 
+from operator import itemgetter
+
 class ExampleAIImplementationDetective(Detective):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -17,41 +19,29 @@ class ExampleAIImplementationDetective(Detective):
 
 
     def getMetroDistances(self):
-        "Returns list of distance of a player to all metros"
+        "Returns list of distance of a player to all metros that are within reach in 3 turns" #TODO: exclude metros from shortest path (max 1 metro?)
         dist = []
         for detective in self.game.detectives:
+            print(detective.position)
             metrodist = []
             for metro in const.METRO_STATIONS:
-                metrodist.append([metro, nx.shortest_path_length(self.game.board.graph, metro, detective.position)])
+                if nx.shortest_path_length(self.game.board.graph, metro, detective.position)<=3:
+                    metrodist.append([metro, nx.shortest_path_length(self.game.board.graph, metro, detective.position)])
+                    # print(nx.shortest_path(self.game.board.graph, metro, detective.position))
             dist.append(metrodist)
-            print(metrodist)
-        #print(dist)
+            #print(metrodist)
+        print(dist)
         return dist
 
     def assignMetro(self):
-        "Assign metro to every detective"
+        "Assign metro to every detective" #TODO: don't just take first min, but consider other equal values
         dist = self.getMetroDistances()
-        #continue here
+        assignList = []
+        for test in dist:
+            assignList.append(min(test, key=itemgetter(1)))
+        print(assignList)
+        return assignList
+
+    def metroMove(self):
+        "Decides which moves to make for every detective"
         return 0
-
-
-    # # TODO
-    # def calcXPositions(self):
-    #     posLastReveal = 0 #get last reveal
-    #     playedMoves = 0 #get played moves since
-    #     turn = ScotlandYard().turn
-
-    #     # Get last known position of mr X
-    #     # Calculate all possible positions based on used cards (black might be difficult)
-    #     return 0
-
-    # # TODO
-    # def turnsTillReveal():
-    #     #gives back turns till reveal
-    #     return 0
-    
-    
-
-
-    # def assignMetro():
-    #     #assign a metro station to
