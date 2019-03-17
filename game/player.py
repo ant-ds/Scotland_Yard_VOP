@@ -6,7 +6,7 @@ class Player():
         self.name = name
         self.game = game
 
-        self.position = self.game.board.giveStartPosition(type(self))
+        self.position = None  # self.game.board.giveStartPosition(type(self))
         
         self.cards = {
             'bus': busCard,

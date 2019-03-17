@@ -18,6 +18,7 @@ class ScotlandYard():
         self.detectives = [Detective(idNumber=i, game=self) for i in range(numDetectives)]
         self.misterx = MisterX(game=self, name="Mister X", blackCards=numDetectives)
         self.turn = 0  # Keep track of turns
+        self.running = False  # While this flag is set to False, game parameters may be subject to change
 
         self.gui = None  # Gui can be added later if a one is available
         self.config = cfg
@@ -40,11 +41,15 @@ class ScotlandYard():
 
     def addMisterX(self, misterx):
         "Overwrite the misterx instance used for playing the game"
+        if self.running is True:
+            raise RuntimeWarning("Attempting to change a player while the game is running!")
         assert(isinstance(misterx, MisterX))
         self.misterx = misterx
     
     def addDetectives(self, detectives):
         "Overwrite the detective instances used for playing the game"
+        if self.running is True:
+            raise RuntimeWarning("Attempting to change a player while the game is running!")
         assert(isinstance(detectives, list))
         for detective in detectives:
             assert(isinstance(detective, Detective))
@@ -89,6 +94,10 @@ class ScotlandYard():
         self.gui = gui
 
     def loop(self):
+        # Initialize startpositions of all definite players
+        self.board.assignStartPositions()
+        
+        self.running = True
         stop = False
         while not stop:
             stop, status = self.update()

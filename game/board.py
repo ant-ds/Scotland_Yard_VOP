@@ -12,28 +12,27 @@ class Board():
         self.game = game
         self.graph = util.createGraph(size)
 
-        self._usedStartingPositions = []  # Makes sure no two players start on the same spot
+    def assignStartPositions(self):
+        """
+        Assigns a starting position to all players currently linked to the game.
+        """
+        assignedPositions = []  # Makes sure no two players start on the same spot
+        mrxOptions = [pos for pos in const.START_POSITIONS['mrx'] if pos <= self.size and pos not in assignedPositions]
 
-    def giveStartPosition(self, playertype):
-        """
-        Assigns a starting position to a new player.
-        """
-        if 'detective' in playertype.__name__.lower():
-            playertype = 'detectives'
-        elif 'misterx' in playertype.__name__.lower():
-            playertype = 'mrx'
-        else:  # temporary
-            raise ValueError("Jonas lets you know that your Player class was maybe not correctly recognized. Please send him a message or fix it yourself :)")
+        pos = random.choice(mrxOptions)
+        self.game.misterx.position = pos
+
+        indices = [i for i in range(len(self.game.detectives))]
+        random.shuffle(indices)
+        detOptions = [pos for pos in const.START_POSITIONS['detectives'] if pos <= self.size and pos not in assignedPositions]
+        for i in indices:  # Randomly shuffled detectives (indices)
+            pos = random.choice(detOptions)
+            assignedPositions.append(pos)
+            self.game.detectives[i].position = pos
+            # recalculate options (avoids while loop and unnecessary trying which could occur for a small sized board)
+            detOptions = [pos for pos in const.START_POSITIONS['detectives'] if pos <= self.size and pos not in assignedPositions]
         
-        pos = random.choice(const.START_POSITIONS[playertype])
-
-        while pos in self._usedStartingPositions:
-            pos = random.choice(const.START_POSITIONS[playertype])
-        self._usedStartingPositions.append(pos)
-        return pos
-    
-    # def draw(self):
-    #     util.drawGraph(self.graph)
+        self.print_(f"Starting Positions: Mister X: {self.game.misterx.position}; Detectives: {[d.position for d in self.game.detectives]}")
     
     def getOptions(self, player, customStartPosition=None, doubleAllowed=True):
         """
@@ -196,3 +195,6 @@ class Board():
                 break
         moves = [hist[1] for hist in mrx.history[sliceStart:]]
         return self.possiblePositions(start, moves=moves)
+
+    def print_(self, msg):
+        self.game.print_(msg)
