@@ -18,7 +18,10 @@ def printResult(foldername, arr):
 
 def readFile(data, arr):
     result = data[0]
-    arr[result] += 1
+    if result >= 0:
+        arr[0] += 1
+    else:
+        arr[1] += 1
     return arr
 
 
