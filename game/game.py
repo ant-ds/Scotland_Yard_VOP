@@ -13,11 +13,12 @@ class ScotlandYard():
     """
     Class with implementation of the strategic boardgame Scotland Yard.
     """
-    def __init__(self, size=199, numDetectives=4, cfg=None):
+    def __init__(self, size=199, turns=24, numDetectives=4, cfg=None):
         self.board = Board(size, game=self)
         self.detectives = [Detective(idNumber=i, game=self) for i in range(numDetectives)]
         self.misterx = MisterX(game=self, name="Mister X", blackCards=numDetectives)
         self.turn = 0  # Keep track of turns
+        self.turns = 24
         self.running = False  # While this flag is set to False, game parameters may be subject to change
 
         self.gui = None  # Gui can be added later if a one is available
@@ -58,11 +59,14 @@ class ScotlandYard():
     def hasEnded(self):
         """
         Checks all parameters that indicate that the game should end
-        1) A detective has reached Mr. X's position
-        2) Mr.x has no options left because he is surrounded
-        3) No detective is able to move
+        1) A detective has reached Mr. X's position;            status=0
+        2) Mr.x has no options left and cannot move;            status=1
+        3) No detective is able to move;                        status=-1
+        4) Mister X survived for 'maxTurns' turns;              status=-2
 
         Returns: bool, statuscode
+
+        A statuscode >= 0 is a win for the Detectives, < 0 is a Mister X victory.
         """
 
         allDetectivesDefeated = True
@@ -79,6 +83,10 @@ class ScotlandYard():
         
         if self.misterx.defeated:
             status = 1
+            return True, status
+        
+        if len(self.misterx.history) >= self.turns:
+            status = -2
             return True, status
 
         return False, None
