@@ -25,15 +25,13 @@ class Player():
         dest, transport = self.decide()
         status, issue = self.move(dest, transport)
         if status is None:
-            self._defeated()
-            return False
+            return self._defeated()
         while not status:
             self.print_(f"That move was invalid: {issue}")
             dest, transport = self.decide()
             status, issue = self.move(dest, transport)
             if status is None:
-                self._defeated()
-                return False
+                return self._defeated()
 
         self._printCards()
         self.print_(f"{self} ended his turn on position {self.position}")
@@ -86,6 +84,7 @@ class Player():
     
     def _defeated(self):
         self.defeated = True
+        return False
     
     @property
     def turn(self):
