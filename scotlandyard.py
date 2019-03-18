@@ -1,6 +1,6 @@
 from game.game import ScotlandYard
 
-from ai.human import misterx, detective
+from ai.human import misterx, detective, enhanceddetective
 
 import display.gui as gui
 import ai.random.misterx as randomMrX
@@ -17,7 +17,7 @@ def main():
 
     # game.addMisterX(misterx.ExampleAIImplementationMisterX(game=game, name="AI Mister X", blackCards=4))
     game.addMisterX(randomMrX.ExampleAIImplementationRandomMisterX(name=f"Random Mr. X", game=game, blackCards=4))
-    game.addDetectives([detective.ExampleAIImplementationDetective(idNumber=i, game=game) for i in range(4)])
+    game.addDetectives([enhanceddetective.ExampleAIImplementationDetective(idNumber=i, game=game) for i in range(4)])
     # game.addDetectives([randomDetective.ExampleAIImplementationRandomDetective(idNumber=i, game=game) for i in range(4)])
 
     if config['OUTPUT'].getboolean('visualization'):
