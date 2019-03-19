@@ -14,6 +14,7 @@ class ExampleAIImplementationDetective(Detective):
     futureTransports = [] # List of lists of used transports for these nodes
     options = [] # List of lists of options for every detective
     living = [] # Gives first alive detective, needed in decide to make all choices when that detective plays
+    varInit = False # Set to true when all static variables are initisalised in decide. 
     
     def __init__(self, *args, **kwargs):
         self.trn = 1
@@ -23,15 +24,16 @@ class ExampleAIImplementationDetective(Detective):
         print("#####---DETECTIVE AI RUNNING---#####")
         
         # Determine turn
-        self.trn = len(self.game.misterx.history)-1
+        self.trn = len(self.game.misterx.history)
         print(f"Current Turn: {self.trn}")
 
         # Initialize static variables correctly
-        if self.trn == 1 and self.id == 0:
+        if self.varInit == False:
             for detective in self.game.detectives:
                 self.futureNodes.append([])
                 self.futureTransports.append([])
                 self.living.append(1)
+            self.varInit = True
 
         disperseTurns = [1,2,3]
         closeinTurns = [4,8,13,18,24] # TOCHECK: when is mrx revealed
