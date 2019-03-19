@@ -13,6 +13,7 @@ class ExampleAIImplementationDetective(Detective):
     futureNodes = [] # List of lists of future nodes for every detective
     futureTransports = [] # List of lists of used transports for these nodes
     options = [] # List of lists of options for every detective
+    living = [] # Gives first alive detective, needed in decide to make all choices when that detective plays
     
     def __init__(self, *args, **kwargs):
         self.trn = 1
@@ -30,13 +31,14 @@ class ExampleAIImplementationDetective(Detective):
             for detective in self.game.detectives:
                 self.futureNodes.append([])
                 self.futureTransports.append([])
+                self.living.append(1)
 
         disperseTurns = [1,2,3]
         closeinTurns = [4,8,13,18,24] # TOCHECK: when is mrx revealed
         encircleTurns = [5,6,7,9,10,11,14,15,16,19,20,21,22,23]
         broadenTurns = [12, 17]
         
-        if self.id == 0:
+        if self.id == self.living.index(1):
             if self.trn in disperseTurns:
                 self.disperse()
             elif self.trn in closeinTurns:
@@ -45,10 +47,12 @@ class ExampleAIImplementationDetective(Detective):
                 self.encircle()
             elif self.trn in broadenTurns:
                 self.broaden()
-        
+
         decision = (self.futureNodes[self.id][0],self.futureTransports[self.id][0])
         del self.futureTransports[self.id][0]
         del self.futureNodes[self.id][0]
+        if decision == (None, None):
+            self.living[self.id] = 0
 
         print(f"Going to play {decision[1]} from {self.position} to {decision[0]}")
         # input("Press Enter to continue...")
