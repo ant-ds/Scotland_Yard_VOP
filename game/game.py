@@ -62,7 +62,7 @@ class ScotlandYard():
         1) A detective has reached Mr. X's position;            status=0
         2) Mr.x has no options left and cannot move;            status=1
         3) No detective is able to move;                        status=-1
-        4) Mister X survived for 'maxTurns' turns;              status=-2
+        4) Mister X survived a full game;                       status=-2
 
         Returns: bool, statuscode
 

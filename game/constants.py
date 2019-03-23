@@ -8,6 +8,7 @@ MRX_OPEN_TURNS = [3, 8, 13, 18]
 GAME_END_MESSAGES = [
     "A detective has reached Mr. X's position", 
     "Mr.x has no options left because he is surrounded", 
+    "Mister X survived a full game",
     "No detective is able to move", 
 ]
 
