@@ -27,12 +27,14 @@ def drawPlayers(imgdata, positions, mrx=None):
     """
     try:
         assert(isinstance(positions, list))
-        for pos in positions:
-            assert(isinstance(pos, int))
+        for i, pos in enumerate(positions):
+            if isinstance(pos, np.str_):
+                positions[i] = int(pos)
+            assert(isinstance(positions[i], int))
         assert(mrx is None or isinstance(mrx, int))
     except AssertionError as e:
         raise AssertionError(f"{positions}\n{mrx}\n{e}; Couldn't guarantee correct drawing with these inputs")
-
+            
     displaySize = getDisplaySize()
     frac = [float(displaySize[i]) / float(const.IMG_TOTAL_SIZE[i]) for i in range(2)]
 
