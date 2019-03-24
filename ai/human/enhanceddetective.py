@@ -1,11 +1,13 @@
-from game.detective import Detective
-from game.board import Board
-from game.game import ScotlandYard
-import game.constants as const
 import networkx as nx
 
 from operator import itemgetter
 import random
+from math import log2
+
+from game.detective import Detective
+from game.board import Board
+from game.game import ScotlandYard
+import game.constants as const
 
 
 class ExampleAIImplementationDetective(Detective):
@@ -178,5 +180,10 @@ class ExampleAIImplementationDetective(Detective):
             print(f"Shortened: {self.futureNodes[i]}")
         return 0
     
-    def getMrxProbabilities(self):
-        pass
+    def getMrxEntropy(self):
+        _, probabilities = self.game.board.possibleMisterXPositions(returnProbabilities=True)
+        probabilities = list(probabilities.values())
+        entropy = 0.0
+        for p in probabilities:
+            entropy -= p * log2(p)
+        return entropy

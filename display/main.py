@@ -268,7 +268,7 @@ class MainReplayWidget(QtWidgets.QWidget):
             """if len(hist) == self.previousHistLengths[i]:
                 d._defeated()"""
         
-        self.possibleMrxPos = game.board.possibleMisterXPositions(returnProbabilities=True)
+        self.possibleMrxPos, _ = game.board.possibleMisterXPositions(returnProbabilities=True)
         # print(f"After the following moves: {game.misterx.history}; We have a chance to find Mr. X at the following locations {self.possibleMrxPos}")
 
     def toggle_misterx_possible(self):
