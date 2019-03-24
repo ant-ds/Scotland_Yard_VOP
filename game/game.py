@@ -17,14 +17,11 @@ class ScotlandYard():
         self.board = Board(size, game=self)
         self.detectives = [Detective(idNumber=i, game=self) for i in range(numDetectives)]
         self.misterx = MisterX(game=self, name="Mister X", blackCards=numDetectives)
-        self.turn = 0  # Keep track of turns
 
         self.gui = None  # Gui can be added later if a one is available
         self.config = cfg
 
     def update(self):
-        self.turn += 1
-
         if self.visualize:
             util.drawGame(self)
 
@@ -120,3 +117,7 @@ class ScotlandYard():
     @property
     def visualize(self):
         return self.config['OUTPUT'].getboolean('visualization')
+
+    @property
+    def turn(self):
+        return len(self.misterx.history)

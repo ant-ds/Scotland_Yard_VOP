@@ -78,3 +78,8 @@ def readConfig(path='settings.ini'):
     if len(config.keys()) == 1:  # Settings file doesn't exist because only default key present
         config = generateDefaultConfig(config)
     return config
+
+
+class ScotlandYardException(Exception):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)

@@ -17,13 +17,12 @@ class MisterX(Player):
     
     @property
     def lastKnownPosition(self):
-        lastKnown = None
-        for i in const.MRX_OPEN_TURNS:
-            try:
-                lastKnown = self.history[i - 1][2]  # history has format (start, transport, dest)
-            except IndexError:  # once index too high, return last confirmed value
-                return lastKnown
-        return lastKnown
+        try:
+            idx = max([i - 1 for i in const.MRX_OPEN_TURNS if i - 1 < len(self.history)])
+        except ValueError:
+            # max from an empty sequence
+            return None
+        return self.history[idx][-1]
 
     def __str__(self):
         "Overwite the string method of base class Player for consistency"
