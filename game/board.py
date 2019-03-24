@@ -170,7 +170,7 @@ class Board():
             newProbs = {}
             
             for position in options:
-                if position in occupied[i]:
+                if occupied is not None and position in occupied[i]:
                     # "Rejected {position} as a position of further exploration"
                     if i > 0:
                         occupied[i - 1].append(position)
