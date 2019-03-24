@@ -158,28 +158,44 @@ class Board():
                 player.position = move[0]
                 player.cards[transport] += 1
     
-    def possiblePositions(self, start, moves=[], occupied=None):
+    def possiblePositions(self, start, moves=[], occupied=None, refuseCurrent=False, returnProbabilities=False, startprob=1):
         """
         Returns a list of possible locations a player could have moved to with the given
         list containing means of transport used.
         """
         options = [start]
+        probs = {start: startprob}
         for i, move in enumerate(moves):
             newOptions = []  # new list of possible locations
+            newProbs = {}
+            
             for position in options:
                 if position in occupied[i]:
-                    print(f"Rejected {position} as a position of further exploration")
+                    # "Rejected {position} as a position of further exploration"
                     continue
+                
+                nbrs = []
                 for nbr in self.graph[position]:
                     for k, transportDict in self.graph.get_edge_data(position, nbr).items():  # edge data is a dict of dicts
                         transport = transportDict['transport']
                         if move == transport or move == 'black':  # black move could be any move
                             if occupied is None or nbr not in occupied[i]:
-                                newOptions.append(nbr)
+                                if refuseCurrent is False or not (i == len(moves) - 1 and nbr in [d.position for d in self.game.detectives]):
+                                    nbrs.append(nbr)
+                newOptions += nbrs
+                for nbr in nbrs:
+                    if nbr not in newProbs.keys():
+                        newProbs[nbr] = 0
+                    newProbs[nbr] += probs[position] * 1.0 / float(len(nbrs))
+            
             options = list(set(newOptions))  # eliminate doubles each iteration
+            probs = util.dictMergeAdd(newProbs, {})
+        
+        if returnProbabilities:
+            return sorted(options), probs
         return sorted(options)  # sort in ascending order
 
-    def possibleMisterXPositions(self):
+    def possibleMisterXPositions(self, returnProbabilities=False):
         # TODO: handle deaths and look into weird behaviour after a few reveals
         def getprohibited(start):
             print(f"Getting prohibited from {start} out:")
@@ -206,7 +222,6 @@ class Board():
             for double in mrx.doubleMoves:
                 i = double - start - len(mrx.doubleMoves)
                 if i >= 0:
-                    print(f"prohibited.insert(i={i}, prohibited[i]={prohibited[i]})")
                     prohibited.insert(i, prohibited[i])
             return prohibited
 
@@ -214,26 +229,36 @@ class Board():
         turn = len(mrx.history)  # current turn
         start = mrx.lastKnownPosition
         options = []
+        probabilities = {}
 
         if start is None:
             # No reveal has yet happened
             moves = [hist[1] for hist in mrx.history]
             prohibited = getprohibited(0)
             for s in const.START_POSITIONS['mrx']:
-                options += self.possiblePositions(s, moves=moves, occupied=prohibited)
-            options = list(set(options))  # make unique
-            for d in self.game.detectives:
-                if d.position in options:
-                    options.remove(d.position)
-            return sorted(options)  # sort in ascending order
+                newops, probs = self.possiblePositions(
+                    s, 
+                    moves=moves, 
+                    occupied=prohibited,
+                    refuseCurrent=True,
+                    returnProbabilities=returnProbabilities, 
+                    startprob=1.0 / float(len(const.START_POSITIONS['mrx']))
+                )
+                options += newops
+                probabilities = util.dictMergeAdd(probabilities, probs)
+            options = sorted(list(set(options)))  # make unique and sort in ascending order
+            print(f"Options: {sorted(options)} with probabilities {probabilities}; size: {len(probabilities)}")
         else:
             # Look up the most recent reveal and slice the history accordingly
             sliceStart = max([i for i in const.MRX_OPEN_TURNS if i <= turn])
             moves = [hist[1] for hist in mrx.history[sliceStart:]]
             prohibited = getprohibited(sliceStart - len(mrx.doubleMoves))  # Account for double moves disrupting the indices
-            print(f"options = self.possiblePositions(start={start}, moves={moves}, occupied={prohibited})")
-            options = self.possiblePositions(start, moves=moves, occupied=prohibited)
-            for d in self.game.detectives:
-                if d.position in options:
-                    options.remove(d.position)
-            return options
+            options, probabilities = self.possiblePositions(
+                start, 
+                moves=moves, 
+                occupied=prohibited,
+                refuseCurrent=True,
+                returnProbabilities=returnProbabilities
+            )            
+            print(f"Options: {options} with probabilities {probabilities}; size: {len(probabilities)}")
+        return options

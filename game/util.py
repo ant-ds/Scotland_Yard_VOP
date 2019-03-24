@@ -80,6 +80,17 @@ def readConfig(path='settings.ini'):
     return config
 
 
+def dictMergeAdd(d1, d2):
+    newd = {}
+    for k, v in d1.items():
+        newd[k] = v
+    for k, v in d2.items():
+        if k not in newd.keys():
+            newd[k] = 0
+        newd[k] += d2[k]
+    return newd
+
+
 class ScotlandYardException(Exception):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
