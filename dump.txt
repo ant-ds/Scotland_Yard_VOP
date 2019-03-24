@@ -1,0 +1,627 @@
+-------------------------------------
+Mr. X's turn
+Current position: 35
+Mr. X his options are: [(22, 'taxi'), (36, 'taxi'), (65, 'taxi'), (48, 'taxi')]
+Scores for each neighbour of Mr. X: [(22, 1), (36, 6), (65, 2), (48, 1)]
+Maximal scores for neighbours of Mr. X: [(36, 6)]
+Options with maximal scores: [(36, 'taxi')]
+Mr. X chose to move from 35 to 36 via taxi
+{'bus': 3, 'taxi': 4, 'underground': 3, 'black': 4, 'double': 2}
+Mr. X ended his turn on position 36
+-------------------------------------
+Detective0's turn
+Current position: 112
+0
+{'bus': 8, 'taxi': 9, 'underground': 4}
+Detective0 ended his turn on position 99
+-------------------------------------
+Detective1's turn
+Current position: 29
+1
+{'bus': 8, 'taxi': 9, 'underground': 4}
+Detective1 ended his turn on position 6
+-------------------------------------
+Detective2's turn
+Current position: 34
+2
+{'bus': 8, 'taxi': 9, 'underground': 4}
+Detective2 ended his turn on position 10
+-------------------------------------
+Detective3's turn
+Current position: 174
+3
+{'bus': 8, 'taxi': 9, 'underground': 4}
+Detective3 ended his turn on position 173
+-------------------------------------
+Mr. X's turn
+Current position: 36
+Mr. X his options are: [(35, 'taxi'), (37, 'taxi'), (49, 'taxi')]
+Scores for each neighbour of Mr. X: [(35, 3), (37, 4), (49, 8)]
+Maximal scores for neighbours of Mr. X: [(49, 8)]
+Options with maximal scores: [(49, 'taxi')]
+Mr. X chose to move from 36 to 49 via taxi
+{'bus': 3, 'taxi': 8, 'underground': 3, 'black': 4, 'double': 2}
+Mr. X ended his turn on position 49
+-------------------------------------
+Detective0's turn
+Current position: 99
+0
+{'bus': 8, 'taxi': 8, 'underground': 4}
+Detective0 ended his turn on position 98
+-------------------------------------
+Detective1's turn
+Current position: 6
+1
+{'bus': 8, 'taxi': 8, 'underground': 4}
+Detective1 ended his turn on position 7
+-------------------------------------
+Detective2's turn
+Current position: 10
+2
+{'bus': 8, 'taxi': 8, 'underground': 4}
+Detective2 ended his turn on position 2
+-------------------------------------
+Detective3's turn
+Current position: 173
+3
+{'bus': 8, 'taxi': 8, 'underground': 4}
+Detective3 ended his turn on position 174
+-------------------------------------
+Mr. X's turn
+Current position: 49
+Mr. X his double move options are: [('double', (36, 'taxi'), (49, 'taxi')), ('double', (66, 'taxi'), (67, 'taxi')), ('double', (50, 'taxi'), (49, 'taxi')), ('double', (66, 'taxi'), (65, 'taxi')), ('double', (50, 'taxi'), (38, 'taxi')), ('double', (36, 'taxi'), (37, 'taxi')), ('double', (66, 'taxi'), (82, 'taxi')), ('double', (50, 'taxi'), (37, 'taxi')), ('double', (36, 'taxi'), (35, 'taxi')), ('double', (66, 'taxi'), (49, 'taxi')), ('double', (36, 'taxi'), (49, 'black')), ('double', (66, 'taxi'), (67, 'black')), ('double', (50, 'taxi'), (49, 'black')), ('double', (66, 'taxi'), (65, 'black')), ('double', (50, 'taxi'), (38, 'black')), ('double', (36, 'taxi'), (37, 'black')), ('double', (66, 'taxi'), (82, 'black')), ('double', (50, 'taxi'), (37, 'black')), ('double', (36, 'taxi'), (35, 'black')), ('double', (66, 'taxi'), (49, 'black'))]
+Scores for each option are: [3, 4, 3, 4, 3, 3, 4, 3, 3, 4, 3, 4, 3, 4, 3, 3, 4, 3, 3, 4]
+Options with maximal score: [('double', (66, 'taxi'), (67, 'taxi')), ('double', (66, 'taxi'), (65, 'taxi')), ('double', (66, 'taxi'), (82, 'taxi')), ('double', (66, 'taxi'), (49, 'taxi')), ('double', (66, 'taxi'), (67, 'black')), ('double', (66, 'taxi'), (65, 'black')), ('double', (66, 'taxi'), (82, 'black')), ('double', (66, 'taxi'), (49, 'black'))]
+Mr. X chose to move from 49 to 66 via taxi then to 49 via taxi
+{'bus': 3, 'taxi': 12, 'underground': 3, 'black': 4, 'double': 1}
+Mr. X ended his turn on position 49
+-------------------------------------
+Detective0's turn
+Current position: 98
+0
+{'bus': 8, 'taxi': 7, 'underground': 4}
+Detective0 ended his turn on position 99
+-------------------------------------
+Detective1's turn
+Current position: 7
+1
+{'bus': 8, 'taxi': 7, 'underground': 4}
+Detective1 ended his turn on position 6
+-------------------------------------
+Detective2's turn
+Current position: 2
+2
+{'bus': 8, 'taxi': 7, 'underground': 4}
+Detective2 ended his turn on position 20
+-------------------------------------
+Detective3's turn
+Current position: 174
+3
+{'bus': 8, 'taxi': 7, 'underground': 4}
+Detective3 ended his turn on position 173
+-------------------------------------
+Mr. X's turn
+Current position: 49
+Mr. X his options are: [(36, 'taxi'), (50, 'taxi'), (66, 'taxi')]
+Scores for each neighbour of Mr. X: [(36, 8), (50, 9), (66, 4)]
+Maximal scores for neighbours of Mr. X: [(50, 9)]
+Options with maximal scores: [(50, 'taxi')]
+Mr. X chose to move from 49 to 50 via taxi
+{'bus': 3, 'taxi': 16, 'underground': 3, 'black': 4, 'double': 1}
+Mr. X ended his turn on position 50
+-------------------------------------
+Detective0's turn
+Current position: 99
+0
+{'bus': 8, 'taxi': 6, 'underground': 4}
+Detective0 ended his turn on position 80
+-------------------------------------
+Detective1's turn
+Current position: 6
+1
+{'bus': 8, 'taxi': 6, 'underground': 4}
+Detective1 ended his turn on position 29
+-------------------------------------
+Detective2's turn
+Current position: 20
+2
+{'bus': 8, 'taxi': 6, 'underground': 4}
+Detective2 ended his turn on position 9
+-------------------------------------
+Detective3's turn
+Current position: 173
+3
+{'bus': 8, 'taxi': 6, 'underground': 4}
+Detective3 ended his turn on position 160
+-------------------------------------
+Mr. X's turn
+Current position: 50
+Mr. X his options are: [(37, 'taxi'), (38, 'taxi'), (49, 'taxi')]
+Scores for each neighbour of Mr. X: [(37, 5), (38, 4), (49, 7)]
+Maximal scores for neighbours of Mr. X: [(49, 7)]
+Options with maximal scores: [(49, 'taxi')]
+Mr. X chose to move from 50 to 49 via taxi
+{'bus': 3, 'taxi': 20, 'underground': 3, 'black': 4, 'double': 1}
+Mr. X ended his turn on position 49
+-------------------------------------
+Detective0's turn
+Current position: 80
+0
+{'bus': 8, 'taxi': 5, 'underground': 4}
+Detective0 ended his turn on position 100
+-------------------------------------
+Detective1's turn
+Current position: 29
+1
+{'bus': 8, 'taxi': 5, 'underground': 4}
+Detective1 ended his turn on position 16
+-------------------------------------
+Detective2's turn
+Current position: 9
+2
+{'bus': 8, 'taxi': 5, 'underground': 4}
+Detective2 ended his turn on position 19
+-------------------------------------
+Detective3's turn
+Current position: 160
+3
+{'bus': 8, 'taxi': 5, 'underground': 4}
+Detective3 ended his turn on position 143
+-------------------------------------
+Mr. X's turn
+Current position: 49
+Mr. X his options are: [(36, 'taxi'), (50, 'taxi'), (66, 'taxi')]
+Scores for each neighbour of Mr. X: [(36, 7), (50, 7), (66, 2)]
+Maximal scores for neighbours of Mr. X: [(36, 7), (50, 7)]
+Options with maximal scores: [(36, 'taxi'), (50, 'taxi')]
+Mr. X chose to move from 49 to 50 via taxi
+{'bus': 3, 'taxi': 24, 'underground': 3, 'black': 4, 'double': 1}
+Mr. X ended his turn on position 50
+-------------------------------------
+Detective0's turn
+Current position: 100
+0
+{'bus': 8, 'taxi': 4, 'underground': 4}
+Detective0 ended his turn on position 81
+-------------------------------------
+Detective1's turn
+Current position: 16
+1
+{'bus': 8, 'taxi': 4, 'underground': 4}
+Detective1 ended his turn on position 5
+-------------------------------------
+Detective2's turn
+Current position: 19
+2
+{'bus': 8, 'taxi': 4, 'underground': 4}
+Detective2 ended his turn on position 8
+-------------------------------------
+Detective3's turn
+Current position: 143
+3
+{'bus': 8, 'taxi': 4, 'underground': 4}
+Detective3 ended his turn on position 142
+-------------------------------------
+Mr. X's turn
+Current position: 50
+Mr. X his double move options are: [('double', (38, 'taxi'), (24, 'taxi')), ('double', (37, 'taxi'), (50, 'taxi')), ('double', (37, 'taxi'), (23, 'taxi')), ('double', (38, 'taxi'), (25, 'taxi')), ('double', (49, 'taxi'), (36, 'taxi')), ('double', (49, 'taxi'), (66, 'taxi')), ('double', (49, 'taxi'), (50, 'taxi')), ('double', (38, 'taxi'), (50, 'taxi')), ('double', (37, 'taxi'), (24, 'taxi')), ('double', (37, 'taxi'), (36, 'taxi')), ('double', (38, 'taxi'), (51, 'taxi')), ('double', (38, 'taxi'), (24, 'black')), ('double', (37, 'taxi'), (50, 'black')), ('double', (37, 'taxi'), (23, 'black')), ('double', (38, 'taxi'), (25, 'black')), ('double', (49, 'taxi'), (36, 'black')), ('double', (49, 'taxi'), (66, 'black')), ('double', (49, 'taxi'), (50, 'black')), ('double', (38, 'taxi'), (50, 'black')), ('double', (37, 'taxi'), (24, 'black')), ('double', (37, 'taxi'), (36, 'black')), ('double', (38, 'taxi'), (51, 'black'))]
+Scores for each option are: [4, 4, 4, 4, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 4, 4, 4, 4]
+Options with maximal score: [('double', (38, 'taxi'), (24, 'taxi')), ('double', (37, 'taxi'), (50, 'taxi')), ('double', (37, 'taxi'), (23, 'taxi')), ('double', (38, 'taxi'), (25, 'taxi')), ('double', (38, 'taxi'), (50, 'taxi')), ('double', (37, 'taxi'), (24, 'taxi')), ('double', (37, 'taxi'), (36, 'taxi')), ('double', (38, 'taxi'), (51, 'taxi')), ('double', (38, 'taxi'), (24, 'black')), ('double', (37, 'taxi'), (50, 'black')), ('double', (37, 'taxi'), (23, 'black')), ('double', (38, 'taxi'), (25, 'black')), ('double', (38, 'taxi'), (50, 'black')), ('double', (37, 'taxi'), (24, 'black')), ('double', (37, 'taxi'), (36, 'black')), ('double', (38, 'taxi'), (51, 'black'))]
+Mr. X chose to move from 50 to 38 via taxi then to 51 via black
+{'bus': 3, 'taxi': 28, 'underground': 3, 'black': 3, 'double': 0}
+Mr. X ended his turn on position 51
+-------------------------------------
+Detective0's turn
+Current position: 81
+0
+{'bus': 8, 'taxi': 3, 'underground': 4}
+Detective0 ended his turn on position 82
+-------------------------------------
+Detective1's turn
+Current position: 5
+1
+{'bus': 8, 'taxi': 3, 'underground': 4}
+Detective1 ended his turn on position 15
+-------------------------------------
+Detective2's turn
+Current position: 8
+2
+{'bus': 8, 'taxi': 3, 'underground': 4}
+Detective2 ended his turn on position 18
+-------------------------------------
+Detective3's turn
+Current position: 142
+3
+{'bus': 8, 'taxi': 3, 'underground': 4}
+Detective3 ended his turn on position 143
+-------------------------------------
+Mr. X's turn
+Current position: 51
+Mr. X his options are: [(38, 'taxi'), (39, 'taxi'), (52, 'taxi'), (68, 'taxi'), (67, 'taxi')]
+Scores for each neighbour of Mr. X: [(38, 3), (39, 2), (52, 2), (68, 2), (67, 2)]
+Maximal scores for neighbours of Mr. X: [(38, 3)]
+Options with maximal scores: [(38, 'taxi')]
+Mr. X chose to move from 51 to 38 via taxi
+{'bus': 3, 'taxi': 32, 'underground': 3, 'black': 3, 'double': 0}
+Mr. X ended his turn on position 38
+-------------------------------------
+Detective0's turn
+Current position: 82
+0
+{'bus': 7, 'taxi': 3, 'underground': 4}
+Detective0 ended his turn on position 65
+-------------------------------------
+Detective1's turn
+Current position: 15
+1
+{'bus': 7, 'taxi': 3, 'underground': 4}
+Detective1 ended his turn on position 14
+-------------------------------------
+Detective2's turn
+Current position: 18
+2
+{'bus': 8, 'taxi': 2, 'underground': 4}
+Detective2 ended his turn on position 43
+-------------------------------------
+Detective3's turn
+Current position: 143
+3
+{'bus': 8, 'taxi': 2, 'underground': 4}
+Detective3 ended his turn on position 128
+-------------------------------------
+Mr. X's turn
+Current position: 38
+Mr. X his options are: [(24, 'taxi'), (25, 'taxi'), (51, 'taxi'), (50, 'taxi')]
+Scores for each neighbour of Mr. X: [(24, 5), (25, 4), (51, 3), (50, 6)]
+Maximal scores for neighbours of Mr. X: [(50, 6)]
+Options with maximal scores: [(50, 'taxi')]
+Mr. X chose to move from 38 to 50 via taxi
+{'bus': 5, 'taxi': 34, 'underground': 3, 'black': 3, 'double': 0}
+Mr. X ended his turn on position 50
+-------------------------------------
+Detective0's turn
+Current position: 65
+0
+{'bus': 6, 'taxi': 3, 'underground': 4}
+Detective0 ended his turn on position 22
+-------------------------------------
+Detective1's turn
+Current position: 14
+1
+{'bus': 6, 'taxi': 3, 'underground': 4}
+Detective1 ended his turn on position 13
+-------------------------------------
+Detective2's turn
+Current position: 43
+2
+{'bus': 8, 'taxi': 1, 'underground': 4}
+Detective2 ended his turn on position 18
+-------------------------------------
+Detective3's turn
+Current position: 128
+3
+{'bus': 8, 'taxi': 2, 'underground': 3}
+Detective3 ended his turn on position 185
+-------------------------------------
+Mr. X's turn
+Current position: 50
+Mr. X his options are: [(37, 'taxi'), (38, 'taxi'), (49, 'taxi')]
+Scores for each neighbour of Mr. X: [(37, 2), (38, 2), (49, 6)]
+Maximal scores for neighbours of Mr. X: [(49, 6)]
+Options with maximal scores: [(49, 'taxi')]
+Mr. X chose to move from 50 to 49 via taxi
+{'bus': 7, 'taxi': 35, 'underground': 4, 'black': 3, 'double': 0}
+Mr. X ended his turn on position 49
+-------------------------------------
+Detective0's turn
+Current position: 22
+0
+{'bus': 6, 'taxi': 2, 'underground': 4}
+Detective0 ended his turn on position 11
+-------------------------------------
+Detective1's turn
+Current position: 13
+1
+{'bus': 6, 'taxi': 2, 'underground': 4}
+Detective1 ended his turn on position 24
+-------------------------------------
+Detective2's turn
+Current position: 18
+2
+{'bus': 8, 'taxi': 0, 'underground': 4}
+Detective2 ended his turn on position 43
+-------------------------------------
+Detective3's turn
+Current position: 185
+3
+{'bus': 8, 'taxi': 1, 'underground': 3}
+Detective3 ended his turn on position 170
+-------------------------------------
+Mr. X's turn
+Current position: 49
+Mr. X his options are: [(36, 'taxi'), (50, 'taxi'), (66, 'taxi')]
+Scores for each neighbour of Mr. X: [(36, 5), (50, 5), (66, 3)]
+Maximal scores for neighbours of Mr. X: [(36, 5), (50, 5)]
+Options with maximal scores: [(36, 'taxi'), (50, 'taxi')]
+Mr. X chose to move from 49 to 50 via taxi
+{'bus': 7, 'taxi': 39, 'underground': 4, 'black': 3, 'double': 0}
+Mr. X ended his turn on position 50
+-------------------------------------
+Detective0's turn
+Current position: 11
+0
+{'bus': 6, 'taxi': 1, 'underground': 4}
+Detective0 ended his turn on position 10
+-------------------------------------
+Detective1's turn
+Current position: 24
+1
+{'bus': 6, 'taxi': 1, 'underground': 4}
+Detective1 ended his turn on position 37
+-------------------------------------
+Detective2's turn
+Current position: 43
+-------------------------------------
+Detective3's turn
+Current position: 170
+3
+{'bus': 8, 'taxi': 0, 'underground': 3}
+Detective3 ended his turn on position 157
+-------------------------------------
+Mr. X's turn
+Current position: 50
+Mr. X his options are: [(38, 'taxi'), (49, 'taxi')]
+Scores for each neighbour of Mr. X: [(37, 0), (38, 2), (49, 5)]
+Maximal scores for neighbours of Mr. X: [(49, 5)]
+Options with maximal scores: [(49, 'taxi')]
+Mr. X chose to move from 50 to 49 via taxi
+{'bus': 7, 'taxi': 42, 'underground': 4, 'black': 3, 'double': 0}
+Mr. X ended his turn on position 49
+-------------------------------------
+Detective0's turn
+Current position: 10
+0
+{'bus': 6, 'taxi': 0, 'underground': 4}
+Detective0 ended his turn on position 34
+-------------------------------------
+Detective1's turn
+Current position: 37
+1
+{'bus': 6, 'taxi': 0, 'underground': 4}
+Detective1 ended his turn on position 36
+-------------------------------------
+Detective3's turn
+Current position: 157
+3
+{'bus': 7, 'taxi': 0, 'underground': 3}
+Detective3 ended his turn on position 142
+-------------------------------------
+Mr. X's turn
+Current position: 49
+Mr. X his options are: [(50, 'taxi'), (66, 'taxi')]
+Scores for each neighbour of Mr. X: [(36, 3), (50, 5), (66, 2)]
+Maximal scores for neighbours of Mr. X: [(50, 5)]
+Options with maximal scores: [(50, 'taxi')]
+Mr. X chose to move from 49 to 50 via taxi
+{'bus': 8, 'taxi': 44, 'underground': 4, 'black': 3, 'double': 0}
+Mr. X ended his turn on position 50
+-------------------------------------
+Detective0's turn
+Current position: 34
+0
+{'bus': 5, 'taxi': 0, 'underground': 4}
+Detective0 ended his turn on position 46
+-------------------------------------
+Detective1's turn
+Current position: 36
+-------------------------------------
+Detective3's turn
+Current position: 142
+3
+{'bus': 6, 'taxi': 0, 'underground': 3}
+Detective3 ended his turn on position 128
+-------------------------------------
+Mr. X's turn
+Current position: 50
+Mr. X his options are: [(37, 'taxi'), (38, 'taxi'), (49, 'taxi')]
+Scores for each neighbour of Mr. X: [(37, 1), (38, 3), (49, 4)]
+Maximal scores for neighbours of Mr. X: [(49, 4)]
+Options with maximal scores: [(49, 'taxi')]
+Mr. X chose to move from 50 to 49 via taxi
+{'bus': 10, 'taxi': 44, 'underground': 4, 'black': 3, 'double': 0}
+Mr. X ended his turn on position 49
+-------------------------------------
+Detective0's turn
+Current position: 46
+0
+{'bus': 5, 'taxi': 0, 'underground': 3}
+Detective0 ended his turn on position 79
+-------------------------------------
+Detective3's turn
+Current position: 128
+3
+{'bus': 6, 'taxi': 0, 'underground': 2}
+Detective3 ended his turn on position 140
+-------------------------------------
+Mr. X's turn
+Current position: 49
+Mr. X his options are: [(50, 'taxi'), (66, 'taxi')]
+Scores for each neighbour of Mr. X: [(36, 3), (50, 5), (66, 2)]
+Maximal scores for neighbours of Mr. X: [(50, 5)]
+Options with maximal scores: [(50, 'taxi')]
+Mr. X chose to move from 49 to 50 via taxi
+{'bus': 10, 'taxi': 44, 'underground': 6, 'black': 3, 'double': 0}
+Mr. X ended his turn on position 50
+-------------------------------------
+Detective0's turn
+Current position: 79
+0
+{'bus': 4, 'taxi': 0, 'underground': 3}
+Detective0 ended his turn on position 78
+-------------------------------------
+Detective3's turn
+Current position: 140
+3
+{'bus': 5, 'taxi': 0, 'underground': 2}
+Detective3 ended his turn on position 82
+-------------------------------------
+Mr. X's turn
+Current position: 50
+Mr. X his options are: [(37, 'taxi'), (38, 'taxi'), (49, 'taxi')]
+Scores for each neighbour of Mr. X: [(37, 1), (38, 3), (49, 4)]
+Maximal scores for neighbours of Mr. X: [(49, 4)]
+Options with maximal scores: [(49, 'taxi')]
+Mr. X chose to move from 50 to 49 via taxi
+{'bus': 12, 'taxi': 44, 'underground': 6, 'black': 3, 'double': 0}
+Mr. X ended his turn on position 49
+-------------------------------------
+Detective0's turn
+Current position: 78
+0
+{'bus': 3, 'taxi': 0, 'underground': 3}
+Detective0 ended his turn on position 46
+-------------------------------------
+Detective3's turn
+Current position: 82
+3
+{'bus': 4, 'taxi': 0, 'underground': 2}
+Detective3 ended his turn on position 65
+-------------------------------------
+Mr. X's turn
+Current position: 49
+Mr. X his options are: [(50, 'taxi'), (66, 'taxi')]
+Scores for each neighbour of Mr. X: [(36, 3), (50, 5), (66, 1)]
+Maximal scores for neighbours of Mr. X: [(50, 5)]
+Options with maximal scores: [(50, 'taxi')]
+Mr. X chose to move from 49 to 50 via taxi
+{'bus': 14, 'taxi': 44, 'underground': 6, 'black': 3, 'double': 0}
+Mr. X ended his turn on position 50
+-------------------------------------
+Detective0's turn
+Current position: 46
+0
+{'bus': 3, 'taxi': 0, 'underground': 2}
+Detective0 ended his turn on position 13
+-------------------------------------
+Detective3's turn
+Current position: 65
+3
+{'bus': 3, 'taxi': 0, 'underground': 2}
+Detective3 ended his turn on position 22
+-------------------------------------
+Mr. X's turn
+Current position: 50
+Mr. X his options are: [(37, 'taxi'), (38, 'taxi'), (49, 'taxi')]
+Scores for each neighbour of Mr. X: [(37, 1), (38, 2), (49, 4)]
+Maximal scores for neighbours of Mr. X: [(49, 4)]
+Options with maximal scores: [(49, 'taxi')]
+Mr. X chose to move from 50 to 49 via taxi
+{'bus': 15, 'taxi': 44, 'underground': 7, 'black': 3, 'double': 0}
+Mr. X ended his turn on position 49
+-------------------------------------
+Detective0's turn
+Current position: 13
+0
+{'bus': 3, 'taxi': 0, 'underground': 1}
+Detective0 ended his turn on position 89
+-------------------------------------
+Detective3's turn
+Current position: 22
+3
+{'bus': 2, 'taxi': 0, 'underground': 2}
+Detective3 ended his turn on position 3
+-------------------------------------
+Mr. X's turn
+Current position: 49
+Mr. X his options are: [(50, 'taxi'), (66, 'taxi')]
+Scores for each neighbour of Mr. X: [(36, 3), (50, 5), (66, 2)]
+Maximal scores for neighbours of Mr. X: [(50, 5)]
+Options with maximal scores: [(50, 'taxi')]
+Mr. X chose to move from 49 to 50 via taxi
+{'bus': 16, 'taxi': 44, 'underground': 8, 'black': 3, 'double': 0}
+Mr. X ended his turn on position 50
+-------------------------------------
+Detective0's turn
+Current position: 89
+0
+{'bus': 3, 'taxi': 0, 'underground': 0}
+Detective0 ended his turn on position 128
+-------------------------------------
+Detective3's turn
+Current position: 3
+3
+{'bus': 1, 'taxi': 0, 'underground': 2}
+Detective3 ended his turn on position 22
+-------------------------------------
+Mr. X's turn
+Current position: 50
+Mr. X his options are: [(37, 'taxi'), (38, 'taxi'), (49, 'taxi')]
+Scores for each neighbour of Mr. X: [(37, 1), (38, 3), (49, 4)]
+Maximal scores for neighbours of Mr. X: [(49, 4)]
+Options with maximal scores: [(49, 'taxi')]
+Mr. X chose to move from 50 to 49 via taxi
+{'bus': 17, 'taxi': 44, 'underground': 9, 'black': 3, 'double': 0}
+Mr. X ended his turn on position 49
+-------------------------------------
+Detective0's turn
+Current position: 128
+0
+{'bus': 2, 'taxi': 0, 'underground': 0}
+Detective0 ended his turn on position 142
+-------------------------------------
+Detective3's turn
+Current position: 22
+3
+{'bus': 0, 'taxi': 0, 'underground': 2}
+Detective3 ended his turn on position 34
+-------------------------------------
+Mr. X's turn
+Current position: 49
+Mr. X his options are: [(50, 'taxi'), (66, 'taxi')]
+Scores for each neighbour of Mr. X: [(36, 3), (50, 5), (66, 2)]
+Maximal scores for neighbours of Mr. X: [(50, 5)]
+Options with maximal scores: [(50, 'taxi')]
+Mr. X chose to move from 49 to 50 via taxi
+{'bus': 19, 'taxi': 44, 'underground': 9, 'black': 3, 'double': 0}
+Mr. X ended his turn on position 50
+-------------------------------------
+Detective0's turn
+Current position: 142
+0
+{'bus': 1, 'taxi': 0, 'underground': 0}
+Detective0 ended his turn on position 157
+-------------------------------------
+Detective3's turn
+Current position: 34
+-------------------------------------
+Mr. X's turn
+Current position: 50
+Mr. X his options are: [(37, 'taxi'), (38, 'taxi'), (49, 'taxi')]
+Scores for each neighbour of Mr. X: [(37, 1), (38, 3), (49, 4)]
+Maximal scores for neighbours of Mr. X: [(49, 4)]
+Options with maximal scores: [(49, 'taxi')]
+Mr. X chose to move from 50 to 49 via taxi
+{'bus': 20, 'taxi': 44, 'underground': 9, 'black': 3, 'double': 0}
+Mr. X ended his turn on position 49
+-------------------------------------
+Detective0's turn
+Current position: 157
+0
+{'bus': 0, 'taxi': 0, 'underground': 0}
+Detective0 ended his turn on position 185
+-------------------------------------
+Mr. X's turn
+Current position: 49
+Mr. X his options are: [(50, 'taxi'), (66, 'taxi')]
+Scores for each neighbour of Mr. X: [(36, 3), (50, 5), (66, 2)]
+Maximal scores for neighbours of Mr. X: [(50, 5)]
+Options with maximal scores: [(50, 'taxi')]
+Mr. X chose to move from 49 to 50 via taxi
+{'bus': 21, 'taxi': 44, 'underground': 9, 'black': 3, 'double': 0}
+Mr. X ended his turn on position 50
+-------------------------------------
+Detective0's turn
+Current position: 185
+Game ended with status -1::  No detective is able to move
+Saving game data...
+Done saving game data.

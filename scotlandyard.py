@@ -15,10 +15,10 @@ def main():
     
     game = ScotlandYard(cfg=config)    
 
-    # game.addMisterX(misterx.ExampleAIImplementationMisterX(game=game, name="AI Mister X", blackCards=4))
-    game.addMisterX(randomMrX.ExampleAIImplementationRandomMisterX(name=f"Random Mr. X", game=game, blackCards=4))
-    game.addDetectives([enhanceddetective.ExampleAIImplementationDetective(idNumber=i, game=game) for i in range(4)])
-    # game.addDetectives([randomDetective.ExampleAIImplementationRandomDetective(idNumber=i, game=game) for i in range(4)])
+    game.addMisterX(misterx.ExampleAIImplementationMisterX(game=game, name="AI Mister X", blackCards=4))
+    # game.addMisterX(randomMrX.ExampleAIImplementationRandomMisterX(name=f"Random Mr. X", game=game, blackCards=4))
+    # game.addDetectives([enhanceddetective.ExampleAIImplementationDetective(idNumber=i, game=game) for i in range(4)])
+    game.addDetectives([randomDetective.ExampleAIImplementationRandomDetective(idNumber=i, game=game) for i in range(4)])
 
     if config['OUTPUT'].getboolean('visualization'):
         app = gui.createApp([])

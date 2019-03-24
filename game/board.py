@@ -206,6 +206,11 @@ class Board():
         return sorted(options)  # sort in ascending order
 
     def possibleMisterXPositions(self, returnProbabilities=False):
+        """
+        Returns a list of possible locations Mister X could be hiding.
+        The parameter returnProbabilities enables the return of a dict
+        mapping each option to its probability of being occupied.
+        """
         # TODO: handle deaths and look into weird behaviour after a few reveals
         def getprohibited(start):
             print(f"Getting prohibited from {start} out:")
@@ -251,7 +256,7 @@ class Board():
                     moves=moves, 
                     occupied=prohibited,
                     refuseCurrent=True,
-                    returnProbabilities=returnProbabilities, 
+                    returnProbabilities=True, 
                     startprob=1.0 / float(len(const.START_POSITIONS['mrx']))
                 )
                 options += newops
@@ -267,6 +272,8 @@ class Board():
                 moves=moves, 
                 occupied=prohibited,
                 refuseCurrent=True,
-                returnProbabilities=returnProbabilities
+                returnProbabilities=True
             )
+        if returnProbabilities:
+            return options, probabilities
         return options

@@ -55,7 +55,7 @@ class ExampleAIImplementationDetective(Detective):
                 self.encircle()
             elif self.trn in broadenTurns:
                 self.broaden()
-
+        print(f"getting decision for id::{self.id}\nFuture:{self.futureNodes, self.futureTransports}")
         decision = (self.futureNodes[self.id][0], self.futureTransports[self.id][0])
         del self.futureTransports[self.id][0]
         del self.futureNodes[self.id][0]
@@ -69,29 +69,29 @@ class ExampleAIImplementationDetective(Detective):
     def disperse(self):
         print("---Disperse algo---")
         self.metroMove()
-        # for i in range(0, len(self.game.detectives)):
-        #     decision = self.randomMove(self.game.detectives[i])
+        # for i, det in enumerate(self.game.detectives):
+        #     decision = self.randomMove(det)
         #     self.futureNodes[i].append(decision[0])
         #     self.futureTransports[i].append(decision[1])
 
     def closein(self):
         print("---Close-in algo---")
-        for i in range(0, len(self.game.detectives)):
-            decision = self.randomMove(self.game.detectives[i])
+        for i, det in enumerate(self.game.detectives):
+            decision = self.randomMove(det)
             self.futureNodes[i].append(decision[0])
             self.futureTransports[i].append(decision[1])
 
     def encircle(self):
         print("---Encircle algo---")
-        for i in range(0, len(self.game.detectives)):
-            decision = self.randomMove(self.game.detectives[i])
+        for i, det in enumerate(self.game.detectives):
+            decision = self.randomMove(det)
             self.futureNodes[i].append(decision[0])
             self.futureTransports[i].append(decision[1])
 
     def broaden(self):
         print("---Broaden algo---")
-        for i in range(0, len(self.game.detectives)):
-            decision = self.randomMove(self.game.detectives[i])
+        for i, det in enumerate(self.game.detectives):
+            decision = self.randomMove(det)
             self.futureNodes[i].append(decision[0])
             self.futureTransports[i].append(decision[1])
 
@@ -177,3 +177,6 @@ class ExampleAIImplementationDetective(Detective):
             self.futureTransports[i] = transp
             print(f"Shortened: {self.futureNodes[i]}")
         return 0
+    
+    def getMrxProbabilities(self):
+        pass
