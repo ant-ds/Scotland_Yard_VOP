@@ -74,6 +74,7 @@ class Board():
         return options
 
     def getOccupiedPositions(self):
+        "Returns currently occupied positions"
         positions = [self.game.misterx.position]
         positions += [d.position for d in self.game.detectives]
         return positions
@@ -157,42 +158,82 @@ class Board():
                 player.position = move[0]
                 player.cards[transport] += 1
     
-    def possiblePositions(self, start, moves=[]):
+    def possiblePositions(self, start, moves=[], occupied=None):
         """
         Returns a list of possible locations a player could have moved to with the given
         list containing means of transport used.
         """
         options = [start]
-        for move in moves:
+        for i, move in enumerate(moves):
             newOptions = []  # new list of possible locations
             for position in options:
+                if position in occupied[i]:
+                    print(f"Rejected {position} as a position of further exploration")
+                    continue
                 for nbr in self.graph[position]:
                     for k, transportDict in self.graph.get_edge_data(position, nbr).items():  # edge data is a dict of dicts
                         transport = transportDict['transport']
                         if move == transport or move == 'black':  # black move could be any move
-                            newOptions.append(nbr)
-            options = list(set(newOptions))  # eliminate doubles for performance
-        
+                            if occupied is None or nbr not in occupied[i]:
+                                newOptions.append(nbr)
+            options = list(set(newOptions))  # eliminate doubles each iteration
         return sorted(options)  # sort in ascending order
 
     def possibleMisterXPositions(self):
+        # TODO: handle deaths and look into weird behaviour after a few reveals
+        def getprohibited(start):
+            print(f"Getting prohibited from {start} out:")
+            prohibited = []
+            for d in self.game.detectives:
+                print(f"{d}'s history: {d.history}")
+                if len(d.history) == start:
+                    if start == 0:
+                        dpositions = [d.position]
+                    else:
+                        dpositions = [d.history[-1][-1]]
+                    """<<-- elif len(d.history) == start - 1:
+                        print("elif case!")
+                        dpositions = [d.history[-1][-1]]"""
+                else:
+                    dpositions = [d.history[start][0]]
+                    dpositions += [h[-1] for h in d.history[start:]]
+                for i, p in enumerate(dpositions):
+                    if len(prohibited) == i:
+                        prohibited.append([])
+                    prohibited[i].append(p)
+                print(f"Currently prohibited: {prohibited}")
+            # Account for double moves, where the prohibited positions should be duplicated
+            for double in mrx.doubleMoves:
+                i = double - start - len(mrx.doubleMoves)
+                if i >= 0:
+                    print(f"prohibited.insert(i={i}, prohibited[i]={prohibited[i]})")
+                    prohibited.insert(i, prohibited[i])
+            return prohibited
+
         mrx = self.game.misterx
+        turn = len(mrx.history)  # current turn
         start = mrx.lastKnownPosition
         options = []
 
         if start is None:
+            # No reveal has yet happened
             moves = [hist[1] for hist in mrx.history]
+            prohibited = getprohibited(0)
             for s in const.START_POSITIONS['mrx']:
-                options += self.possiblePositions(s, moves=moves)
-            return sorted(list(set(options)))  # sort in ascending order and make unique
-        
-        sliceStart = 0
-
-        for i in const.MRX_OPEN_TURNS:
-            try:
-                _ = mrx.history[i - 1][2]  # history has format (start, transport, dest)
-                sliceStart = i
-            except IndexError:  # once index too high, return last confirmed value
-                break
-        moves = [hist[1] for hist in mrx.history[sliceStart:]]
-        return self.possiblePositions(start, moves=moves)
+                options += self.possiblePositions(s, moves=moves, occupied=prohibited)
+            options = list(set(options))  # make unique
+            for d in self.game.detectives:
+                if d.position in options:
+                    options.remove(d.position)
+            return sorted(options)  # sort in ascending order
+        else:
+            # Look up the most recent reveal and slice the history accordingly
+            sliceStart = max([i for i in const.MRX_OPEN_TURNS if i <= turn])
+            moves = [hist[1] for hist in mrx.history[sliceStart:]]
+            prohibited = getprohibited(sliceStart - len(mrx.doubleMoves))  # Account for double moves disrupting the indices
+            print(f"options = self.possiblePositions(start={start}, moves={moves}, occupied={prohibited})")
+            options = self.possiblePositions(start, moves=moves, occupied=prohibited)
+            for d in self.game.detectives:
+                if d.position in options:
+                    options.remove(d.position)
+            return options
