@@ -172,6 +172,16 @@ class Board():
             for position in options:
                 if position in occupied[i]:
                     # "Rejected {position} as a position of further exploration"
+                    if i > 0:
+                        occupied[i - 1].append(position)
+                        return self.possiblePositions(
+                            start, 
+                            moves=moves, 
+                            occupied=occupied, 
+                            refuseCurrent=refuseCurrent, 
+                            returnProbabilities=returnProbabilities, 
+                            startprob=startprob
+                        )
                     continue
                 
                 nbrs = []
@@ -247,7 +257,6 @@ class Board():
                 options += newops
                 probabilities = util.dictMergeAdd(probabilities, probs)
             options = sorted(list(set(options)))  # make unique and sort in ascending order
-            print(f"Options: {sorted(options)} with probabilities {probabilities}; size: {len(probabilities)}")
         else:
             # Look up the most recent reveal and slice the history accordingly
             sliceStart = max([i for i in const.MRX_OPEN_TURNS if i <= turn])
@@ -259,6 +268,5 @@ class Board():
                 occupied=prohibited,
                 refuseCurrent=True,
                 returnProbabilities=returnProbabilities
-            )            
-            print(f"Options: {options} with probabilities {probabilities}; size: {len(probabilities)}")
+            )
         return options
