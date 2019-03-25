@@ -27,3 +27,12 @@ class MisterX(Player):
     def __str__(self):
         "Overwite the string method of base class Player for consistency"
         return "Mr. X"
+
+    def cloneFrom(self, old):
+        super().cloneFrom(old)
+        self.doubleMoves = [m for m in old.doubleMoves]
+
+    def clone(self):
+        new = MisterX(self.game, self.name)
+        new.cloneFrom(self)
+        return new
