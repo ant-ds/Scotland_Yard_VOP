@@ -213,10 +213,10 @@ class Board():
         """
         # TODO: handle deaths and look into weird behaviour after a few reveals
         def getprohibited(start):
-            print(f"Getting prohibited from {start} out:")
+            # print(f"Getting prohibited from {start} out:")
             prohibited = []
             for d in self.game.detectives:
-                print(f"{d}'s history: {d.history}")
+                # print(f"{d}'s history: {d.history}")
                 if len(d.history) == start:
                     if start == 0:
                         dpositions = [d.position]
@@ -232,7 +232,7 @@ class Board():
                     if len(prohibited) == i:
                         prohibited.append([])
                     prohibited[i].append(p)
-                print(f"Currently prohibited: {prohibited}")
+                # print(f"Currently prohibited: {prohibited}")
             # Account for double moves, where the prohibited positions should be duplicated
             for double in mrx.doubleMoves:
                 i = double - start - len(mrx.doubleMoves)

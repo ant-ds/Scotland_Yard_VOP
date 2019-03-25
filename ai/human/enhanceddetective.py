@@ -17,7 +17,7 @@ class ExampleAIImplementationDetective(Detective):
     futureTransports = []  # List of lists of used transports for these nodes
     options = []  # List of lists of options for every detective
     living = []  # Gives first alive detective, needed in decide to make all choices when that detective plays
-    varInit = False  # Set to true when all static variables are initisalised in decide. 
+    # varInit = False  # Set to true when all static variables are initisalised in decide. 
     
     def __init__(self, *args, **kwargs):
         self.trn = 1
@@ -31,14 +31,14 @@ class ExampleAIImplementationDetective(Detective):
         print(f"Current Turn: {self.trn}")
 
         # Initialize static variables correctly
-        if not self.varInit:
+        if len(self.futureNodes) != len(self.game.detectives):
             for detective in self.game.detectives:
                 self.futureNodes.append([])
                 self.futureTransports.append([])
                 self.living.append(1)
-            self.varInit = True
+            # self.varInit = True
 
-        disperseTurns = [1, 2]
+        disperseTurns = [1] # makes decission for turn 1 and 2 at the same time
         closeinTurns = [3, 4, 8, 13, 18, 24]  # TOCHECK: when is mrx revealed
         encircleTurns = [5, 6, 7, 9, 10, 11, 14, 15, 16, 19, 20, 21, 22, 23]
         broadenTurns = [12, 17]
@@ -155,8 +155,9 @@ class ExampleAIImplementationDetective(Detective):
 
         for i in range(0, len(targetMetro)):
             path = nx.shortest_path(self.game.board.graph, self.game.detectives[i].position, targetMetro[i][0])
-            if len(path) > 1: 
-                transp = [transport[1] for transport in ExampleAIImplementationDetective.options[i] if transport[0] == path[1]]
+            print(f"Path length: {len(path)}")
+            # if len(path) > 1: 
+            transp = [transport[1] for transport in ExampleAIImplementationDetective.options[i] if transport[0] == path[1]]
             # print(f"transport to test {transp[0]}")
             
             # detective one turn away from a metro station
@@ -171,8 +172,22 @@ class ExampleAIImplementationDetective(Detective):
                 path.append(path[0])
                 transp.append(transportToUse)
             
+            
             if len(path) == 4:
+                # only look 2 moves ahead and remove other decisions
                 del path[3]
+
+            #add missing transport
+            if len(transp) < len(path)-1:
+                i0 = len(transp)
+                for j in range (i0,len(path)-1):
+                    neighbours = self.game.board.getOptions(self.game.detectives[i], customStartPosition=path[j])
+                    postrans = [transport[1] for transport in neighbours if transport[0] == path[j+1]]
+                    transp.append(postrans[0])
+
+                
+            if len(transp) == 3:
+                del transp[2]
 
             print(f"Future moves for detective {i}:  {path}")
             self.futureNodes[i] = path[1:]
