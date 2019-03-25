@@ -39,6 +39,8 @@ class ScotlandYard():
         "Overwrite the misterx instance used for playing the game"
         assert(isinstance(misterx, MisterX))
         self.misterx = misterx
+
+        misterx.game = self  # Guarantee good reverse referencing
     
     def addDetectives(self, detectives):
         "Overwrite the detective instances used for playing the game"
@@ -46,6 +48,9 @@ class ScotlandYard():
         for detective in detectives:
             assert(isinstance(detective, Detective))
         self.detectives = detectives
+
+        for det in detectives:  # Guarantee good reverse referencing
+            det.game = self
     
     def hasEnded(self):
         """
@@ -121,3 +126,9 @@ class ScotlandYard():
     @property
     def turn(self):
         return len(self.misterx.history)
+
+    def clone(self):
+        new = ScotlandYard(size=self.board.size, numDetectives=len(self.detectives), cfg=self.config)
+        self.addMisterX(self.misterx.clone())
+        self.addDetectives([d.clone() for d in self.detectives])
+        return new

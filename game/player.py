@@ -117,9 +117,28 @@ class Player():
     def _printCards(self):
         "Displays the cards this player is currently in possession of."
         self.game.print_(self.cards)
-    
+
     def __str__(self):
         return self.name
 
     def print_(self, msg):
         self.game.print_(msg)
+
+    def overwriteCards(self, cards: dict):
+        d = {}
+        for k, v in cards.items():
+            d[k] = v
+        self.cards = d
+
+    def cloneFrom(self, old):
+        # Overwrite all fields
+        self.game = old.game
+        self.name = old.name
+        self.position = old.position
+        self.overwriteCards(old.cards)
+        self.history = [tuple([h for h in move]) for move in old.history]
+
+    def clone(self):
+        new = Player(self.game, self.name, self.cards['bus'], self.cards['taxi'], self.cards['underground'])
+        new.cloneFrom(self)
+        return new
