@@ -22,7 +22,7 @@ if nx.is_connected(gamegraph) == False:
 print(f'Searching configuration with 5 anchors for size {size}')
 
 anchorsfound = False
-for i in range(13, size - 3):
+for i in range(7, 10):
     print(f'starting i loop with index {i}')
 
     for j in range(i + 1, size - 2):
@@ -84,11 +84,11 @@ for i in range(13, size - 3):
                         anchors.append(node_k)
                         anchors.append(node_m)
                         anchors.append(node_n)
-                        pickle_out = open(f"Anchors5_s{size}_file2.pickle", "wb")
+                        pickle_out = open(f"Anchors5_s{size}_i789.pickle", "wb")
                         pickle.dump(anchors, pickle_out)
                         pickle_out.close()
 
-                        pickle_out = open(f"Distances_A5_s{size}_file2.pickle", "wb")
+                        pickle_out = open(f"Distances_A5_s{size}_i789.pickle", "wb")
                         pickle.dump(alldistances, pickle_out)
                         pickle_out.close()
                     if anchorsfound == True:
