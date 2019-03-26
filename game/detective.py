@@ -10,7 +10,9 @@ class Detective(Player):
         super().cloneFrom(old)
         # No extra data to copy
 
-    def clone(self):
-        new = Detective(self.game, self.id)
+    def clone(self, game=None):
+        if game is None:
+            game = self.game
+        new = Detective(game, self.id)
         new.cloneFrom(self)
         return new

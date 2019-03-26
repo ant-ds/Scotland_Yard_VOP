@@ -13,13 +13,21 @@ class ScotlandYard():
     """
     Class with implementation of the strategic boardgame Scotland Yard.
     """
-    def __init__(self, size=199, numDetectives=4, cfg=None):
+    def __init__(self, size=199, numDetectives=4, cfg=None, defaultPlayers=False, clone=False):
+        self.isclone = clone  # Used in detecting clones, to prevent unnecessary calculations while cloning
         self.board = Board(size, game=self)
-        self.detectives = [Detective(idNumber=i, game=self) for i in range(numDetectives)]
-        self.misterx = MisterX(game=self, name="Mister X", blackCards=numDetectives)
+        if defaultPlayers:
+            self.detectives = [Detective(idNumber=i, game=self) for i in range(numDetectives)]
+            self.misterx = MisterX(game=self, name="Mister X", blackCards=numDetectives)
+        else:
+            self.detectives = []
+            self.misterx = None
 
         self.gui = None  # Gui can be added later if a one is available
         self.config = cfg
+
+        self.timeAtStart = datetime.datetime.now()
+        self.run = 0
 
     def update(self):
         if self.visualize:
@@ -91,13 +99,17 @@ class ScotlandYard():
         self.gui = gui
 
     def loop(self):
+        """
+        Starts the game loop and saves game data when completed.
+        """
+        self.run += 1  # Increment the counter for each run through the looping sequence
         stop = False
         while not stop:
             stop, status = self.update()
             pass  # Visualization function calls could be added here
         
         self.statuscode = status
-        print(f"Game ended with status {status}::  {const.GAME_END_MESSAGES[status]}")
+        self.print_(f"Game ended with status {status}::  {const.GAME_END_MESSAGES[status]}")
 
         self.print_("Saving game data...")
 
@@ -106,8 +118,7 @@ class ScotlandYard():
         data.append([det.history for det in self.detectives])
         data = np.array(data)
 
-        curDateTime = datetime.datetime.now()
-        filepath = f"history/scly-replay-{curDateTime}"
+        filepath = f"history/scly-replay-{self.timeAtStart}-{self.run}"
         for char in [" ", ".", ":", "-"]:
             filepath = filepath.replace(char, "_")
         
@@ -128,7 +139,13 @@ class ScotlandYard():
         return len(self.misterx.history)
 
     def clone(self):
-        new = ScotlandYard(size=self.board.size, numDetectives=len(self.detectives), cfg=self.config)
-        self.addMisterX(self.misterx.clone())
-        self.addDetectives([d.clone() for d in self.detectives])
+        new = ScotlandYard(size=self.board.size, numDetectives=len(self.detectives), cfg=self.config, clone=True)
+        new.addMisterX(self.misterx.clone(game=new))
+        new.addDetectives([d.clone(game=new) for d in self.detectives])
         return new
+
+    def reset(self):
+        self.board.reset()
+        self.misterx.reset()
+        for det in self.detectives:
+            det.reset()

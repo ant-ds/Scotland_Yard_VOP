@@ -1,4 +1,5 @@
 import random
+from math import log2
 
 from game.misterx import MisterX
 
@@ -14,6 +15,9 @@ class Board():
 
         self._usedStartingPositions = []  # Makes sure no two players start on the same spot
 
+    def reset(self):
+        self._usedStartingPositions = []
+    
     def giveStartPosition(self, playertype):
         """
         Assigns a starting position to a new player.
@@ -97,7 +101,14 @@ class Board():
         options = self.getOptions(player)
         tup = (destination, transport)
         if not util.isOption(options, tup):
-            return False, f"{tup} was not an option in {options}"
+            # return False, f"{tup} was not an option in {options}"
+            # Suggestie om een random move te doen zodat het proces niet exit bij problemen, maar ze wel meldt
+            print("The proposed move was invalid, continuing with a random move!!")
+            random.shuffle(options)
+            for op in options:
+                if self.movePlayer(player, op[0], op[1])[0] is True:
+                    return True, None
+            return None, None  # speler heeft geen opties meer
         
         # Is the destination not occupied by a detective?
         if destination in [d.position for d in self.game.detectives]:
@@ -277,3 +288,11 @@ class Board():
         if returnProbabilities:
             return options, probabilities
         return options
+
+    def mrxEntropy(self):
+        _, probabilities = self.possibleMisterXPositions(returnProbabilities=True)
+        probabilities = list(probabilities.values())
+        entropy = 0.0
+        for p in probabilities:
+            entropy -= p * log2(p)
+        return entropy

@@ -1,4 +1,5 @@
 import re
+import copy
 
 
 class Player():
@@ -6,13 +7,17 @@ class Player():
         self.name = name
         self.game = game
 
-        self.position = self.game.board.giveStartPosition(type(self))
+        if self.game.isclone:
+            self.position = None
+        else:
+            self.position = self.game.board.giveStartPosition(type(self))
         
         self.cards = {
             'bus': busCard,
             'taxi': taxiCard,
             'underground': undergroundCard,
         }
+        self.originalCards = copy.deepcopy(self.cards)
 
         self.history = []  # format: (startPosition, transport, destination)
         self.defeated = False
@@ -142,3 +147,9 @@ class Player():
         new = Player(self.game, self.name, self.cards['bus'], self.cards['taxi'], self.cards['underground'])
         new.cloneFrom(self)
         return new
+
+    def reset(self):
+        self.cards = copy.deepcopy(self.originalCards)
+        self.history = []
+        self.position = self.game.board.giveStartPosition(type(self))
+        self.defeated = False

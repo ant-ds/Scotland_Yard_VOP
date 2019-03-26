@@ -1,3 +1,5 @@
+import copy
+
 from game.player import Player
 import game.constants as const
 
@@ -12,6 +14,7 @@ class MisterX(Player):
             'black': blackCards,
             'double': doubleMoveCards,
         })
+        self.originalCards = copy.deepcopy(self.cards)
 
         self.doubleMoves = []
     
@@ -32,7 +35,13 @@ class MisterX(Player):
         super().cloneFrom(old)
         self.doubleMoves = [m for m in old.doubleMoves]
 
-    def clone(self):
-        new = MisterX(self.game, self.name)
+    def clone(self, game=None):
+        if game is None:
+            game = self.game
+        new = MisterX(game, self.name)
         new.cloneFrom(self)
         return new
+
+    def reset(self):
+        super().reset()
+        self.doubleMoves = []
