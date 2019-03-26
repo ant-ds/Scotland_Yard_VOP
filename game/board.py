@@ -103,7 +103,7 @@ class Board():
         if not util.isOption(options, tup):
             # return False, f"{tup} was not an option in {options}"
             # Suggestie om een random move te doen zodat het proces niet exit bij problemen, maar ze wel meldt
-            print("The proposed move was invalid, continuing with a random move!!")
+            print("WARNING:: The proposed move was invalid, continuing with a random move!!")
             random.shuffle(options)
             for op in options:
                 if self.movePlayer(player, op[0], op[1])[0] is True:
@@ -224,26 +224,33 @@ class Board():
         """
         # TODO: handle deaths and look into weird behaviour after a few reveals
         def getprohibited(start):
-            # print(f"Getting prohibited from {start} out:")
             prohibited = []
             for d in self.game.detectives:
-                # print(f"{d}'s history: {d.history}")
-                if len(d.history) == start:
-                    if start == 0:
-                        dpositions = [d.position]
+                try:
+                    if d.defeated:
+                        # necessary? TODO
+                        continue
+                    if len(d.history) == start:
+                        if start == 0:
+                            dpositions = [d.position]
+                        else:
+                            dpositions = [d.history[-1][-1]]
+                        """<<-- elif len(d.history) == start - 1:
+                            print("elif case!")
+                            dpositions = [d.history[-1][-1]]"""
                     else:
-                        dpositions = [d.history[-1][-1]]
-                    """<<-- elif len(d.history) == start - 1:
-                        print("elif case!")
-                        dpositions = [d.history[-1][-1]]"""
-                else:
-                    dpositions = [d.history[start][0]]
-                    dpositions += [h[-1] for h in d.history[start:]]
+                        dpositions = [d.history[start][0]]
+                        dpositions += [h[-1] for h in d.history[start:]]
+                except Exception as e:
+                    # TODO: should be deleted after proper testing
+                    print(f"{d}'s history: {d.history}")
+                    print(f"Start: {start}")
+                    print(vars(d))
+                    raise e
                 for i, p in enumerate(dpositions):
                     if len(prohibited) == i:
                         prohibited.append([])
                     prohibited[i].append(p)
-                # print(f"Currently prohibited: {prohibited}")
             # Account for double moves, where the prohibited positions should be duplicated
             for double in mrx.doubleMoves:
                 i = double - start - len(mrx.doubleMoves)
