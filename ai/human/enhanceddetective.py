@@ -44,6 +44,7 @@ class ExampleAIImplementationDetective(Detective):
         broadenTurns = [12, 17]
         
         if self.id == self.living.index(1):
+            self.options = []
             # Generate all options for this turn
             for detective in self.game.detectives:
                 # print(f"Options for detective {detective.id}: {self.game.board.getOptions(detective, doubleAllowed=False)}")
@@ -71,17 +72,20 @@ class ExampleAIImplementationDetective(Detective):
     def disperse(self):
         print("---Disperse algo---")
         self.metroMove()
+
+    def closein(self):
+        targetpos = self.game.misterx.lastKnownPosition
+
+        for i in range (0, len(self.game.detectives)):
+            path = nx.shortest_path(self.game.board.graph, self.game.detectives[i].position, targetpos)
+            self.futureNodes[i].append(path[1])
+            oklist = [opts[1] for opts in self.options[i] if opts[0] == path[1]]
+            self.futureTransports[i].append(oklist[0])
+
         # for i, det in enumerate(self.game.detectives):
         #     decision = self.randomMove(det)
         #     self.futureNodes[i].append(decision[0])
         #     self.futureTransports[i].append(decision[1])
-
-    def closein(self):
-        print("---Close-in algo---")
-        for i, det in enumerate(self.game.detectives):
-            decision = self.randomMove(det)
-            self.futureNodes[i].append(decision[0])
-            self.futureTransports[i].append(decision[1])
 
     def encircle(self):
         def validateOptionSet(optionset: list) -> bool:
@@ -197,13 +201,14 @@ class ExampleAIImplementationDetective(Detective):
 
     def metroMove(self):
         "Decides which moves to make for every detective"
+        # TODO: collision prevention
         targetMetro = self.assignMetro()
 
         for i in range(0, len(targetMetro)):
             path = nx.shortest_path(self.game.board.graph, self.game.detectives[i].position, targetMetro[i][0])
             print(f"Path length: {len(path)}")
             # if len(path) > 1: 
-            transp = [transport[1] for transport in ExampleAIImplementationDetective.options[i] if transport[0] == path[1]]
+            transp = [transport[1] for transport in self.options[i] if transport[0] == path[1]]
             # print(f"transport to test {transp[0]}")
             
             # detective one turn away from a metro station
