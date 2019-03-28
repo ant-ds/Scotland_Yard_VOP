@@ -38,6 +38,14 @@ class Board():
     
     # def draw(self):
     #     util.drawGraph(self.graph)
+
+    def getTransport(self, node):
+        "Returns a list of transport options leaving a given node"
+        transports = set()
+        for nbr in self.graph[node]:
+            for k, transportDict in self.graph.get_edge_data(node, nbr).items():  # edge data is a dict of dicts
+                transports.add(transportDict['transport'])
+        return list(transports)
     
     def getOptions(self, player, customStartPosition=None, doubleAllowed=True):
         """
