@@ -13,6 +13,6 @@ class Detective(Player):
     def clone(self, game=None):
         if game is None:
             game = self.game
-        new = Detective(game, self.id)
+        new = type(self)(game, self.id)
         new.cloneFrom(self)
         return new

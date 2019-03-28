@@ -38,7 +38,7 @@ class MisterX(Player):
     def clone(self, game=None):
         if game is None:
             game = self.game
-        new = MisterX(game, self.name)
+        new = type(self)(game, self.name)
         new.cloneFrom(self)
         return new
 
