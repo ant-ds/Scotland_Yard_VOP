@@ -7,9 +7,8 @@ def newDenseModel(inputsize, layer_sizes):
     model = tf.keras.models.Sequential()
     model.add(tf.keras.layers.Input(shape=(inputsize,), dtype = tf.float32))
 
-    for _ in range(0, hiddenlayers):
-        model.add(tf.keras.layers.Dense(64, activation=tf.nn.relu))
-
+    for layersize in layer_sizes:
+        model.add(tf.keras.layers.Dense(layersize, activation=tf.nn.relu))
 
     return model
     

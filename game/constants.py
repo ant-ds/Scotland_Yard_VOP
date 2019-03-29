@@ -3,7 +3,7 @@ START_POSITIONS = {
     'mrx': (166, 78, 127, 172, 132, 45, 106, 51, 146, 170, 35, 71, 104)
 }
 
-MRX_OPEN_TURNS = [3, 8, 13, 18]
+MRX_OPEN_TURNS = [3, 8, 13, 18, 24]
 
 GAME_END_MESSAGES = [
     "A detective has reached Mr. X's position", 
