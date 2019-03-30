@@ -56,6 +56,7 @@ class DetectiveState():
         for i in possiblepos:
             onehotvec[i - 1] = 1
         self.possiblemrx = onehotvec
+        return self
 
     def display(self):
         print(f'Detective positions: {self.detectivepos}\nDetective cards: {self.detectivecards}\nReveal countdown: {self.revealcountdown}\nGame countdown: {self.gamecountdown}\nOne hot possible Mr X: {self.possiblemrx}')

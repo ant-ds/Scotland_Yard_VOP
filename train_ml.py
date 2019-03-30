@@ -17,24 +17,40 @@
 from game.game import ScotlandYard
 from game.util import readConfig
 from ai.human import misterx
-import detective as detAI
+import ai.ml.detective as detAI
 import game.constants as const
-import detectivestate
+from detectivestate import DetectiveState
 
 from pickle import load
 import numpy as np
-import tensorflow.keras as ks
+#import tensorflow.keras as ks
 from itertools import product
 
 # Parameters
 episodes = 0
 timesteps = 0
-coordinate_anchors = 9
-gamesize = 107
+coordinate_anchors = 10
+gamesize = 199
 det_amount = 4
 
 # Constants
-longest_path, coordinates, game = initTrainingConstants()   # for normalization
+def initTrainingConstants(coordinate_anchors, gamesize, det_amount):
+    config = readConfig('MLsettings.ini')
+    game = ScotlandYard(cfg=config, size=gamesize, numDetectives=det_amount)
+    game.addMisterX(misterx.ExampleAIImplementationMisterX(game=game, name="AI Mister X", blackCards=4))
+    game.addDetectives([detAI.AIReinforcementDetective(idNumber=i, game=game) for i in range(det_amount)])
+
+    # load coordinates
+    coord = load(open(f"Distances_A{coordinate_anchors}_s{gamesize}.pickle", "rb"))
+
+    # calculate longest path
+    longest = 0
+    for co in coord:
+        if longest < max(co):
+            longest = max(co)
+
+    return longest, coord, game
+longest_path, coordinates, game = initTrainingConstants(coordinate_anchors, gamesize, det_amount)   # for normalization
 targetmodel = None
 
 
@@ -49,12 +65,6 @@ memory = []
 
 
 # action: hier soort pseudo decide uitvoeren voor alle detectives (Q value)
-# dan gekozen actie voor elke detective doorgeven
-
-
-
-
-
 
 
 
@@ -65,14 +75,6 @@ memory = []
 
 
 print('Training is over')
-
-
-
-
-
-
-
-
 
 
 
@@ -98,36 +100,38 @@ def chooseAction(model, game, detstate, epsilon):
     possible_actions = list(zip(product(*poss_det_action)))
     # filter actions with non-unique position combinations
     possible_actions = [action for action in possible_actions if len([act[0] for act in action]) == len(set([act[0] for act in action]))]
-
     if np.random.uniform() <= epsilon:
         chosen_action = possible_actions[np.random.randint(0, len(possible_actions) - 1)]
-        chosenQ = model.predict(formalizeStateAction(detstate, [act[0] for act in chosen_action], [act[1] for act in chosen_action]))
+        chosenQ = model.predict(formalizeStateAction(detstate, [act[0] for act in chosen_action[0]], [act[1] for act in chosen_action[0]]))
     
     else:
         # bereken Q value voor elke mogelijke actie
         # maak functie die DetectiveState en actie neemt en omzet in goede vorm
         Qvalues = []
         for action in possible_actions:
-            inputvec = formalizeStateAction(detstate, [act[0] for act in action], [act[1] for act in action])
-            Qvalues.append(model.predict(inputvec))
+            inputvec = formalizeStateAction(detstate, [ act[0] for act in action[0]], [ act[1] for act in action[0]])
+            #Qvalues.append(model.predict(inputvec))
+            #print(f'inputvec: {inputvec}')
+            Qvalues = [i for i in range(0, len(possible_actions))]
         chosenQ = max(Qvalues)
         chosen_action = possible_actions[Qvalues.index(chosenQ)]
 
-    for i in range(0, game.numDetectives):
-        game.detectives[i].nextaction = chosen_action[i]
+    for i in range(0, len(game.detectives)):
+        game.detectives[i].nextaction = chosen_action[0][i]
 
     return chosen_action, chosenQ
 
 
-# takes action as tuple with position-card pair
+# returns state action as numpy array for NN input
 def formalizeStateAction(detstate, actionpos, actioncards):
     vec = []
-    vec = vec + detstate.detectivepos + detstate.detectivecards + detstate.possiblemrx
+    for i in range(0, len(detstate.detectivepos)):
+        vec = vec + detstate.detectivepos[i] + detstate.detectivecards[i]
     vec.append(detstate.revealcountdown)
     vec.append(detstate.gamecountdown)
 
     for i in range(0, len(actionpos)):
-        vec = vec + ( coordinates[actionpos] / longest_path )
+        vec = vec + [ x / longest_path for x in coordinates[actionpos[i]] ]
         if actioncards[i] == 'taxi':
             vec = vec + [0, 0 , 1]
         else:
@@ -136,17 +140,8 @@ def formalizeStateAction(detstate, actionpos, actioncards):
             else:
                 vec = vec + [1, 0, 0]
 
-    return np.array(vec)
 
-    
-
-
-
-
-
-
-
-
+    return np.append(np.array(vec), detstate.possiblemrx)
 
 
 
@@ -197,22 +192,28 @@ def generateMemUnitDet(game):
 
     return memunit
 
-# initialize training variables
+
+""" Testing """
 
 
-def initTrainingConstants(coordinate_anchors, gamesize, det_amount):
-    config = readConfig('MLsettings.ini')
-    SY = ScotlandYard(cfg=config, size=gamesize, numDetectives=det_amount)
+def main():
+    longest_path, coordinates, game = initTrainingConstants(10, 199, 4)
+
     game.addMisterX(misterx.ExampleAIImplementationMisterX(game=game, name="AI Mister X", blackCards=4))
-    game.addDetectives([detAI.AIReinforcementDetective(idNumber=i, game=game) for i in range(det_amount)])
+    # game.addMisterX(randomMrX.ExampleAIImplementationRandomMisterX(name="Random Mr. X", game=game, blackCards=4))
+    game.addDetectives([detAI.AIReinforcementDetective(idNumber=i, game=game) for i in range(4)])
 
-    # load coordinates
-    coord = load(open(f"Distances_A{coordinate_anchors}_s{gamesize}.pickle", "rb"))
+    game.board.assignStartPositions()
+    game.running = True
+    chosen_action, chosenQ = chooseAction(None, game, DetectiveState().extractDetState(game, coordinates, longest_path), 0)
+    print(f'Chosen action: {chosen_action}')
+    print(f'ChosenQ: {chosenQ}')
+    game.update()
 
-    # calculate longest path
-    longest = 0
-    for co in coord:
-        if longest < max(co):
-            longest = max(co)
+    detstate = DetectiveState()
+    detstate.extractDetState(game, coordinates, longest_path)
+    # detstate.display()
 
-    return longest, coord, SY
+
+if __name__ == '__main__':
+    main()
