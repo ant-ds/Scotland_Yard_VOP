@@ -20,23 +20,14 @@ class Board():
     
     def giveStartPosition(self, playertype):
         """
-        Assigns a starting position to all players currently linked to the game.
+        Assigns a starting position to a new player.
         """
-        assignedPositions = []  # Makes sure no two players start on the same spot
-        mrxOptions = [pos for pos in const.START_POSITIONS['mrx'] if pos <= self.size and pos not in assignedPositions]
-
-        pos = random.choice(mrxOptions)
-        self.game.misterx.position = pos
-
-        indices = [i for i in range(len(self.game.detectives))]
-        random.shuffle(indices)
-        detOptions = [pos for pos in const.START_POSITIONS['detectives'] if pos <= self.size and pos not in assignedPositions]
-        for i in indices:  # Randomly shuffled detectives (indices)
-            pos = random.choice(detOptions)
-            assignedPositions.append(pos)
-            self.game.detectives[i].position = pos
-            # recalculate options (avoids while loop and unnecessary trying which could occur for a small sized board)
-            detOptions = [pos for pos in const.START_POSITIONS['detectives'] if pos <= self.size and pos not in assignedPositions]
+        if 'detective' in playertype.__name__.lower():
+            playertype = 'detectives'
+        elif 'misterx' in playertype.__name__.lower():
+            playertype = 'mrx'
+        else:  # temporary
+            raise ValueError("Jonas lets you know that your Player class was maybe not correctly recognized. Please send him a message or fix it yourself :)")
         
         pos = random.choice(const.START_POSITIONS[playertype])
 
