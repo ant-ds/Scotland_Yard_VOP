@@ -25,6 +25,8 @@ class ScotlandYard():
 
         self.gui = None  # Gui can be added later if a one is available
         self.config = cfg
+        self.verbose = self.config['OUTPUT'].getboolean('verbose')
+        self.visualize = self.config['OUTPUT'].getboolean('visualization')
 
         self.timeAtStart = datetime.datetime.now()
         self.run = 0
@@ -125,14 +127,6 @@ class ScotlandYard():
         np.save(filepath, data)
 
         self.print_("Done saving game data.")
-    
-    @property
-    def verbose(self):
-        return self.config['OUTPUT'].getboolean('verbose')
-
-    @property
-    def visualize(self):
-        return self.config['OUTPUT'].getboolean('visualization')
 
     @property
     def turn(self):
