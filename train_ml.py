@@ -1,9 +1,10 @@
 # Training NN
 # 1 Init replay memory capacity
-# 2 Init NN with random weights, specify loss
-# 3 Clone NN, call it the "target" network
-# 4 For each episode:
-#     - init game
+# 2 Init game
+# 3 Init NN with random weights, specify loss
+# 4 Clone NN, call it the "target" network
+# 5 For each episode:
+#     - reset game
 #     - for each time step:
 #         * select action: epsilon-greedy
 #         * execute action and observe Rt+1 and St+1
@@ -14,206 +15,129 @@
 #         * gradient descent updates weights in NN
 #         * after x time steps: update weights in target network
 
-from game.game import ScotlandYard
-from game.util import readConfig
 from ai.human import misterx
 import ai.ml.detective as detAI
+from ai.ml.mlutils import chooseAction, formalizeStateAction, initTrainingConstants, generateMemUnitDet
 import game.constants as const
 from detectivestate import DetectiveState
+from ai.ml.models.densemodel import newDenseModel
 
-from pickle import load
 import numpy as np
-#import tensorflow.keras as ks
-from itertools import product
+from random import sample
+import time
+import tensorflow.keras as ks
 
-# Parameters
-episodes = 0
-timesteps = 0
+# Game parameters
 coordinate_anchors = 10
 gamesize = 199
 det_amount = 4
 
-# Constants
-def initTrainingConstants(coordinate_anchors, gamesize, det_amount):
-    config = readConfig('MLsettings.ini')
-    game = ScotlandYard(cfg=config, size=gamesize, numDetectives=det_amount)
-    game.addMisterX(misterx.ExampleAIImplementationMisterX(game=game, name="AI Mister X", blackCards=4))
-    game.addDetectives([detAI.AIReinforcementDetective(idNumber=i, game=game) for i in range(det_amount)])
-
-    # load coordinates
-    coord = load(open(f"Distances_A{coordinate_anchors}_s{gamesize}.pickle", "rb"))
-
-    # calculate longest path
-    longest = 0
-    for co in coord:
-        if longest < max(co):
-            longest = max(co)
-
-    return longest, coord, game
-longest_path, coordinates, game = initTrainingConstants(coordinate_anchors, gamesize, det_amount)   # for normalization
-targetmodel = None
+# Hyperparameters
+epsilon = 1
+learning_rate = 0.001
+gamma = 0.99            # MDP discount parameter
+target_upd_cycles = 5   # amount of NN trainings before target NN gets updated
+episodes = 2
+warmup_capacity = 100  # amount of memory units to generate before starting to train
+batch_size = 64
+training_period = 4     # amount of games to play before 1 NN training
 
 
 
+# 1 Initialize game
+longest_path, coordinates, game = initTrainingConstants(coordinate_anchors, gamesize, det_amount)
 
+# 2 Initialize NN
+model = newDenseModel(305, [64, 64, 32])
+NAME = f'DetDense{[64, 64, 32]}_{int(time.time())}'
+tensorboard = ks.callbacks.TensorBoard(log_dir=f'tensorboardlogs/{NAME}')
 
+# 3 Clone NN = targetNN
+targetNN = newDenseModel(305, [64, 64, 32])
+targetNN.set_weights(model.get_weights())
 
-# 1 Initialize replay memory capacity
+# 4 Initialize replay memory capacity
 memory = []
+print('Warming up memory')
+while(len(memory) < warmup_capacity):
+    print(f'Memory capacity: {len(memory)}')
+    _, _, game = initTrainingConstants(coordinate_anchors, gamesize, det_amount)    #game.reset()  # TODO
+    game.board.assignStartPositions()
+
+    game_done = False
+    while(not game_done):
+         memunit, game_done = generateMemUnitDet(model, game, epsilon, coordinates, longest_path)
+         memory.append(memunit)
+
+memory[0].display()
+memory[1].display()
+memory[30].display()
 
 
 
 
-# action: hier soort pseudo decide uitvoeren voor alle detectives (Q value)
+# 5 Training
+print('Start training')
+for i in range(0, episodes):
+    print(f'Episode {i}')
+    # play game
+    for _ in range(0, training_period):
 
+        # reset game
+        _, _, game = initTrainingConstants(coordinate_anchors, gamesize, det_amount)    #game.reset()  # TODO
+        game.board.assignStartPositions()
 
+        game_done = False
+        while(not game_done):
+            memunit, game_done = generateMemUnitDet(model, game, epsilon, coordinates, longest_path)
+            memory.append(memunit)
 
+    # sample batch and preprocess
+    sam = sample(memory, batch_size)
+    batch = [formalizeStateAction(s.currDetState, s.action, longest_path, coordinates) for s in sam]
+    target_batch = []
+    for s in sam:
+        _, targetQ = chooseAction(targetNN, s.nextPossActions, s.nextDetState, 0, longest_path, coordinates)
+        target_batch.append(s.reward + gamma * targetQ)
 
+    # pass batch to NN and update weights
+    model.fit(batch, target_batch, batch_size=batch_size, epochs=1, callbacks=[tensorboard], verbose=2)
 
-
-
-
-
-print('Training is over')
-
-
-
-
-
-
-
-
-
-def chooseAction(model, game, detstate, epsilon):
-    # get all actions
-    # epsilon-greedy
-    # vectorize data
-    # get Q values with model.predict
-    # set action in detectives
-    # return action
-
-    chosen_action = None
-    chosenQ = 0
-    
-    # possible action for each detective
-    poss_det_action = [game.board.getOptions(detective, doubleAllowed = False) for detective in game.detectives]
-    possible_actions = list(zip(product(*poss_det_action)))
-    # filter actions with non-unique position combinations
-    possible_actions = [action for action in possible_actions if len([act[0] for act in action]) == len(set([act[0] for act in action]))]
-    if np.random.uniform() <= epsilon:
-        chosen_action = possible_actions[np.random.randint(0, len(possible_actions) - 1)]
-        chosenQ = model.predict(formalizeStateAction(detstate, [act[0] for act in chosen_action[0]], [act[1] for act in chosen_action[0]]))
-    
-    else:
-        # bereken Q value voor elke mogelijke actie
-        # maak functie die DetectiveState en actie neemt en omzet in goede vorm
-        Qvalues = []
-        for action in possible_actions:
-            inputvec = formalizeStateAction(detstate, [ act[0] for act in action[0]], [ act[1] for act in action[0]])
-            #Qvalues.append(model.predict(inputvec))
-            #print(f'inputvec: {inputvec}')
-            Qvalues = [i for i in range(0, len(possible_actions))]
-        chosenQ = max(Qvalues)
-        chosen_action = possible_actions[Qvalues.index(chosenQ)]
-
-    for i in range(0, len(game.detectives)):
-        game.detectives[i].nextaction = chosen_action[0][i]
-
-    return chosen_action, chosenQ
-
-
-# returns state action as numpy array for NN input
-def formalizeStateAction(detstate, actionpos, actioncards):
-    vec = []
-    for i in range(0, len(detstate.detectivepos)):
-        vec = vec + detstate.detectivepos[i] + detstate.detectivecards[i]
-    vec.append(detstate.revealcountdown)
-    vec.append(detstate.gamecountdown)
-
-    for i in range(0, len(actionpos)):
-        vec = vec + [ x / longest_path for x in coordinates[actionpos[i]] ]
-        if actioncards[i] == 'taxi':
-            vec = vec + [0, 0 , 1]
-        else:
-            if actioncards[i] == 'bus':
-                vec = vec + [0, 1, 0]
-            else:
-                vec = vec + [1, 0, 0]
-
-
-    return np.append(np.array(vec), detstate.possiblemrx)
-
-
-
-
-
-
-# formalize game state, action, reward and following state
-def generateMemUnitDet(game):
-    memunit = []
-
-    ## Game state
-    # detectives and their transport cards
-    for det in range(0, game.numDetectives):
-        detposition = coordinates[det.position] / longest_path  # normalize coordinates
-        memunit.append(detposition)
-        memunit.append(det.cards['underground'] / 4)
-        memunit.append(det.cards['bus'] / 8)
-        memunit.append(det.cards['taxi'] / 11)
+    if i % target_upd_cycles == 0:
+        targetNN.set_weights(model.get_weights())
 
     
-    # Reveal countdown
-    revealcountdown = -1
-    for i in const.MRX_OPEN_TURNS[:-1]:
-        revealcountdown = i - len(game.misterx.history)
-        if revealcountdown >= 0:
-            break
-
-    # Wanneer de laatste reveal geweest is,
-    # wordt de teller altijd op 4 (= maximale tellerwaarde) gezet
-    # zodat de detectives altijd de indruk hebben dat de reveal nog ver weg is
-    # en dus moeten ze blijven jagen op mister X.
-    # 4 is wordt als maximum genomen zodanig dat genormaliseerd kan worden
-    if revealcountdown < 0:
-        revealcountdown = 4
-    memunit.append(revealcountdown / 4)
-
-    # add countdown to end of game
-    memunit.append((game.turns - len(game.misterx.history)) / game.turns)
-
-    # Mr X possible positions
-    ## TODO: posvector is een numpy array! let op met appenden aan memunit
-    possiblepos = game.board.possibleMisterXPositions()
-    origposvector = np.zeros(1, len(possiblepos))
-    for i in range(0, len(possiblepos)):
-            origposvector[possiblepos[i]] = 1
+model.save(f'ai/ml/models/{NAME}')
 
 
 
-    return memunit
+
 
 
 """ Testing """
 
 
-def main():
-    longest_path, coordinates, game = initTrainingConstants(10, 199, 4)
+# def main():
+#     longest_path, coordinates, game = initTrainingConstants(10, 199, 4)
 
-    game.addMisterX(misterx.ExampleAIImplementationMisterX(game=game, name="AI Mister X", blackCards=4))
-    # game.addMisterX(randomMrX.ExampleAIImplementationRandomMisterX(name="Random Mr. X", game=game, blackCards=4))
-    game.addDetectives([detAI.AIReinforcementDetective(idNumber=i, game=game) for i in range(4)])
+#     game.addMisterX(misterx.ExampleAIImplementationMisterX(game=game, name="AI Mister X", blackCards=4))
+#     game.addDetectives([detAI.AIReinforcementDetective(idNumber=i, game=game) for i in range(4)])
 
-    game.board.assignStartPositions()
-    game.running = True
-    chosen_action, chosenQ = chooseAction(None, game, DetectiveState().extractDetState(game, coordinates, longest_path), 0)
-    print(f'Chosen action: {chosen_action}')
-    print(f'ChosenQ: {chosenQ}')
-    game.update()
+#     game.board.assignStartPositions()
+#     game.running = True
+#     poss_det_action = [game.board.getOptions(detective, doubleAllowed = False) for detective in game.detectives]
 
-    detstate = DetectiveState()
-    detstate.extractDetState(game, coordinates, longest_path)
-    # detstate.display()
+#     chosen_action, chosenQ = chooseAction(None, poss_det_action, DetectiveState().extractDetState(game, coordinates, longest_path), 0, longest_path, coordinates)
+#     #print(f'Chosen action: {chosen_action}')
+#     #print(f'ChosenQ: {chosenQ}')
+#     for i in range(0, len(game.detectives)):
+#         game.detectives[i].nextaction = chosen_action[i]
+#     game.update()
+
+#     detstate = DetectiveState()
+#     detstate.extractDetState(game, coordinates, longest_path)
+#     # detstate.display()
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()

@@ -7,4 +7,6 @@ class AIReinforcementDetective(Detective):
 
     # return node:int, transportation:string
     def decide(self):
+        if self.nextaction[1] is None:
+            return None, None
         return self.nextaction        

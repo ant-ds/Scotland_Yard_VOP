@@ -18,77 +18,24 @@ class MemUnitDet():
     """
     def __init__(self):
         # current state
-        self.currDetState = DetectiveState()
+        self.currDetState = None
 
         # action
-        self.actionpos = []
-        self.actioncards = []   # holds one hot vectors with transport
+        self.action = []
 
         # reward
         self.reward = 0
 
         # next state
-        self.nextDetState = DetectiveState()
+        self.nextDetState = None
 
-    def generateData(self, game, coordinates, longest_path):
-
-        # set current state
-        self.currDetState.extractDetState(game, coordinates, longest_path)
-
-        ended, statuscode = game.update()
-
-        # assign action
-
-
-
-
-
-        
-
-        # assign reward (if game didn't end: reward remains 0)
-        if ended:
-            if statuscode >= 0:
-                self.reward = 100
-            else:
-                self.reward = -100
-
-        # set following state
-        self.nextDetState.extractDetState(game, coordinates, longest_path)
-        return ended
-
-    def toNNVector(self):
-        """
-        Returns numpy array with the current detective state and the action
-        Can be used as input for the NN
-        """
-        vec = []
-
-        # detective positions
-        for d in self.currDetState.detectivepos:
-            for co in d:
-                vec.append(co)
-        
-        # detective cards
-        for d in self.currDetState.detectivecards:
-            vec.append(d[0])
-            vec.append(d[1])
-            vec.append(d[2])
-        
-        # detective reveal, gamecountdown
-        vec.append(self.currDetState.revealcountdown)
-        vec.append(self.currDetState.gamecountdown)
-
-        # action
-        for d in self.actionpos:
-            for co in d:
-                vec.append(co)
-        for d in self.actioncards:
-            vec.append(d[0])
-            vec.append(d[1])
-            vec.append(d[2])
-
-        # convert to numpy array and append possible positions for mrx (= one hot np arr)
-        vec = np.array(vec)
-        np.append(vec, self.currDetState.possiblemrx)
-
-        return vec
+        # actions possible in next state
+        self.nextPossActions = []
+    
+    def display(self):
+        print('Displaying MemUnitDet')
+        self.currDetState.display()
+        print(f'Action: {self.action}')
+        print(f'Reward: {self.reward}')
+        self.nextDetState.display()
+        print(f'Action: {self.nextPossActions}')

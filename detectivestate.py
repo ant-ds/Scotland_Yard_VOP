@@ -27,9 +27,9 @@ class DetectiveState():
 
     def extractDetState(self, game, coordinates, longest_path):
 
+        self.detectivepos = [d.position for d in game.detectives]
+
         for det in game.detectives:
-            # normalize coordinates
-            self.detectivepos.append([x / longest_path for x in coordinates[det.position]])
             self.detectivecards.append([det.cards['underground'] / 4, det.cards['bus'] / 8, det.cards['taxi'] / 11])
 
         # Reveal countdown
