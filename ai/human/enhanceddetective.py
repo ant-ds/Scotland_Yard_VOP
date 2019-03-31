@@ -87,7 +87,7 @@ class ExampleAIImplementationDetective(Detective):
         #     self.futureNodes[i].append(decision[0])
         #     self.futureTransports[i].append(decision[1])
 
-    def encircle(self):
+    def encircle(self, decisiondepth=1):
         def validateOptionSet(optionset: list) -> bool:
             """
             Validate a set of options for detectives:
@@ -98,47 +98,45 @@ class ExampleAIImplementationDetective(Detective):
                 if ends.count(end) > 1:
                     return False
             return True
-        
-        print("---Encircle algo---")
-        fullOptions = []  # create a list containing all lists of options per detecive
-        for i, det in enumerate(self.game.detectives):
-            ops = self.game.board.getOptions(det)
-            if ops == []:
-                ops = [(None, None)]
-            fullOptions.append(ops)
-        crossproduct = list(itertools.product(*fullOptions))  # Giant crossproduct of all possible options
-        del fullOptions
-        print(f"Analyzing entropy of {len(crossproduct)} possible situations")
-        # Search for set of options giving the lowest entropy in the next turn
-        # For now only looking at the next turn, not further ahead
-        bestEntropy = None
-        bestIndex = 0
-        clone = self.game.clone()  # Clone the current game instance
-        for i, options in enumerate(crossproduct):
-            if not validateOptionSet(options):
-                continue
-            
-            for j, det in enumerate(clone.detectives):  # Manually create new moves that change the entropy of the current state
-                if options[j] != (None, None):
-                    if i == 0:
-                        # Add new history to the cloned game
-                        det.history.append(options[j])
-                        det.position = options[j][-1]
-                    else:
-                        # Overwrite previously written 'last move'
-                        det.history[-1] = options[j]
-                        det.position = options[j][-1]
 
-            entropy = clone.board.mrxEntropy()  # Calculate the entropy
-            if bestEntropy is None or entropy < bestEntropy:  # Search minimal entropy
-                bestEntropy = entropy
-                bestIndex = i
+        def search(game, moves=[], depth=0):
+            if depth == 0:
+                return [(game.board.mrxEntropy(), moves)]
+            fullOptions = []  # create a list containing all lists of options per detecive
+            for i, det in enumerate(game.detectives):
+                ops = game.board.getOptions(det)
+                if ops == []:
+                    ops = [(None, None)]
+                fullOptions.append(ops)
+            crossproduct = list(itertools.product(*fullOptions))  # Giant crossproduct of all possible options
+            self.print_(f"Added fan-out of {len(crossproduct)} on level {depth}")
+
+            results = []
+            clone = game.clone()
+            origDets = [d for d in clone.detectives]
+            origMrx = clone.misterx.clone()
+            clone.verbose = False
+            for options in crossproduct:
+                if not validateOptionSet(options):
+                    continue
+                for j, det in enumerate(clone.detectives):  # Manually create new moves that change the entropy of the current state
+                    clone.detectives[j] = origDets[j].clone()
+                    clone.board.movePlayer(clone.detectives[j], options[j][0], options[j][1])
+                    if depth == decisiondepth:
+                        # Only save the first moves, rest is used to simulate the future
+                        moves = options
+                clone.misterx.update()    
+                results += search(clone, moves, depth=depth - 1)
+                clone.misterx = origMrx.clone()
+            return results
+
+        self.print_("---Encircle algo---")
+        bestEntropy, bestMove = min(search(self.game, depth=decisiondepth), key=lambda x: x[0])
         # Assign best option's positions to futurenodes/transports
-        print(f"Best move for lowering the entropy: {crossproduct[bestIndex]}\nGives a resulting entropy of {bestEntropy}")
-        for i, move in enumerate(crossproduct[bestIndex]):
+        self.print_(f"Best move for lowering the entropy: {bestMove}\nGives a resulting entropy of {bestEntropy}")
+        for i, move in enumerate(bestMove):
             self.futureNodes[i].append(move[0])
             self.futureTransports[i].append(move[1])
-        del crossproduct
 
     def broaden(self):
         print("---Broaden algo---")
