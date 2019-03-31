@@ -111,8 +111,8 @@ class MainReplayWidget(QtWidgets.QWidget):
             self.mrx_toggle_button.stateChanged.connect(self.toggle_misterx)
             hboxLayout.addWidget(self.mrx_toggle_button)
 
-            self.mrx_possible_toggle_button = QtWidgets.QCheckBox("Mister X Possible Positions")
-            self.drawPossibleMrxPos = False
+            self.mrx_possible_toggle_button = QtWidgets.QCheckBox("Hide Mister X Possible Positions")
+            self.drawPossibleMrxPos = True
             self.mrx_possible_toggle_button.stateChanged.connect(self.toggle_misterx_possible)
             hboxLayout.addWidget(self.mrx_possible_toggle_button)
 
@@ -250,11 +250,26 @@ class MainReplayWidget(QtWidgets.QWidget):
             else:
                 hist.append(move)
         game.misterx.history = hist
+        game.misterx.doubleMoves = [i for i in self.data[1][1] if i in range(len(hist))]
         for i, d in enumerate(game.detectives):
             d.position = self.positions[i + 1]
+            for dIdx in range(1, len(game.detectives) + 1):
+                numMovesDone = self.indices[dIdx]
+                hist = []
+                for i in range(numMovesDone + 1):
+                    move = self.totalHistory[dIdx][i]
+                    if len(move) == 2:
+                        # Double move
+                        for i in range(2):
+                            hist.append(move[i])
+                    else:
+                        hist.append(move)
+                game.detectives[dIdx - 1].history = hist
+            """if len(hist) == self.previousHistLengths[i]:
+                d._defeated()"""
         
-        self.possibleMrxPos = game.board.possibleMisterXPositions()
-        print(f"After the following moves: {game.misterx.history}; We have a chance to find Mr. X at the following locations {self.possibleMrxPos}")
+        self.possibleMrxPos, _ = game.board.possibleMisterXPositions(returnProbabilities=True)
+        # print(f"After the following moves: {game.misterx.history}; We have a chance to find Mr. X at the following locations {self.possibleMrxPos}")
 
     def toggle_misterx_possible(self):
         self.drawPossibleMrxPos = not self.drawPossibleMrxPos

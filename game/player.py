@@ -1,4 +1,5 @@
 import re
+import copy
 
 
 class Player():
@@ -6,13 +7,17 @@ class Player():
         self.name = name
         self.game = game
 
-        self.position = None  # self.game.board.giveStartPosition(type(self))
+        if self.game.isclone:
+            self.position = None
+        else:
+            self.position = self.game.board.giveStartPosition(type(self))
         
         self.cards = {
             'bus': busCard,
             'taxi': taxiCard,
             'underground': undergroundCard,
         }
+        self.originalCards = copy.deepcopy(self.cards)
 
         self.history = []  # format: (startPosition, transport, destination)
         self.defeated = False
@@ -116,9 +121,34 @@ class Player():
     def _printCards(self):
         "Displays the cards this player is currently in possession of."
         self.game.print_(self.cards)
-    
+
     def __str__(self):
         return self.name
 
     def print_(self, msg):
         self.game.print_(msg)
+
+    def overwriteCards(self, cards: dict):
+        d = {}
+        for k, v in cards.items():
+            d[k] = v
+        self.cards = d
+
+    def cloneFrom(self, old):
+        # Overwrite all fields
+        self.game = old.game
+        self.name = old.name
+        self.position = old.position
+        self.overwriteCards(old.cards)
+        self.history = [tuple([h for h in move]) for move in old.history]
+
+    def clone(self):
+        new = Player(self.game, self.name, self.cards['bus'], self.cards['taxi'], self.cards['underground'])
+        new.cloneFrom(self)
+        return new
+
+    def reset(self):
+        self.cards = copy.deepcopy(self.originalCards)
+        self.history = []
+        self.position = self.game.board.giveStartPosition(type(self))
+        self.defeated = False

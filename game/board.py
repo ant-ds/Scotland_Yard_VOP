@@ -1,4 +1,5 @@
 import random
+from math import log2
 
 from game.misterx import MisterX
 
@@ -12,7 +13,12 @@ class Board():
         self.game = game
         self.graph = util.createGraph(size)
 
-    def assignStartPositions(self):
+        self._usedStartingPositions = []  # Makes sure no two players start on the same spot
+
+    def reset(self):
+        self._usedStartingPositions = []
+    
+    def giveStartPosition(self, playertype):
         """
         Assigns a starting position to all players currently linked to the game.
         """
@@ -32,7 +38,20 @@ class Board():
             # recalculate options (avoids while loop and unnecessary trying which could occur for a small sized board)
             detOptions = [pos for pos in const.START_POSITIONS['detectives'] if pos <= self.size and pos not in assignedPositions]
         
-        self.print_(f"Starting Positions: Mister X: {self.game.misterx.position}; Detectives: {[d.position for d in self.game.detectives]}")
+        pos = random.choice(const.START_POSITIONS[playertype])
+
+        while pos in self._usedStartingPositions:
+            pos = random.choice(const.START_POSITIONS[playertype])
+        self._usedStartingPositions.append(pos)
+        return pos
+
+    def getTransport(self, node):
+        "Returns a list of transport options leaving a given node"
+        transports = set()
+        for nbr in self.graph[node]:
+            for k, transportDict in self.graph.get_edge_data(node, nbr).items():  # edge data is a dict of dicts
+                transports.add(transportDict['transport'])
+        return list(transports)
     
     def getOptions(self, player, customStartPosition=None, doubleAllowed=True):
         """
@@ -73,6 +92,7 @@ class Board():
         return options
 
     def getOccupiedPositions(self):
+        "Returns currently occupied positions"
         positions = [self.game.misterx.position]
         positions += [d.position for d in self.game.detectives]
         return positions
@@ -95,7 +115,14 @@ class Board():
         options = self.getOptions(player)
         tup = (destination, transport)
         if not util.isOption(options, tup):
-            return False, f"{tup} was not an option in {options}"
+            # return False, f"{tup} was not an option in {options}"
+            # Suggestie om een random move te doen zodat het proces niet exit bij problemen, maar ze wel meldt
+            print("WARNING:: The proposed move was invalid, continuing with a random move!!")
+            random.shuffle(options)
+            for op in options:
+                if self.movePlayer(player, op[0], op[1])[0] is True:
+                    return True, None
+            return None, None  # speler heeft geen opties meer
         
         # Is the destination not occupied by a detective?
         if destination in [d.position for d in self.game.detectives]:
@@ -156,45 +183,137 @@ class Board():
                 player.position = move[0]
                 player.cards[transport] += 1
     
-    def possiblePositions(self, start, moves=[]):
+    def possiblePositions(self, start, moves=[], occupied=None, refuseCurrent=False, returnProbabilities=False, startprob=1):
         """
         Returns a list of possible locations a player could have moved to with the given
         list containing means of transport used.
         """
         options = [start]
-        for move in moves:
+        probs = {start: startprob}
+        for i, move in enumerate(moves):
             newOptions = []  # new list of possible locations
+            newProbs = {}
+            
             for position in options:
+                if occupied is not None and position in occupied[i]:
+                    # "Rejected {position} as a position of further exploration"
+                    if i > 0:
+                        occupied[i - 1].append(position)
+                        return self.possiblePositions(
+                            start, 
+                            moves=moves, 
+                            occupied=occupied, 
+                            refuseCurrent=refuseCurrent, 
+                            returnProbabilities=returnProbabilities, 
+                            startprob=startprob
+                        )
+                    continue
+                
+                nbrs = []
                 for nbr in self.graph[position]:
                     for k, transportDict in self.graph.get_edge_data(position, nbr).items():  # edge data is a dict of dicts
                         transport = transportDict['transport']
                         if move == transport or move == 'black':  # black move could be any move
-                            newOptions.append(nbr)
-            options = list(set(newOptions))  # eliminate doubles for performance
+                            if occupied is None or nbr not in occupied[i]:
+                                if refuseCurrent is False or not (i == len(moves) - 1 and nbr in [d.position for d in self.game.detectives]):
+                                    nbrs.append(nbr)
+                newOptions += nbrs
+                for nbr in nbrs:
+                    if nbr not in newProbs.keys():
+                        newProbs[nbr] = 0
+                    newProbs[nbr] += probs[position] * 1.0 / float(len(nbrs))
+            
+            options = list(set(newOptions))  # eliminate doubles each iteration
+            probs = util.dictMergeAdd(newProbs, {})
         
+        if returnProbabilities:
+            return sorted(options), probs
         return sorted(options)  # sort in ascending order
 
-    def possibleMisterXPositions(self):
+    def possibleMisterXPositions(self, returnProbabilities=False):
+        """
+        Returns a list of possible locations Mister X could be hiding.
+        The parameter returnProbabilities enables the return of a dict
+        mapping each option to its probability of being occupied.
+        """
+        # TODO: handle deaths and look into weird behaviour after a few reveals
+        def getprohibited(start):
+            prohibited = []
+            for d in self.game.detectives:
+                try:
+                    if d.defeated:
+                        # necessary? TODO
+                        continue
+                    if len(d.history) == start:
+                        if start == 0:
+                            dpositions = [d.position]
+                        else:
+                            dpositions = [d.history[-1][-1]]
+                        """<<-- elif len(d.history) == start - 1:
+                            print("elif case!")
+                            dpositions = [d.history[-1][-1]]"""
+                    else:
+                        dpositions = [d.history[start][0]]
+                        dpositions += [h[-1] for h in d.history[start:]]
+                except Exception as e:
+                    # TODO: should be deleted after proper testing
+                    print(f"{d}'s history: {d.history}")
+                    print(f"Start: {start}")
+                    print(vars(d))
+                    raise e
+                for i, p in enumerate(dpositions):
+                    if len(prohibited) == i:
+                        prohibited.append([])
+                    prohibited[i].append(p)
+            # Account for double moves, where the prohibited positions should be duplicated
+            for double in mrx.doubleMoves:
+                i = double - start - len(mrx.doubleMoves)
+                if i >= 0:
+                    prohibited.insert(i, prohibited[i])
+            return prohibited
+
         mrx = self.game.misterx
+        turn = len(mrx.history)  # current turn
         start = mrx.lastKnownPosition
         options = []
+        probabilities = {}
 
         if start is None:
+            # No reveal has yet happened
             moves = [hist[1] for hist in mrx.history]
+            prohibited = getprohibited(0)
             for s in const.START_POSITIONS['mrx']:
-                options += self.possiblePositions(s, moves=moves)
-            return sorted(list(set(options)))  # sort in ascending order and make unique
-        
-        sliceStart = 0
+                newops, probs = self.possiblePositions(
+                    s, 
+                    moves=moves, 
+                    occupied=prohibited,
+                    refuseCurrent=True,
+                    returnProbabilities=True, 
+                    startprob=1.0 / float(len(const.START_POSITIONS['mrx']))
+                )
+                options += newops
+                probabilities = util.dictMergeAdd(probabilities, probs)
+            options = sorted(list(set(options)))  # make unique and sort in ascending order
+        else:
+            # Look up the most recent reveal and slice the history accordingly
+            sliceStart = max([i for i in const.MRX_OPEN_TURNS if i <= turn])
+            moves = [hist[1] for hist in mrx.history[sliceStart:]]
+            prohibited = getprohibited(sliceStart - len(mrx.doubleMoves))  # Account for double moves disrupting the indices
+            options, probabilities = self.possiblePositions(
+                start, 
+                moves=moves, 
+                occupied=prohibited,
+                refuseCurrent=True,
+                returnProbabilities=True
+            )
+        if returnProbabilities:
+            return options, probabilities
+        return options
 
-        for i in const.MRX_OPEN_TURNS:
-            try:
-                _ = mrx.history[i - 1][2]  # history has format (start, transport, dest)
-                sliceStart = i
-            except IndexError:  # once index too high, return last confirmed value
-                break
-        moves = [hist[1] for hist in mrx.history[sliceStart:]]
-        return self.possiblePositions(start, moves=moves)
-
-    def print_(self, msg):
-        self.game.print_(msg)
+    def mrxEntropy(self):
+        _, probabilities = self.possibleMisterXPositions(returnProbabilities=True)
+        probabilities = list(probabilities.values())
+        entropy = 0.0
+        for p in probabilities:
+            entropy -= p * log2(p)
+        return entropy
