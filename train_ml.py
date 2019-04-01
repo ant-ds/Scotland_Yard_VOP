@@ -35,6 +35,7 @@ det_amount = 4
 # Hyperparameters
 epsilon = 1
 learning_rate = 0.001
+lr_decay = 1e-7         # rather low because model.fit will be called very often with little input
 gamma = 0.99            # MDP discount parameter
 target_upd_cycles = 5   # amount of NN trainings before target NN gets updated
 episodes = 2
@@ -48,12 +49,12 @@ training_period = 4     # amount of games to play before 1 NN training
 longest_path, coordinates, game = initTrainingConstants(coordinate_anchors, gamesize, det_amount)
 
 # 2 Initialize NN
-model = newDenseModel(305, [64, 64, 32])
+model = newDenseModel(305, [64, 64, 32], learning_rate, lr_decay)
 NAME = f'DetDense{[64, 64, 32]}_{int(time.time())}'
 tensorboard = ks.callbacks.TensorBoard(log_dir=f'tensorboardlogs/{NAME}')
 
 # 3 Clone NN = targetNN
-targetNN = newDenseModel(305, [64, 64, 32])
+targetNN = newDenseModel(305, [64, 64, 32], learning_rate, lr_decay)
 targetNN.set_weights(model.get_weights())
 
 # 4 Initialize replay memory capacity

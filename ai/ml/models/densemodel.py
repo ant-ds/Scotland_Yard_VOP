@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-def newDenseModel(inputsize, layer_sizes):
+def newDenseModel(inputsize, layer_sizes, init_lr, lr_decay):
     """
     Function returning a basic NN with the following layers:
     """
@@ -13,7 +13,8 @@ def newDenseModel(inputsize, layer_sizes):
 
     model.add(tf.keras.layers.Dense(1))
     model.add(tf.keras.layers.LeakyReLU(alpha=0.3))
-    model.compile(loss='mse', optimizer='adam')
+    opt = tf.keras.optimizers.Adam(lr=init_lr, decay=lr_decay)
+    model.compile(loss='mse', optimizer=opt)
 
     return model
     
