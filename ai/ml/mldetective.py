@@ -19,7 +19,8 @@ class AIModelDetective(Detective):
         # choose actions for all detectives
         # assign actions to other detectives
         # return own chosen action
-        if self.game.detectives[0] != self:
+        idxFirstAlive = min([i for i, det in enumerate(self.game.detectives) if not det.defeated])
+        if self.game.detectives[idxFirstAlive] != self:
             if self.nextaction[1] is None:
                 return None, None
             else:
