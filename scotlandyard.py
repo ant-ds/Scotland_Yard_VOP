@@ -6,7 +6,7 @@ from ai.human import misterx, enhanceddetective
 
 import display.gui as gui
 import ai.random.misterx as randomMrX
-# import ai.random.detective as randomDetective
+import ai.random.detective as randomDetective
 from ai.ml.mldetective import AIModelDetective
 import game.util as util
 from pickle import load
@@ -31,7 +31,17 @@ def main(args):
 
     # game.addDetectives([detective.ExampleAIImplementationDetective(idNumber=i, game=game) for i in range(4)])
     # game.addDetectives([randomDetective.ExampleAIImplementationRandomDetective(idNumber=i, game=game) for i in range(4)])
-    game.addDetectives([AIModelDetective(idNumber=i, game=game, longest_path=longest_path, coordinates=coordinates, modelname='ai/ml/models/DetDense[64, 64, 32]_test') for i in range(4)])
+    game.addDetectives(
+        [
+            AIModelDetective(
+                idNumber=i,
+                game=game,
+                longest_path=longest_path,
+                coordinates=coordinates,
+                modelname='ai/ml/models/DetDense[64, 64, 32]_test') 
+            for i in range(4)
+        ]
+    )
     
     for i in range(runs):
         if config['OUTPUT'].getboolean('visualization'):

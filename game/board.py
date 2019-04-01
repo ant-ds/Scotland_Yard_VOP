@@ -240,9 +240,9 @@ class Board():
                             dpositions = [d.position]
                         else:
                             dpositions = [d.history[-1][-1]]
-                        """<<-- elif len(d.history) == start - 1:
-                            print("elif case!")
-                            dpositions = [d.history[-1][-1]]"""
+                    elif len(d.history) == start - 1:
+                        print("elif case!")
+                        dpositions = [d.history[-1][-1]]
                     else:
                         dpositions = [d.history[start][0]]
                         dpositions += [h[-1] for h in d.history[start:]]
