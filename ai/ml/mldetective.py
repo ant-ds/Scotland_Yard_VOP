@@ -30,4 +30,7 @@ class AIModelDetective(Detective):
             actions, _ = chooseAction(self.model, poss_det_action, detstate, 0, self.longest_path, self.coordinates)
             for i in range(0, len(self.game.detectives)):
                 self.game.detectives[i].nextaction = actions[i]
-            return self.nextaction
+            if self.nextaction[1] is None:
+                return None, None
+            else:
+                return self.nextaction

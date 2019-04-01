@@ -66,7 +66,7 @@ def chooseAction(model, poss_det_action, detstate, epsilon, longest_path, coordi
             chosen_action = possible_actions[0]
         chosenQ = model.predict(formalizeStateAction(detstate, chosen_action[0], longest_path, coordinates))
 
-    else:
+    else:   # exploitation
         # bereken Q value voor elke mogelijke actie
         Qvalues = []
         for action in possible_actions:
