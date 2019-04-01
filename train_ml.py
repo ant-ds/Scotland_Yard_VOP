@@ -73,9 +73,6 @@ memory[0].display()
 memory[1].display()
 memory[30].display()
 
-
-
-
 # 5 Training
 print('Start training')
 for i in range(0, episodes):

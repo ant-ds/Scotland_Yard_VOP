@@ -60,7 +60,8 @@ def chooseAction(model, poss_det_action, detstate, epsilon, longest_path, coordi
     # possible action for each detective
     possible_actions = list(zip(product(*poss_det_action)))
     # filter actions with non-unique position combinations
-    possible_actions = [action for action in possible_actions if len([act for act in action[0]]) == len(set([act for act in action[0]]))]
+    print(f'Sample poss destination:{possible_actions[0][0][0][0]}')
+    possible_actions = [action for action in possible_actions if len([act[0] for act in action[0]]) == len(set([act[0] for act in action[0]]))]
     if np.random.uniform() <= epsilon: # exploration
         print(f'amount of possible together actions: {len(possible_actions)}')
         for j in range(0, min(3, len(possible_actions))):
