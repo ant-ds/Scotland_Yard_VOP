@@ -29,16 +29,16 @@ gamesize = 199
 det_amount = 4
 
 # Hyperparameters
-epsilon = 0.35
-learning_rate = 0.001
+epsilon = 0.4
+learning_rate = 0.005
 lr_decay = 1e-7         # rather low because model.fit will be called very often with little input
 gamma = 0.99            # MDP discount parameter
 
 target_upd_cycles = 5   # amount of NN trainings before target NN gets updated
-episodes = 400
+episodes = 25
 warmup_capacity = 150  # amount of memory units to generate before starting to train
 batch_size = 32
-training_period = 2     # amount of games to play before 1 NN training
+training_period = 3     # amount of games to play before 1 NN training
 
 play_test_games_interval = 25
 test_games = 100
@@ -61,8 +61,8 @@ targetNN.set_weights(model.get_weights())
 memory = []
 print('Warming up memory')
 while(len(memory) < warmup_capacity):
-    _, _, game = initTrainingConstants(coordinate_anchors, gamesize, det_amount)    # game.reset()  # TODO
-    game.board.assignStartPositions()
+    game.reset()    # = initTrainingConstants(coordinate_anchors, gamesize, det_amount)    # game.reset()  # TODO
+    # game.board.assignStartPositions()
 
     game_done = False
     while(not game_done):
@@ -78,8 +78,8 @@ for i in range(0, episodes):
     for _ in range(0, training_period):
 
         # reset game
-        _, _, game = initTrainingConstants(coordinate_anchors, gamesize, det_amount)    # game.reset()  # TODO
-        game.board.assignStartPositions()
+        game.reset()    # = initTrainingConstants(coordinate_anchors, gamesize, det_amount)    # game.reset()  # TODO
+        # game.board.assignStartPositions()
 
         game_done = False
         while(not game_done):
