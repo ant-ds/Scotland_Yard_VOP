@@ -1,6 +1,9 @@
 from game.detective import Detective
 
+
 class AIReinforcementDetective(Detective):
+    # performs gives action
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.nextaction = []
@@ -9,4 +12,4 @@ class AIReinforcementDetective(Detective):
     def decide(self):
         if self.nextaction[1] is None:
             return None, None
-        return self.nextaction        
+        return self.nextaction 

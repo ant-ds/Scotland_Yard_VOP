@@ -1,9 +1,5 @@
 from game.game import ScotlandYard
 
-from ai.human import misterx, detective
-
-import display.gui as gui
-import ai.random.misterx as randomMrX
 import ai.random.detective as randomDetective
 
 import game.util as util

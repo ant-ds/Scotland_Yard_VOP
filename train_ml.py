@@ -15,11 +15,7 @@
 #         * gradient descent updates weights in NN
 #         * after x time steps: update weights in target network
 
-from ai.human import misterx
-import ai.ml.detective as detAI
 from ai.ml.mlutils import chooseAction, formalizeStateAction, initTrainingConstants, generateMemUnitDet
-import game.constants as const
-from detectivestate import DetectiveState
 from ai.ml.models.densemodel import newDenseModel
 
 import numpy as np
@@ -33,56 +29,56 @@ gamesize = 199
 det_amount = 4
 
 # Hyperparameters
-epsilon = 1
+epsilon = 0.35
 learning_rate = 0.001
 lr_decay = 1e-7         # rather low because model.fit will be called very often with little input
 gamma = 0.99            # MDP discount parameter
+
 target_upd_cycles = 5   # amount of NN trainings before target NN gets updated
-episodes = 2
-warmup_capacity = 100  # amount of memory units to generate before starting to train
-batch_size = 64
-training_period = 4     # amount of games to play before 1 NN training
+episodes = 400
+warmup_capacity = 150  # amount of memory units to generate before starting to train
+batch_size = 32
+training_period = 2     # amount of games to play before 1 NN training
 
-
+play_test_games_interval = 25
+test_games = 100
+memorymax = 50000
 
 # 1 Initialize game
 longest_path, coordinates, game = initTrainingConstants(coordinate_anchors, gamesize, det_amount)
 
 # 2 Initialize NN
-model = newDenseModel(305, [64, 64, 32], learning_rate, lr_decay)
-NAME = f'DetDense{[64, 64, 32]}_{int(time.time())}'
+layersizes = [64, 32, 16]
+model = newDenseModel(305, layersizes, learning_rate, lr_decay)
+NAME = f'DetDense{layersizes}_Eps{episodes}{int(time.time())}'
 tensorboard = ks.callbacks.TensorBoard(log_dir=f'tensorboardlogs/{NAME}')
 
 # 3 Clone NN = targetNN
-targetNN = newDenseModel(305, [64, 64, 32], learning_rate, lr_decay)
+targetNN = newDenseModel(305, layersizes, learning_rate, lr_decay)
 targetNN.set_weights(model.get_weights())
 
 # 4 Initialize replay memory capacity
 memory = []
 print('Warming up memory')
 while(len(memory) < warmup_capacity):
-    print(f'Memory capacity: {len(memory)}')
-    _, _, game = initTrainingConstants(coordinate_anchors, gamesize, det_amount)    #game.reset()  # TODO
+    _, _, game = initTrainingConstants(coordinate_anchors, gamesize, det_amount)    # game.reset()  # TODO
     game.board.assignStartPositions()
 
     game_done = False
     while(not game_done):
-         memunit, game_done = generateMemUnitDet(model, game, epsilon, coordinates, longest_path)
-         memory.append(memunit)
-
-memory[0].display()
-memory[1].display()
-memory[30].display()
+        memunit, game_done = generateMemUnitDet(model, game, epsilon, coordinates, longest_path)
+        memory.append(memunit)
 
 # 5 Training
 print('Start training')
 for i in range(0, episodes):
     print(f'Episode {i}')
+
     # play game
     for _ in range(0, training_period):
 
         # reset game
-        _, _, game = initTrainingConstants(coordinate_anchors, gamesize, det_amount)    #game.reset()  # TODO
+        _, _, game = initTrainingConstants(coordinate_anchors, gamesize, det_amount)    # game.reset()  # TODO
         game.board.assignStartPositions()
 
         game_done = False
@@ -90,52 +86,28 @@ for i in range(0, episodes):
             memunit, game_done = generateMemUnitDet(model, game, epsilon, coordinates, longest_path)
             memory.append(memunit)
 
+    if len(memory) > memorymax:
+        del memory[:1000]
+    print('Games played')
+
     # sample batch and preprocess
     sam = sample(memory, batch_size)
     batch = [formalizeStateAction(s.currDetState, s.action, longest_path, coordinates) for s in sam]
+    arrbatch = np.array(batch).reshape(305, batch_size)
+
+    print('Setting up target batch')
     target_batch = []
     for s in sam:
         _, targetQ = chooseAction(targetNN, s.nextPossActions, s.nextDetState, 0, longest_path, coordinates)
         target_batch.append(s.reward + gamma * targetQ)
 
+    print('Optimizing on batch')
     # pass batch to NN and update weights
-    model.fit(batch, target_batch, batch_size=batch_size, epochs=1, callbacks=[tensorboard], verbose=2)
+    print(f'Loss: {model.train_on_batch(arrbatch, np.reshape(np.array(target_batch), (batch_size, 1)))}')
 
     if i % target_upd_cycles == 0:
         targetNN.set_weights(model.get_weights())
 
+print('Training done')
     
 model.save(f'ai/ml/models/{NAME}')
-
-
-
-
-
-
-""" Testing """
-
-
-# def main():
-#     longest_path, coordinates, game = initTrainingConstants(10, 199, 4)
-
-#     game.addMisterX(misterx.ExampleAIImplementationMisterX(game=game, name="AI Mister X", blackCards=4))
-#     game.addDetectives([detAI.AIReinforcementDetective(idNumber=i, game=game) for i in range(4)])
-
-#     game.board.assignStartPositions()
-#     game.running = True
-#     poss_det_action = [game.board.getOptions(detective, doubleAllowed = False) for detective in game.detectives]
-
-#     chosen_action, chosenQ = chooseAction(None, poss_det_action, DetectiveState().extractDetState(game, coordinates, longest_path), 0, longest_path, coordinates)
-#     #print(f'Chosen action: {chosen_action}')
-#     #print(f'ChosenQ: {chosenQ}')
-#     for i in range(0, len(game.detectives)):
-#         game.detectives[i].nextaction = chosen_action[i]
-#     game.update()
-
-#     detstate = DetectiveState()
-#     detstate.extractDetState(game, coordinates, longest_path)
-#     # detstate.display()
-
-
-# if __name__ == '__main__':
-#     main()

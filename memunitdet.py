@@ -1,16 +1,4 @@
-from game.game import ScotlandYard
-from ai.human import misterx, detective
 
-import ai.random.misterx as randomMrX
-import ai.random.detective as randomDetective
-
-import game.util as util
-import game.constants as const
-
-import numpy as np
-import pickle
-
-from detectivestate import DetectiveState
 
 class MemUnitDet():
     """
