@@ -1,3 +1,5 @@
+import argparse
+
 from game.game import ScotlandYard
 from ai.human import misterx, detective
 import display.gui as gui
@@ -7,13 +9,13 @@ import ai.random.detective as randomDetective
 import game.util as util
 
 
-def main():
+def main(args):
     config = util.readConfig('settings.ini')
-    
-    game = ScotlandYard(cfg=config)    
 
+    game = ScotlandYard(cfg=config, proj=args['proj'])
     # game.addMisterX(misterx.ExampleAIImplementationMisterX(game=game, name="AI Mister X", blackCards=4))
     game.addMisterX(randomMrX.ExampleAIImplementationRandomMisterX(name=f"Random Mr. X", game=game, blackCards=4))
+    
     # game.addDetectives([detective.ExampleAIImplementationDetective(name=f"Detective{i+1}", game=game) for i in range(4)])
     game.addDetectives([randomDetective.ExampleAIImplementationRandomDetective(name=f"Detective{i+1}", game=game) for i in range(4)])
 
@@ -33,4 +35,8 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--runs', default=1)
+    parser.add_argument('--proj', default='')
+    args = vars(parser.parse_args())
+    main(args)

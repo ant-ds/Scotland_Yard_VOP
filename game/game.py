@@ -13,7 +13,7 @@ class ScotlandYard():
     """
     Class with implementation of the strategic boardgame Scotland Yard.
     """
-    def __init__(self, size=199, numDetectives=4, cfg=None):
+    def __init__(self, size=199, numDetectives=4, cfg=None, proj=''):
         self.board = Board(size, game=self)
         self.detectives = [Detective(name=f"Detective{i+1}", game=self) for i in range(numDetectives)]
         self.misterx = MisterX(game=self, name="Mister X", blackCards=numDetectives)
@@ -21,6 +21,7 @@ class ScotlandYard():
 
         self.gui = None  # Gui can be added later if a one is available
         self.config = cfg
+        self.proj = proj
 
     def update(self):
         self.turn += 1
@@ -105,7 +106,7 @@ class ScotlandYard():
         data = np.array(data)
 
         curDateTime = datetime.datetime.now()
-        filepath = f"history/scly-replay-{curDateTime}"
+        filepath = f"history/{self.proj}scly-replay-{curDateTime}"
         for char in [" ", ".", ":", "-"]:
             filepath = filepath.replace(char, "_")
         
