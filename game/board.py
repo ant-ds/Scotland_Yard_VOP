@@ -183,6 +183,9 @@ class Board():
         """
         options = [start]
         probs = {start: startprob}
+        while occupied is not None and len(occupied) < len(moves):  # TODO: prevent indexerror interrupting training, fix this later
+            occupied.append([])
+        
         for i, move in enumerate(moves):
             newOptions = []  # new list of possible locations
             newProbs = {}
