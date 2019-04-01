@@ -38,6 +38,8 @@ class ExampleAIImplementationDetective(Detective):
                 self.living.append(1)
             # self.varInit = True
 
+        self.getFutureOptions(self, 2, 3)
+        
         disperseTurns = [1] # makes decission for turn 1 and 2 at the same time
         closeinTurns = [3, 4, 8, 13, 18, 24]  # TOCHECK: when is mrx revealed
         encircleTurns = [5, 6, 7, 9, 10, 11, 14, 15, 16, 19, 20, 21, 22, 23]
@@ -49,7 +51,7 @@ class ExampleAIImplementationDetective(Detective):
             for detective in self.game.detectives:
                 # print(f"Options for detective {detective.id}: {self.game.board.getOptions(detective, doubleAllowed=False)}")
                 self.options.append(self.game.board.getOptions(detective, doubleAllowed=False))
-
+            if self.options == self.testoptions: print("FUCK YEAHHH")
             if self.trn in disperseTurns:
                 self.disperse()
             elif self.trn in closeinTurns:
@@ -82,10 +84,6 @@ class ExampleAIImplementationDetective(Detective):
             oklist = [opts[1] for opts in self.options[i] if opts[0] == path[1]]
             self.futureTransports[i].append(oklist[0])
 
-        # for i, det in enumerate(self.game.detectives):
-        #     decision = self.randomMove(det)
-        #     self.futureNodes[i].append(decision[0])
-        #     self.futureTransports[i].append(decision[1])
 
     def encircle(self):
         def validateOptionSet(optionset: list) -> bool:
@@ -245,3 +243,40 @@ class ExampleAIImplementationDetective(Detective):
             self.futureTransports[i] = transp
             print(f"Shortened: {self.futureNodes[i]}")
         return 0
+
+    def getFutureOptions(self, detective, turnsAhead, startPosition):
+        cards = detective.cards 
+        index = detective.id
+        maxNodesAnticipated = max([len(x) for x in self.futureNodes])
+        maxTransportsAnticipated = max([len(x) for x in self.futureTransports])
+        
+        # Check if the turn is more in the future than anticipated, if this is the case, there are no restrictions on the available positions
+        if maxNodesAnticipated < turnsAhead or maxTransportsAnticipated < turnsAhead:
+            return self.game.board.getOptions(detective, startPosition)
+
+        currentlyAhead = 0
+        for transp in self.futureTransports[index]:
+            if currentlyAhead <= turnsAhead:
+                # remove that transport in dictionary
+                cards[transp] -= 1
+                if(cards[transp] < 0): cards[transp] = 0
+            currentlyAhead += 1
+            
+
+        transportOptions = self.game.board.getSimulatedOptions(self, cards, startPosition)
+        for nodeList in self.futureNodes:
+            if turnsAhead < len(nodeList):
+                tup1 = (nodeList[turnsAhead], 'taxi')
+                tup2 = (nodeList[turnsAhead], 'bus')
+                tup3 = (nodeList[turnsAhead], 'underground')
+                if  tup1 in transportOptions:
+                    transportOptions.remove(tup1)
+                if  tup2 in transportOptions:
+                    transportOptions.remove(tup2)
+                if tup3 in transportOptions:
+                    transportOptions.remove(tup3)
+            
+        return transportOptions
+
+
+
