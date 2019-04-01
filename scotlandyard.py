@@ -1,4 +1,5 @@
 import argparse
+import time
 
 from game.game import ScotlandYard
 
@@ -13,6 +14,7 @@ from pickle import load
 
 
 def main(args):
+    start = time.time()
     config = util.readConfig('settings.ini')
     runs = int(args['runs'])
     game = ScotlandYard(cfg=config, proj=args['proj'])
@@ -43,6 +45,9 @@ def main(args):
         ]
     )
     
+    t = time.time()
+    print(f"Initialisation took {t - start} seconds.")
+    
     for i in range(runs):
         if config['OUTPUT'].getboolean('visualization'):
             app = gui.createApp([])
@@ -59,6 +64,9 @@ def main(args):
         else:
             game.loop()
         game.reset()
+
+    stop = time.time()
+    print(f"{runs} games took {stop - t} seconds, averaging {(stop - t) / runs} seconds per loop")
 
 
 if __name__ == '__main__':
