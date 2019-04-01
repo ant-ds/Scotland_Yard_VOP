@@ -1,5 +1,5 @@
-DISPLAY_SIZE_OPTIONS = [(1920, 1080), (1800, 900), (800, 600)]
-DISPLAY_MODE_OPTIONS = ["Fullscreen", "Maximized", "Default"]
+DISPLAY_SIZE_OPTIONS = [(1920, 1080), (1800, 900), (1400, 1000), (800, 600)]
+DISPLAY_MODE_OPTIONS = ["Fullscreen", "Maximized", "New good", "Default"]
 
 REFRESH_RATE = 500  # Refresh delay in ms
 
@@ -117,7 +117,7 @@ VERTEX_POSITIONS = [
     (479, 1069), 
     (915, 1124), 
     (988, 1100), 
-    (1116, 2389), 
+    (1116, 1058), 
     (1238, 1072), 
     (1436, 1137),  # 100
     (1635, 1065), 

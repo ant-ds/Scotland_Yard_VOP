@@ -1,3 +1,5 @@
+import copy
+
 from game.player import Player
 import game.constants as const
 
@@ -12,19 +14,34 @@ class MisterX(Player):
             'black': blackCards,
             'double': doubleMoveCards,
         })
+        self.originalCards = copy.deepcopy(self.cards)
 
         self.doubleMoves = []
     
     @property
     def lastKnownPosition(self):
-        lastKnown = None
-        for i in const.MRX_OPEN_TURNS:
-            try:
-                lastKnown = self.history[i - 1][2]  # history has format (start, transport, dest)
-            except IndexError:  # once index too high, return last confirmed value
-                return lastKnown
-        return lastKnown
+        try:
+            idx = max([i - 1 for i in const.MRX_OPEN_TURNS if i - 1 < len(self.history)])
+        except ValueError:
+            # max from an empty sequence
+            return None
+        return self.history[idx][-1]
 
     def __str__(self):
         "Overwite the string method of base class Player for consistency"
         return "Mr. X"
+
+    def cloneFrom(self, old):
+        super().cloneFrom(old)
+        self.doubleMoves = [m for m in old.doubleMoves]
+
+    def clone(self, game=None):
+        if game is None:
+            game = self.game
+        new = type(self)(game, self.name)
+        new.cloneFrom(self)
+        return new
+
+    def reset(self):
+        super().reset()
+        self.doubleMoves = []

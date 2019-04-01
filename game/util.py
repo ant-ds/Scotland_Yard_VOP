@@ -7,12 +7,12 @@ import game.constants as const
 def createGraph(size):
     graph = nx.MultiGraph()
 
-    graph.add_nodes_from(range(1, size + 1))  # size+1: Assuming 0 is not used on the physical board
+    graph.add_nodes_from(range(1, size + 1))
 
-    try:
-        assert(len(const.CONNECTIONS) == size + 1)  # size+1: Assuming 0 is not used on the physical board
-    except AssertionError:
-        raise AssertionError(f"Wrong size variable: {len(const.CONNECTIONS)} != {size + 1}")
+    if len(const.CONNECTIONS) > size + 1:  # size+1: 0 not used on the physical board, so a None is used as padding
+        print(f"Running a smaller sized board: {size} instead of 199")
+    elif len(const.CONNECTIONS) < size + 1:
+        raise ValueError(f"Size variable too large for registered connections on the board: recieved {size}, which is not <= 199!")
 
     for i in range(1, size + 1):
         # CONNECTIONS[i] contains dict with keys transport and values tuples of connections
@@ -21,7 +21,8 @@ def createGraph(size):
                 # Tuple with one element is interpreted as regular int
                 neighbours = [neighbours]
             for neighbour in neighbours:
-                graph.add_edge(i, neighbour, transport=transport)  # If edges connect nodes not in the graph, nodes added automatically
+                if neighbour <= size:
+                    graph.add_edge(i, neighbour, transport=transport)  # If edges connect nodes not in the graph, nodes added automatically
     return graph
 
 
@@ -78,3 +79,19 @@ def readConfig(path='settings.ini'):
     if len(config.keys()) == 1:  # Settings file doesn't exist because only default key present
         config = generateDefaultConfig(config)
     return config
+
+
+def dictMergeAdd(d1, d2):
+    newd = {}
+    for k, v in d1.items():
+        newd[k] = v
+    for k, v in d2.items():
+        if k not in newd.keys():
+            newd[k] = 0
+        newd[k] += d2[k]
+    return newd
+
+
+class ScotlandYardException(Exception):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
