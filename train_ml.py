@@ -29,7 +29,7 @@ gamesize = 199
 det_amount = 4
 
 # Hyperparameters
-epsilon = 0.4
+epsilon = 0.444
 learning_rate = 0.005
 lr_decay = 1e-7         # rather low because model.fit will be called very often with little input
 gamma = 0.99            # MDP discount parameter
@@ -93,7 +93,7 @@ for i in range(0, episodes):
     # sample batch and preprocess
     sam = sample(memory, batch_size)
     batch = [formalizeStateAction(s.currDetState, s.action, longest_path, coordinates) for s in sam]
-    arrbatch = np.array(batch).reshape(305, batch_size)
+    arrbatch = np.array(batch).reshape(batch_size, 305)
 
     print('Setting up target batch')
     target_batch = []
@@ -108,6 +108,7 @@ for i in range(0, episodes):
     if i % target_upd_cycles == 0:
         targetNN.set_weights(model.get_weights())
 
+    if i % 5 == 0:
+        model.save(f'ai/ml/models/{NAME}')
+
 print('Training done')
-    
-model.save(f'ai/ml/models/{NAME}')
