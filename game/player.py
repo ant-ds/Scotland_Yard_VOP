@@ -51,7 +51,7 @@ class Player():
         """
 
         options = self.game.board.getOptions(self)
-        options = sorted(options, key=lambda x: x[0] == 'double')  # display signgle moves first
+        options = sorted(options, key=lambda x: x[0] == 'double')  # display single moves first
         self.print_(f"Your options are:: {options}")
 
         dest, transport = self._getInput()
