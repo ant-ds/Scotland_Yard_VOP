@@ -85,6 +85,22 @@ class Board():
         
         return options
 
+    def getSimulatedOptions(self, cards, startPosition):
+        """
+            Same as getOptions but with custom cards etc. instead of a player
+            Only for detectives
+        """
+        options = []
+        
+        # for nbr in G[n]: iterates through neighbors
+        for nbr in self.graph[startPosition]:
+            for k, transportDict in self.graph.get_edge_data(startPosition, nbr).items():  # edge data is a dict of dicts
+                transport = transportDict['transport']
+                if cards[transport]>0 and nbr not in [d.position for d in self.game.detectives]:
+                    options.append((nbr, transport))
+        
+        return options
+
     def getOccupiedPositions(self):
         "Returns currently occupied positions"
         positions = [self.game.misterx.position]
