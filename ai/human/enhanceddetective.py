@@ -9,6 +9,16 @@ from game.board import Board
 from game.game import ScotlandYard
 import game.constants as const
 
+# TODO-list: 
+#   Cleanup code: try to use less for loops and more python adapted stuff
+#   Implement getAdvancedOptions
+#
+#
+#
+printplez = true
+def condpr(item):
+    if printplez:
+        print(item)
 
 class ExampleAIImplementationDetective(Detective):
     
@@ -51,7 +61,7 @@ class ExampleAIImplementationDetective(Detective):
             self.options = []
             # Generate all options for this turn
             for detective in self.game.detectives:
-                # print(f"Options for detective {detective.id}: {self.game.board.getOptions(detective, doubleAllowed=False)}")
+                condpr(f"Options for detective {detective.id}: {self.game.board.getOptions(detective, doubleAllowed=False)}")
                 self.options.append(self.game.board.getOptions(detective, doubleAllowed=False))
             if self.trn in disperseTurns:
                 self.disperse()
@@ -69,12 +79,101 @@ class ExampleAIImplementationDetective(Detective):
             self.living[self.id] = 0
 
         print(f"Going to play {decision[1]} from {self.position} to {decision[0]}")
-        # input("Press Enter to continue...")
+        input("Press Enter to continue...")
         return decision[0], decision[1]
 
     def disperse(self):
+
+        def getMetroDistances():
+            """
+            Compose list of distance of a player to all metros that are within a distance of 3 turns
+            Returns list of tuples with (metropos, shortest path length to metro)
+            """
+            # TODO: exclude metros from shortest path (max 1 metro?) - need to test availability!
+            possibleMetros = [] # list containing lists of tuples, every list corresponds to one detective
+            for detective in self.game.detectives:
+                metrodist = []
+                for metro in const.METRO_STATIONS:
+                    pl = nx.shortest_path_length(self.game.board.graph, metro, detective.position)
+                    if pl <= 3 and pl > 0:
+                        metrodist.append((metro, pl))
+                possibleMetros.append(metrodist)
+            condpr(f"Metro's for the detectives: {possibleMetros}")
+            return possibleMetros
+        
+        def assignMetro():
+            """
+            Assign a specific metro station to every detective, based on distance. Distance 2 is preferred, followed by distance 1, then 3.
+            Returns list of metrostations, the position inside defines to which detective that metro is assigned. 
+            """
+            possibleMetros = getMetroDistances()
+            targetMetro = []
+            for possibilities in possibleMetros:
+                sizeTwo = [metroTup[0] for metroTup in possibilities if metroTup[1] == 2 and metroTup[0] not in targetMetro]
+                if sizeTwo:
+                    targetMetro.append(random.choice(sizeTwo))
+                else:
+                    sizeOne = [metroTup[0] for metroTup in possibilities if metroTup[1] == 1 and metroTup[0] not in targetMetro]
+                    if sizeOne:
+                        targetMetro.append(random.choice(sizeOne))
+                    else:
+                        sizeThree = [metroTup[0] for metroTup in possibilities if metroTup[1] == 3 and metroTup[0] not in targetMetro]
+                        if sizeThree: 
+                            targetMetro.append(random.choice(sizeThree))
+                        else: 
+                            # Assign random unassigned metro
+                            remainingMetros = [metro for metro in const.METRO_STATIONS if metro not in targetMetro]
+                            targetMetro.append(random.choice(remainingMetros))
+            print(f"Target metros for detectives: {targetMetro}")
+            return targetMetro
+
         print("---Disperse algo---")
-        self.metroMove()
+        
+        targetMetro = assignMetro()
+
+        #Small error check:
+        assert (len(targetMetro) == len(self.game.detectives)), "metroList and detectiveList not of same length!"
+        
+        for i in range(0, len(targetMetro)):
+            path = nx.shortest_path(self.game.board.graph, self.game.detectives[i].position, targetMetro[i][0])
+            condpr(f"Path length: {len(path)}")
+            # first collision check?
+            transp = [transport[1] for transport in self.options[i] if transport[0] == path[1]]
+            
+            # detective one turn away from a metro station
+            if len(path) == 2: 
+                # TODO: check if enough transport to do two upcoming moves
+                neighbours = self.game.board.getOptions(self.game.detectives[i], customStartPosition=path[1])
+                transportToUse = "taxi"
+                # print(backforth)
+                # print(f"viable taxi positions: {[viable for viable in backforth if viable[1] is transportToUse]} ")
+                path.append(random.choice([viable for viable in neighbours if viable[1] is transportToUse])[0])
+                transp.append(transportToUse)
+                path.append(path[0])
+                transp.append(transportToUse)
+            
+            
+            if len(path) == 4:
+                # only look 2 moves ahead and remove other decisions
+                del path[3]
+
+            #add missing transport
+            if len(transp) < len(path)-1:
+                i0 = len(transp)
+                for j in range (i0,len(path)-1):
+                    neighbours = self.game.board.getOptions(self.game.detectives[i], customStartPosition=path[j])
+                    postrans = [transport[1] for transport in neighbours if transport[0] == path[j+1]]
+                    transp.append(postrans[0])
+
+                
+            if len(transp) == 3:
+                del transp[2]
+
+            print(f"Future moves for detective {i}:  {path}")
+            self.futureNodes[i] = path[1:]
+            self.futureTransports[i] = transp
+            print(f"Shortened: {self.futureNodes[i]}")
+        return 0
 
     def closein(self):
         targetpos = self.game.misterx.lastKnownPosition
@@ -170,78 +269,7 @@ class ExampleAIImplementationDetective(Detective):
             metrodists.append(metrodist)
         print(metrodists)
 
-##########__Metro__##########
-    def getMetroDistances(self):
-        "Returns list of distance of a player to all metros that are within reach in 3 turns"  # TODO: exclude metros from shortest path (max 1 metro?)
-        metrodists = []
-        for detective in self.game.detectives:
-            # print(detective.position)
-            metrodist = []
-            for metro in const.METRO_STATIONS:
-                pl = nx.shortest_path_length(self.game.board.graph, metro, detective.position)
-                if pl <= 3 and pl > 0:
-                    metrodist.append([metro, pl])
-                    # print(nx.shortest_path(self.game.board.graph, metro, detective.position))
-            metrodists.append(metrodist)
-            # print(metrodist)
-        print(f"Metro's for the detectives: {metrodists}")
-        return metrodists
-
-    def assignMetro(self):
-        "Assign metro to every detective"  # TODO: don't just take first min, but consider other equal values
-        dist = self.getMetroDistances()
-        targetMetro = []
-        for possibilities in dist:
-            targetMetro.append(min(possibilities, key=itemgetter(1)))
-        print(f"Target metros for detectives: {targetMetro}")
-        return targetMetro
-
-    def metroMove(self):
-        "Decides which moves to make for every detective"
-        # TODO: collision prevention
-        targetMetro = self.assignMetro()
-
-        for i in range(0, len(targetMetro)):
-            path = nx.shortest_path(self.game.board.graph, self.game.detectives[i].position, targetMetro[i][0])
-            print(f"Path length: {len(path)}")
-            # if len(path) > 1: 
-            transp = [transport[1] for transport in self.options[i] if transport[0] == path[1]]
-            # print(f"transport to test {transp[0]}")
-            
-            # detective one turn away from a metro station
-            if len(path) == 2: 
-                # TODO: check if enough transport to do two upcoming moves
-                neighbours = self.game.board.getOptions(self.game.detectives[i], customStartPosition=path[1])
-                transportToUse = "taxi"
-                # print(backforth)
-                # print(f"viable taxi positions: {[viable for viable in backforth if viable[1] is transportToUse]} ")
-                path.append(random.choice([viable for viable in neighbours if viable[1] is transportToUse])[0])
-                transp.append(transportToUse)
-                path.append(path[0])
-                transp.append(transportToUse)
-            
-            
-            if len(path) == 4:
-                # only look 2 moves ahead and remove other decisions
-                del path[3]
-
-            #add missing transport
-            if len(transp) < len(path)-1:
-                i0 = len(transp)
-                for j in range (i0,len(path)-1):
-                    neighbours = self.game.board.getOptions(self.game.detectives[i], customStartPosition=path[j])
-                    postrans = [transport[1] for transport in neighbours if transport[0] == path[j+1]]
-                    transp.append(postrans[0])
-
-                
-            if len(transp) == 3:
-                del transp[2]
-
-            print(f"Future moves for detective {i}:  {path}")
-            self.futureNodes[i] = path[1:]
-            self.futureTransports[i] = transp
-            print(f"Shortened: {self.futureNodes[i]}")
-        return 0
+       
 
     def getFutureOptions(self, detective, turnsAhead, startPosition):
         cards = detective.cards 
@@ -262,7 +290,7 @@ class ExampleAIImplementationDetective(Detective):
             currentlyAhead += 1
             
 
-        transportOptions = self.game.board.getSimulatedOptions(self, cards, startPosition)
+        transportOptions = self.game.board.getSimulatedOptions(cards, startPosition)
         for nodeList in self.futureNodes:
             if turnsAhead < len(nodeList):
                 tup1 = (nodeList[turnsAhead], 'taxi')
