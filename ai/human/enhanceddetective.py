@@ -32,6 +32,7 @@ class ExampleAIImplementationDetective(Detective):
 
         # Initialize static variables correctly
         if len(self.futureNodes) != len(self.game.detectives):
+            # TODO: use extend instead of forloop and append
             for detective in self.game.detectives:
                 self.futureNodes.append([])
                 self.futureTransports.append([])
@@ -41,17 +42,17 @@ class ExampleAIImplementationDetective(Detective):
         self.getFutureOptions(self, 2, 3)
         
         disperseTurns = [1] # makes decission for turn 1 and 2 at the same time
-        closeinTurns = [3, 4, 8, 13, 18, 24]  # TOCHECK: when is mrx revealed
+        closeinTurns = [3, 4, 8, 13, 18, 24]
         encircleTurns = [5, 6, 7, 9, 10, 11, 14, 15, 16, 19, 20, 21, 22, 23]
         broadenTurns = [12, 17]
         
+        # Decide everything in first detective decide call of this turn
         if self.id == self.living.index(1):
             self.options = []
             # Generate all options for this turn
             for detective in self.game.detectives:
                 # print(f"Options for detective {detective.id}: {self.game.board.getOptions(detective, doubleAllowed=False)}")
                 self.options.append(self.game.board.getOptions(detective, doubleAllowed=False))
-            if self.options == self.testoptions: print("FUCK YEAHHH")
             if self.trn in disperseTurns:
                 self.disperse()
             elif self.trn in closeinTurns:
