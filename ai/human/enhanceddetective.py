@@ -12,10 +12,10 @@ import game.constants as const
 # TODO-list: 
 #   Cleanup code: try to use less for loops and more python adapted stuff
 #   Implement getAdvancedOptions
+#   Collisions on uneven turns (one in previous turn)
 #
 #
-#
-printplez = true
+printplez = True
 def condpr(item):
     if printplez:
         print(item)
@@ -132,12 +132,13 @@ class ExampleAIImplementationDetective(Detective):
         targetMetro = assignMetro()
 
         #Small error check:
-        assert (len(targetMetro) == len(self.game.detectives)), "metroList and detectiveList not of same length!"
+        assert (len(targetMetro) == len(self.game.detectives)), "MetroList and detectiveList not of same length!"
         
         for i in range(0, len(targetMetro)):
             path = nx.shortest_path(self.game.board.graph, self.game.detectives[i].position, targetMetro[i][0])
+            assert (len(path) != 0), "Path lenght is 0!"
             condpr(f"Path length: {len(path)}")
-            # first collision check?
+            # to test: are there conflicting shortest paths?
             transp = [transport[1] for transport in self.options[i] if transport[0] == path[1]]
             
             # detective one turn away from a metro station
@@ -258,18 +259,29 @@ class ExampleAIImplementationDetective(Detective):
 
     def testMetroStartDists(self, dist):
         metrodists = []
-        # pospos = possible position
-        for pospos in const.START_POSITIONS['detectives']:
+        # startPos = possible position
+        for startPos in const.START_POSITIONS['detectives']:
             metrodist = []
             for metro in const.METRO_STATIONS:
-                if nx.shortest_path_length(self.game.board.graph, metro, pospos) <= dist:
-                    metrodist.append([metro, nx.shortest_path_length(self.game.board.graph, metro, pospos)])
+                if nx.shortest_path_length(self.game.board.graph, metro, startPos) <= dist:
+                    metrodist.append([metro, nx.shortest_path_length(self.game.board.graph, metro, startPos)])
             if(len(metrodist) == 0):
-                print(f"PROBLEM: No less than {dist} metro for node {pospos}")
+                print(f"PROBLEM: No less than {dist} metro for node {startPos}")
             metrodists.append(metrodist)
         print(metrodists)
 
-       
+    # def testCollidingShortestPaths(self):
+    #     paths = []
+    #     for startPos in const.START_POSITIONS['detectives']:
+    #         for metro in const.METRO_STATIONS:
+    #             paths.append(nx.shortest_path(self.game.board.graph, startPos, metro))
+
+    #     for startPos in const.START_POSITIONS['detectives']:
+    #         for i in range (0, len(startPos)):
+    #             for j in range (0, len(const.START_POSITIONS)):
+    #                 if const.START_POSITIONS[j] != startPos and startPos(i) == 
+
+###########################
 
     def getFutureOptions(self, detective, turnsAhead, startPosition):
         cards = detective.cards 
