@@ -29,28 +29,31 @@ gamesize = 199
 det_amount = 4
 
 # Hyperparameters
-epsilon = 0.444
+epsilon = 1
+epsilon_startdecay = 400    # let agent explore first, exploitation is meaningless
+epsilon_decay = 1e-4   
+epsilon_min = 0.25
 learning_rate = 0.005
 lr_decay = 1e-7         # rather low because model.fit will be called very often with little input
-gamma = 0.99            # MDP discount parameter
+gamma = 0.95            # MDP discount parameter, this used to be 0.99
 
-target_upd_cycles = 5   # amount of NN trainings before target NN gets updated
-episodes = 25
-warmup_capacity = 150  # amount of memory units to generate before starting to train
-batch_size = 32
-training_period = 3     # amount of games to play before 1 NN training
+target_upd_cycles = 7   # amount of NN trainings before target NN gets updated
+episodes = 10000
+warmup_capacity = 200  # amount of memory units to generate before starting to train
+batch_size = 16
+training_period = 2     # amount of games to play before 1 NN training
 
 play_test_games_interval = 25
 test_games = 100
-memorymax = 50000
+memorymax = 5000
 
 # 1 Initialize game
 longest_path, coordinates, game = initTrainingConstants(coordinate_anchors, gamesize, det_amount)
 
 # 2 Initialize NN
-layersizes = [64, 32, 16]
+layersizes = [32, 32, 16]
 model = newDenseModel(305, layersizes, learning_rate, lr_decay)
-NAME = f'DetDense{layersizes}_Eps{episodes}{int(time.time())}'
+NAME = f'DetDense{layersizes}_startdecay{int(time.time())}'
 tensorboard = ks.callbacks.TensorBoard(log_dir=f'tensorboardlogs/{NAME}')
 
 # 3 Clone NN = targetNN
@@ -87,7 +90,7 @@ for i in range(0, episodes):
             memory.append(memunit)
 
     if len(memory) > memorymax:
-        del memory[:1000]
+        del memory[:400]
     print('Games played')
 
     # sample batch and preprocess
@@ -95,20 +98,26 @@ for i in range(0, episodes):
     batch = [formalizeStateAction(s.currDetState, s.action, longest_path, coordinates) for s in sam]
     arrbatch = np.array(batch).reshape(batch_size, 305)
 
-    print('Setting up target batch')
     target_batch = []
     for s in sam:
-        _, targetQ = chooseAction(targetNN, s.nextPossActions, s.nextDetState, 0, longest_path, coordinates)
-        target_batch.append(s.reward + gamma * targetQ)
+        if s.reward == 0:
+            _, targetQ = chooseAction(targetNN, s.nextPossActions, s.nextDetState, 0, longest_path, coordinates)
+            target_batch.append(s.reward + gamma * targetQ)
+        else:
+            target_batch.append(s.reward)
 
     print('Optimizing on batch')
     # pass batch to NN and update weights
     print(f'Loss: {model.train_on_batch(arrbatch, np.reshape(np.array(target_batch), (batch_size, 1)))}')
 
     if i % target_upd_cycles == 0:
+        print('Updating target NN')
         targetNN.set_weights(model.get_weights())
 
     if i % 5 == 0:
         model.save(f'ai/ml/models/{NAME}')
+
+    if epsilon > epsilon_min and i > epsilon_startdecay:
+        epsilon = epsilon - epsilon_decay
 
 print('Training done')

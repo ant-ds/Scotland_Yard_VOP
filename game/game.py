@@ -131,8 +131,8 @@ class ScotlandYard():
         self.print_("Saving game data...")
 
         data = [self.statuscode]
-        data.append([self.misterx.history, self.misterx.doubleMoves])
-        data.append([det.history for det in self.detectives])
+        data = np.append(np.array(data), np.array([self.misterx.history, self.misterx.doubleMoves]))
+        data = np.append(np.array(data), np.array([det.history for det in self.detectives]))
         data = np.array(data)
 
         filepath = f"history/{self.proj}scly-replay-{self.timeAtStart}-{self.run}"

@@ -59,6 +59,8 @@ def chooseAction(model, poss_det_action, detstate, epsilon, longest_path, coordi
     possible_actions = list(zip(product(*poss_det_action)))
     # filter actions with non-unique position combinations
     possible_actions = [action for action in possible_actions if len([act[0] for act in action[0]]) == len(set([act[0] for act in action[0]]))]
+    if not possible_actions:
+        return (None, None), 0
     if np.random.uniform() <= epsilon:  # exploration
         if len(possible_actions) > 1:
             chosen_action = possible_actions[np.random.randint(0, len(possible_actions) - 1)]
