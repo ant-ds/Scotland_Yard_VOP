@@ -26,8 +26,12 @@ class ScotlandYard():
         self.gui = None  # Gui can be added later if a one is available
         self.config = cfg
 
-        self.verbose = self.config['OUTPUT'].getboolean('verbose')
-        self.visualize = self.config['OUTPUT'].getboolean('visualization')
+        if self.config is not None:
+            self.verbose = self.config['OUTPUT'].getboolean('verbose')
+            self.visualize = self.config['OUTPUT'].getboolean('visualization')
+        else:
+            self.verbose = False
+            self.visualize = False
 
         self.timeAtStart = datetime.datetime.now()
         self.proj = proj
@@ -131,8 +135,8 @@ class ScotlandYard():
         self.print_("Saving game data...")
 
         data = [self.statuscode]
-        data.append([self.misterx.history, self.misterx.doubleMoves])
-        data.append([det.history for det in self.detectives])
+        data = np.append(np.array(data), np.array([self.misterx.history, self.misterx.doubleMoves]))
+        data = np.append(np.array(data), np.array([det.history for det in self.detectives]))
         data = np.array(data)
 
         filepath = f"history/{self.proj}scly-replay-{self.timeAtStart}-{self.run}"
