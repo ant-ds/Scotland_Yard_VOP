@@ -141,12 +141,27 @@ class MainReplayWidget(QtWidgets.QWidget):
         # Show new widgets
         self.board_widget.show()
         self.horizontalButtonBox.show()
-
-        self.parseData()            
+       
         self.update()
+
+    def reconstructData(self):
+        if self.data.shape[0] == 3:
+            return self.data
+        data = [self.data[0]]
+        data.append(
+            [
+                [tuple(move) for move in self.data[1]],
+                [idx for idx in self.data[2]]
+            ]
+        )
+        data.append([])
+        data[-1] = [[tuple(move) for move in detmoves] for detmoves in self.data[3:]]
+        
+        self.data = data
+        return data
     
     def parseData(self):
-        data = self.data
+        data = self.reconstructData()
 
         self.numDetectives = len(data[2])
         self.startPositions = [data[1][0][0][0]] + [det[0][0] for det in data[2]]
@@ -237,7 +252,7 @@ class MainReplayWidget(QtWidgets.QWidget):
         self.update()
     
     def updatePossibleMrxPositions(self):
-        game = ScotlandYard(numDetectives=self.numDetectives)
+        game = ScotlandYard(numDetectives=self.numDetectives, defaultPlayers=True)
         game.misterx.position = self.positions[0]
         numMovesDone = self.indices[0]
         hist = []
