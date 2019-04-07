@@ -15,7 +15,8 @@ import game.constants as const
 #   Collisions on uneven turns (one in previous turn)
 #   Evaluate best transport function
 #   Prevent metro in shortest path
-#
+#   Move from lists of lists to variables for every class separatly
+
 printplez = True
 def condpr(item):
     if printplez:
@@ -144,20 +145,21 @@ class ExampleAIImplementationDetective(Detective):
             for turnToEval in range(1,min([3,len(path)])):
                 for j in range(0,i): 
                         taken.append(self.futureNodes[j][turnToEval-1])
+                        if len(self.futureNodes[j]) > turnToEval:
+                            taken.append(self.futureNodes[j][turnToEval]) # prevent next detective from blocking earlier detective by being on needed position before moving
                 
                 if path[turnToEval] in taken:
                     condpr(f"Collision detected for detective {i}, problematic node: {path[turnToEval]}.")
                     #collision: find node with shortest path
                     neighbours = [node[0] for node in self.game.board.getOptions(self.game.detectives[i], customStartPosition=path[turnToEval-1]) if node[0] not in taken]
                     lengths = [nx.shortest_path_length(self.game.board.graph, pos, targetMetro[i]) for pos in neighbours]
-                    index, _ = max(enumerate(lengths), key=itemgetter(1))
+                    index, _ = min(enumerate(lengths), key=itemgetter(1))
                     newpath = nx.shortest_path(self.game.board.graph, neighbours[index], targetMetro[i])
                     path = path[0:turnToEval] + newpath
             transp = [transport[1] for transport in self.options[i] if transport[0] == path[1]]
             
             # detective one turn away from a metro station
             if len(path) == 2: 
-                # TODO: check if enough transport to do two upcoming moves
                 neighbours = self.getFutureOptions(self.game.detectives[i], 1, path[1])
                 transportToUse = "taxi"
                 # print(backforth)
@@ -173,10 +175,11 @@ class ExampleAIImplementationDetective(Detective):
                 path = path[0:3]
 
             #add missing transport
+            # TODO: issue here somewhere...
             if len(transp) < len(path)-1:
                 i0 = len(transp)
                 for j in range (i0,len(path)-1):
-                    neighbours = self.getFutureOptions(self.game.detectives[i], j,path[j])
+                    neighbours = self.getFutureOptions(self.game.detectives[i], j, path[j])
                     # neighbours = self.game.board.getOptions(self.game.detectives[i], customStartPosition=path[j])
                     postrans = [transport[1] for transport in neighbours if transport[0] == path[j+1]]
                     transp.append(postrans[0])
@@ -192,13 +195,23 @@ class ExampleAIImplementationDetective(Detective):
         return 0
 
     def closein(self):
+        self.emptyFutureLists()
         targetpos = self.game.misterx.lastKnownPosition
 
-        for i in range (0, len(self.game.detectives)):
-            path = nx.shortest_path(self.game.board.graph, self.game.detectives[i].position, targetpos)
-            self.futureNodes[i].append(path[1])
-            oklist = [opts[1] for opts in self.options[i] if opts[0] == path[1]]
-            self.futureTransports[i].append(oklist[0])
+        for i in range(len(self.game.detectives)):
+            taken = []
+            for j in range(i):
+                taken.append(self.futureNodes[j][0])
+                if len(self.futureNodes[j]) > 1:
+                    taken.append(self.futureNodes[j][1])
+            
+            neighbours = [node for node in self.options[i] if node[0] not in taken]
+            neighboursPos = [node[0] for node in neighbours]
+            lengths = [nx.shortest_path_length(self.game.board.graph, pos, targetpos) for pos in neighboursPos]
+            index, _ = min(enumerate(lengths), key=itemgetter(1))
+            self.futureNodes[i].append(neighbours[index][0])
+            self.futureTransports[i].append(neighbours[index][1])
+                
 
 
     def encircle(self, decisiondepth=1):
@@ -305,7 +318,7 @@ class ExampleAIImplementationDetective(Detective):
         maxTransportsAnticipated = max([len(x) for x in self.futureTransports])
         
         # Check if the turn is more in the future than anticipated, if this is the case, there are no restrictions on the available positions
-        if maxNodesAnticipated < turnsAhead or maxTransportsAnticipated < turnsAhead:
+        if maxNodesAnticipated < turnsAhead:
             return self.game.board.getOptions(detective, startPosition)
 
         currentlyAhead = 0
@@ -316,21 +329,32 @@ class ExampleAIImplementationDetective(Detective):
                 if(cards[transp] < 0): cards[transp] = 0
             currentlyAhead += 1
             
-
-        transportOptions = self.game.board.getSimulatedOptions(cards, startPosition)
+        taken = []
         for nodeList in self.futureNodes:
+            if turnsAhead < len(nodeList)-1:
+                taken.append(nodeList[turnsAhead+1])
             if turnsAhead < len(nodeList):
-                tup1 = (nodeList[turnsAhead], 'taxi')
-                tup2 = (nodeList[turnsAhead], 'bus')
-                tup3 = (nodeList[turnsAhead], 'underground')
-                if  tup1 in transportOptions:
-                    transportOptions.remove(tup1)
-                if  tup2 in transportOptions:
-                    transportOptions.remove(tup2)
-                if tup3 in transportOptions:
-                    transportOptions.remove(tup3)
+                taken.append(nodeList[turnsAhead])
+
+        transportOptions = self.game.board.getSimulatedOptions(cards, startPosition, taken)
+        # for nodeList in self.futureNodes:
+            
+        #         tup1 = (nodeList[turnsAhead], 'taxi')
+        #         tup2 = (nodeList[turnsAhead], 'bus')
+        #         tup3 = (nodeList[turnsAhead], 'underground')
+        #         if  tup1 in transportOptions:
+        #             transportOptions.remove(tup1)
+        #         if  tup2 in transportOptions:
+        #             transportOptions.remove(tup2)
+        #         if tup3 in transportOptions:
+        #             transportOptions.remove(tup3)
             
         return transportOptions
+
+    def emptyFutureLists(self):
+        for i in range(len(self.game.detectives)):
+            del self.futureNodes[i][:]
+            del self.futureTransports[i][:]
 
 
 
