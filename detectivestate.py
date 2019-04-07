@@ -1,12 +1,6 @@
-from game.game import ScotlandYard
-
-import ai.random.detective as randomDetective
-
-import game.util as util
 import game.constants as const
 
 import numpy as np
-import pickle
 
 
 class DetectiveState():
@@ -15,18 +9,21 @@ class DetectiveState():
     """
 
     def __init__(self):
-        self.detectivepos = []
-        self.detectivecards = []
+        self.detectivepos = []  # position of the acting detective
+        self.otherpos = []  # positions of other detectives
+        self.detectivecards = []    # resources of acting detective
         self.revealcountdown = 0
         self.gamecountdown = 0
         self.possiblemrx = []
+        self.defeated = False
 
-    def extractDetState(self, game, coordinates, longest_path):
+    def extractDetState(self, game, idnumber):
 
-        self.detectivepos = [d.position for d in game.detectives]
+        det = game.detectives[idnumber]
+        self.detectivepos = det.position
+        self.otherpos = [d.position for d in game.detectives if not d.id == idnumber]
 
-        for det in game.detectives:
-            self.detectivecards.append([det.cards['underground'] / 4, det.cards['bus'] / 8, det.cards['taxi'] / 11])
+        self.detectivecards = [det.cards['underground'] / 4, det.cards['bus'] / 8, det.cards['taxi'] / 11]
 
         # Reveal countdown
         revealcountdown = -1
@@ -52,52 +49,8 @@ class DetectiveState():
         for i in possiblepos:
             onehotvec[i - 1] = 1
         self.possiblemrx = onehotvec
+        self.defeated = det.defeated
         return self
 
     def display(self):
-        print(f'Detective positions: {self.detectivepos}\nDetective cards: {self.detectivecards}\nReveal countdown: {self.revealcountdown}\nGame countdown: {self.gamecountdown}\nOne hot possible Mr X: {self.possiblemrx}')
-
-
-
-"""
-Testing:
-"""
-
-
-
-def initTrainingConstants(coordinate_anchors, gamesize):
-    config = util.readConfig('MLsettings.ini')
-
-    SY = ScotlandYard(cfg=config, size=gamesize)
-
-    # load coordinates
-    coord = pickle.load(
-        open(f"Distances_A{coordinate_anchors}_s{gamesize}.pickle", "rb"))
-
-    # calculate longest path
-    longest = 0
-    for co in coord:
-        if longest < max(co):
-            longest = max(co)
-
-    return longest, coord, SY
-
-
-def main():
-    longest_path, coordinates, game = initTrainingConstants(10, 199)
-
-    game.addMisterX(misterx.ExampleAIImplementationMisterX(game=game, name="AI Mister X", blackCards=4))
-    # game.addMisterX(randomMrX.ExampleAIImplementationRandomMisterX(name="Random Mr. X", game=game, blackCards=4))
-    game.addDetectives([randomDetective.ExampleAIImplementationRandomDetective(idNumber=i, game=game) for i in range(4)])
-
-    game.board.assignStartPositions()
-    game.running = True
-    game.update()
-
-    detstate = DetectiveState()
-    detstate.extractDetState(game, coordinates, longest_path)
-    detstate.display()
-
-
-if __name__ == '__main__':
-    main()
+        print(f'Detective position: {self.detectivepos}\nDetective cards: {self.detectivecards}\nOther detectives: {self.otherpos}\nReveal countdown: {self.revealcountdown}\nGame countdown: {self.gamecountdown}\nOne hot possible Mr X: {self.possiblemrx}')

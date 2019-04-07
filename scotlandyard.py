@@ -40,7 +40,7 @@ def main(args):
                 game=game,
                 longest_path=longest_path,
                 coordinates=coordinates,
-                modelname='ai\ml\models\ml2_DetDense[64, 32, 16]_Epi1000_Eps100_temp') 
+                modelname='ai\ml\models\DetDense[64, 32, 16]_52660_targetNNupd50') 
             for i in range(4)
         ]
     )

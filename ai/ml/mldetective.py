@@ -26,11 +26,8 @@ class AIModelDetective(Detective):
             else:
                 return self.nextaction
         else:
-            poss_det_action = [self.game.board.getOptions(detective, doubleAllowed=False) for detective in self.game.detectives]
-            detstate = DetectiveState().extractDetState(self.game, self.coordinates, self.longest_path)
-            actions, _ = chooseAction(self.model, poss_det_action, detstate, 0, self.longest_path, self.coordinates)
-            for i in range(0, len(self.game.detectives)):
-                self.game.detectives[i].nextaction = actions[i]
+            for i, det in enumerate(self.game.detectives):
+                det.nextaction, _ = chooseAction(self.model, self.game.board.getOptions(det, doubleAllowed=False), DetectiveState().extractDetState(self.game, i), 0, self.longest_path, self.coordinates)
             if self.nextaction[1] is None:
                 return None, None
             else:

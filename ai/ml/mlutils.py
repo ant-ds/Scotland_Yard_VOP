@@ -2,7 +2,6 @@
 Utilities for training procedure
 """
 
-from itertools import product
 import numpy as np
 from pickle import load
 
@@ -11,110 +10,89 @@ from game.game import ScotlandYard
 from ai.human import misterx
 import ai.ml.trainingdetective as detAI
 from detectivestate import DetectiveState
-from memunitdet import MemUnitDet
+from ai.ml.memunitdet import MemUnitDet
 
 
 # returns state action as numpy array for NN input
 def formalizeStateAction(detstate, action, longest_path, coordinates):
-    vec = []
-    for i in range(0, len(detstate.detectivepos)):
-        vec = vec + [x / longest_path for x in coordinates[detstate.detectivepos[i] - 1]] + detstate.detectivecards[i]
+    # add acting detective's position and cards
+    vec = [detstate.detectivepos] + detstate.detectivecards   # merge 2 lists into a new one
+
+    # add other detective's position
+    for otherp in detstate.otherpos:
+        vec.extend([x / longest_path for x in coordinates[otherp - 1]])
+    
+    # add reveal countdown, game countdown and defeat
     vec.append(detstate.revealcountdown)
     vec.append(detstate.gamecountdown)
+    vec.append(detstate.defeated)
 
-    actionpos = [act[0] for act in action]
-    actioncards = [act[1] for act in action]
-    for i in range(0, len(actionpos)):
-        vec = vec + [x / longest_path for x in coordinates[actionpos[i] - 1]]
-        if actioncards[i] == 'taxi':
-            vec = vec + [0, 0, 1]
-        elif actioncards[i] == 'bus':
-            vec = vec + [0, 1, 0]
-        elif actioncards[i] == 'underground':
-            vec = vec + [1, 0, 0]
-        else:
-            vec = vec + [0, 0, 0]
+    # add action position and transportation
+    vec.extend([x / longest_path for x in coordinates[action[0] - 1]])
+    if action[1] == 'taxi':
+        vec.extend([0, 0, 1])
+    elif action[1] == 'bus':
+        vec.extend([0, 1, 0])
+    elif action[1] == 'underground':
+        vec.extend([1, 0, 0])
+    else:
+        vec.extend([0, 0, 0])
 
     vec = np.append(np.array(vec), detstate.possiblemrx)
-
     return vec.reshape(-1, len(vec))
 
 
 def chooseAction(model, poss_det_action, detstate, epsilon, longest_path, coordinates):
-    # get all actions
-    # epsilon-greedy
-    # vectorize data
-    # get Q values with model.predict
-    # set action in detectives
-    # return action
 
-    chosen_action = None
+    chosen_action = detstate.detectivepos, None
     chosenQ = 0
 
-    for i, actions in enumerate(poss_det_action):
-        if len(actions) == 0:
-            poss_det_action[i] = [(detstate.detectivepos[i], None)]
+    if not poss_det_action:  # get Q value for state-action with defeated detective, model has to learn to avoid this situation
+        chosenQ = model.predict(formalizeStateAction(detstate, chosen_action, longest_path, coordinates))
+        return chosen_action, chosenQ
 
-    # possible action for each detective
-    possible_actions = list(zip(product(*poss_det_action)))
-    # filter actions with non-unique position combinations
-    possible_actions = [action for action in possible_actions if len([act[0] for act in action[0]]) == len(set([act[0] for act in action[0]]))]
-    if not possible_actions:
-        return (None, None), 0
     if np.random.uniform() <= epsilon:  # exploration
-        if len(possible_actions) > 1:
-            chosen_action = possible_actions[np.random.randint(0, len(possible_actions) - 1)]
-        else:
-            chosen_action = possible_actions[0]
-        chosenQ = model.predict(formalizeStateAction(detstate, chosen_action[0], longest_path, coordinates))
+        chosen_action = poss_det_action[np.random.randint(0, len(poss_det_action))]  # randint(): upper bound excluded
+        chosenQ = model.predict(formalizeStateAction(detstate, chosen_action, longest_path, coordinates))
 
     else:   # exploitation
-        # bereken Q value voor elke mogelijke actie
         Qvalues = []
-        for action in possible_actions:
-            inputvec = formalizeStateAction(detstate, action[0], longest_path, coordinates)
-            Qvalues.append(model.predict(inputvec))
-            # print(f'inputvec: {len(inputvec)}')
-            # Qvalues = [i for i in range(0, len(possible_actions))]
+        for action in poss_det_action:
+            Qvalues.append(model.predict(formalizeStateAction(detstate, action, longest_path, coordinates)))
         chosenQ = max(Qvalues)
-        chosen_action = possible_actions[Qvalues.index(chosenQ)]  
+        chosen_action = poss_det_action[Qvalues.index(chosenQ)]  
 
-    return chosen_action[0], chosenQ
+    return chosen_action, chosenQ
 
 
 # formalize game state, action, reward and following state
-def generateMemUnitDet(model, game, epsilon, coordinates, longest_path):
-    memunit = MemUnitDet()
+def generateMemUnitsDet(model, game, epsilon, coordinates, longest_path):
+    memunits = [MemUnitDet() for _ in game.detectives]
 
-    # state
-    memunit.currDetState = DetectiveState().extractDetState(game, coordinates, longest_path)
-
-    # action
-    poss_det_action = [game.board.getOptions(detective, doubleAllowed=False) for detective in game.detectives]
-    memunit.action, _ = chooseAction(model, poss_det_action, memunit.currDetState, epsilon, longest_path, coordinates)
-    for i in range(0, len(game.detectives)):
-        game.detectives[i].nextaction = memunit.action[i]
+    # state & action
+    for i, unit in enumerate(memunits):
+        unit.currDetState = DetectiveState().extractDetState(game, i)
+        game.detectives[i].nextaction, __ = unit.action, _ = chooseAction(model, game.board.getOptions(game.detectives[i], doubleAllowed=False), unit.currDetState, epsilon, longest_path, coordinates)
 
     # reward
-    memunit.reward = 0
     gameover, statuscode = game.update()
     if gameover:
         if statuscode >= 0:
-            memunit.reward = 100
+            for unit in memunits:
+                unit.reward = 100
         else:
-            memunit.reward = -100
+            for unit in memunits:
+                unit.reward = -100
 
     # next state
-    memunit.nextDetState = DetectiveState().extractDetState(game, coordinates, longest_path)
+    for i, unit in enumerate(memunits):
+        unit.nextDetState = DetectiveState().extractDetState(game, i)
+        unit.nextPossActions = game.board.getOptions(game.detectives[i], doubleAllowed=False)
 
-    # next possible actions
-    memunit.nextPossActions = [game.board.getOptions(detective, doubleAllowed=False) for detective in game.detectives]
-
-    return memunit, gameover
-
-    # Constants
+    return memunits, gameover
 
 
+# Constants
 def initTrainingConstants(coordinate_anchors, gamesize, det_amount):
 
     # pas readconfig aan zodat altijd specifieke settings gebruikt worden voor de training

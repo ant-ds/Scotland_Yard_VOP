@@ -15,8 +15,8 @@
 #         * gradient descent updates weights in NN
 #         * after x time steps: update weights in target network
 
-from ai.ml.mlutils import chooseAction, formalizeStateAction, initTrainingConstants, generateMemUnitsDet
-from ai.ml.densemodel import newDenseModel
+from ai.ml.mlutils import chooseAction, formalizeStateAction, initTrainingConstants, generateMemUnitDet
+from ai.ml.models.densemodel import newDenseModel
 
 import numpy as np
 from random import sample
@@ -24,52 +24,53 @@ import time
 import tensorflow.keras as ks
 
 # Game parameters
-coordinate_anchors = 10 
+coordinate_anchors = 10
 gamesize = 199
 det_amount = 4
-modelinputsize = 249
 
 # Hyperparameters
 epsilon = 1
 epsilon_startdecay = 400    # let agent explore first, exploitation is meaningless
 epsilon_decay = 1e-4   
-epsilon_min = 0.2          # 0.15 as found in an article
+epsilon_min = 0.25
 learning_rate = 0.005
 lr_decay = 1e-7         # rather low because model.fit will be called very often with little input
-gamma = 0.92            # MDP discount parameter, this used to be 0.99
+gamma = 0.95            # MDP discount parameter, this used to be 0.99
 
-target_upd_cycles = 50   # amount of NN trainings before target NN gets updated
-episodes = 200000
-warmup_capacity = 800  # amount of memory units to generate before starting to train
-batch_size = 128
-training_period = 8     # amount of games to play before 1 NN training
+target_upd_cycles = 7   # amount of NN trainings before target NN gets updated
+episodes = 10000
+warmup_capacity = 200  # amount of memory units to generate before starting to train
+batch_size = 16
+training_period = 2     # amount of games to play before 1 NN training
 
 play_test_games_interval = 25
 test_games = 100
-memorymax = 20000
+memorymax = 5000
 
 # 1 Initialize game
 longest_path, coordinates, game = initTrainingConstants(coordinate_anchors, gamesize, det_amount)
 
 # 2 Initialize NN
-layersizes = [64, 32, 16]
-model = newDenseModel(modelinputsize, layersizes, learning_rate, lr_decay)
+layersizes = [32, 32, 16]
+model = newDenseModel(305, layersizes, learning_rate, lr_decay)
 NAME = f'DetDense{layersizes}_startdecay{int(time.time())}'
+tensorboard = ks.callbacks.TensorBoard(log_dir=f'tensorboardlogs/{NAME}')
 
 # 3 Clone NN = targetNN
-targetNN = newDenseModel(modelinputsize, layersizes, learning_rate, lr_decay)
+targetNN = newDenseModel(305, layersizes, learning_rate, lr_decay)
 targetNN.set_weights(model.get_weights())
 
 # 4 Initialize replay memory capacity
 memory = []
 print('Warming up memory')
 while(len(memory) < warmup_capacity):
-    game.reset()    
+    game.reset()    # = initTrainingConstants(coordinate_anchors, gamesize, det_amount)    # game.reset()  # TODO
+    # game.board.assignStartPositions()
 
     game_done = False
     while(not game_done):
-        memunits, game_done = generateMemUnitsDet(model, game, epsilon, coordinates, longest_path)
-        memory.extend(memunits)
+        memunit, game_done = generateMemUnitDet(model, game, epsilon, coordinates, longest_path)
+        memory.append(memunit)
 
 # 5 Training
 print('Start training')
@@ -80,28 +81,29 @@ for i in range(0, episodes):
     for _ in range(0, training_period):
 
         # reset game
-        game.reset()    
+        game.reset()    # = initTrainingConstants(coordinate_anchors, gamesize, det_amount)    # game.reset()  # TODO
+        # game.board.assignStartPositions()
 
         game_done = False
         while(not game_done):
-            memunits, game_done = generateMemUnitsDet(model, game, epsilon, coordinates, longest_path)
-            memory.extend(memunits)
+            memunit, game_done = generateMemUnitDet(model, game, epsilon, coordinates, longest_path)
+            memory.append(memunit)
 
     if len(memory) > memorymax:
-        del memory[:1000]
+        del memory[:400]
     print('Games played')
 
     # sample batch and preprocess
     sam = sample(memory, batch_size)
     batch = [formalizeStateAction(s.currDetState, s.action, longest_path, coordinates) for s in sam]
-    arrbatch = np.array(batch).reshape(batch_size, modelinputsize)
+    arrbatch = np.array(batch).reshape(batch_size, 305)
 
     target_batch = []
     for s in sam:
         if s.reward == 0:
             _, targetQ = chooseAction(targetNN, s.nextPossActions, s.nextDetState, 0, longest_path, coordinates)
             target_batch.append(s.reward + gamma * targetQ)
-        else:   # game ended, no more rewards can be earned => cumulative rewards (=Q) should be zero => targetQ = 0
+        else:
             target_batch.append(s.reward)
 
     print('Optimizing on batch')
@@ -112,7 +114,7 @@ for i in range(0, episodes):
         print('Updating target NN')
         targetNN.set_weights(model.get_weights())
 
-    if i % 10 == 0:
+    if i % 5 == 0:
         model.save(f'ai/ml/models/{NAME}')
 
     if epsilon > epsilon_min and i > epsilon_startdecay:

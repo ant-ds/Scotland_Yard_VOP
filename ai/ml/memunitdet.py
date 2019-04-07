@@ -9,7 +9,7 @@ class MemUnitDet():
         self.currDetState = None
 
         # action
-        self.action = []
+        self.action = (None, None)
 
         # reward
         self.reward = 0
