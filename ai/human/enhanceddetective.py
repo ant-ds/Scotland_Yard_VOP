@@ -134,17 +134,29 @@ class ExampleAIImplementationDetective(Detective):
         #Small error check:
         assert (len(targetMetro) == len(self.game.detectives)), "MetroList and detectiveList not of same length!"
         
-        for i in range(0, len(targetMetro)):
+        for i in range(0, len(self.game.detectives)):
             path = nx.shortest_path(self.game.board.graph, self.game.detectives[i].position, targetMetro[i][0])
             assert (len(path) != 0), "Path lenght is 0!"
             condpr(f"Path length: {len(path)}")
             # to test: are there conflicting shortest paths?
+            taken = []
+            for turnToEval in range(1,min([3,len(path)])):
+                for j in range(0,i): 
+                        taken.append(self.futureNodes[j][turnToEval])
+                
+                if path[turnToEval] in taken:
+                    #collision: find node with shortest path
+                    neighbours = [node[0] for node in self.game.board.getOptions(self.game.detectives[i], customStartPosition=path[turnToEval-1]) if node[0] not in taken]
+                    lengths = [nx.shortest_path(self.game.board.graph, pos, targetMetro[i][0]) for pos in neighbours]
+                    index, _ = max(enumerate(lengths), key=itemgetter(1))
+                    newpath = nx.shortest_path(self.game.board.graph, neighbours[index], targetMetro[i][0])
+                    path = [path[0:turnToEval-1], newpath]
             transp = [transport[1] for transport in self.options[i] if transport[0] == path[1]]
             
             # detective one turn away from a metro station
             if len(path) == 2: 
                 # TODO: check if enough transport to do two upcoming moves
-                neighbours = self.game.board.getOptions(self.game.detectives[i], customStartPosition=path[1])
+                neighbours = self.getFutureOptions(self.game.detectives[i], 1, path[1])
                 transportToUse = "taxi"
                 # print(backforth)
                 # print(f"viable taxi positions: {[viable for viable in backforth if viable[1] is transportToUse]} ")
@@ -154,9 +166,9 @@ class ExampleAIImplementationDetective(Detective):
                 transp.append(transportToUse)
             
             
-            if len(path) == 4:
+            if len(path) >3 :
                 # only look 2 moves ahead and remove other decisions
-                del path[3]
+                path = path[0:2]
 
             #add missing transport
             if len(transp) < len(path)-1:
@@ -167,8 +179,8 @@ class ExampleAIImplementationDetective(Detective):
                     transp.append(postrans[0])
 
                 
-            if len(transp) == 3:
-                del transp[2]
+            if len(transp) > 2:
+                transp = transp[0:1]
 
             print(f"Future moves for detective {i}:  {path}")
             self.futureNodes[i] = path[1:]
