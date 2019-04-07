@@ -140,7 +140,7 @@ class ExampleAIImplementationDetective(Detective):
             path = nx.shortest_path(self.game.board.graph, self.game.detectives[i].position, targetMetro[i])
             assert (len(path) != 0), "Path lenght is 0!"
             condpr(f"Shortest path calculation for detective {i}, path length : {len(path)}")
-            # to test: are there conflicting shortest paths?
+            transp = []
             taken = []
             for turnToEval in range(1,min([3,len(path)])):
                 for j in range(0,i): 
@@ -156,7 +156,8 @@ class ExampleAIImplementationDetective(Detective):
                     index, _ = min(enumerate(lengths), key=itemgetter(1))
                     newpath = nx.shortest_path(self.game.board.graph, neighbours[index], targetMetro[i])
                     path = path[0:turnToEval] + newpath
-            transp = [transport[1] for transport in self.options[i] if transport[0] == path[1]]
+            transportPos = [transport[1] for transport in self.options[i] if transport[0] == path[1]]
+            transp.append(transportPos[0])
             
             # detective one turn away from a metro station
             if len(path) == 2: 
@@ -321,6 +322,7 @@ class ExampleAIImplementationDetective(Detective):
         if maxNodesAnticipated < turnsAhead:
             return self.game.board.getOptions(detective, startPosition)
 
+        # TODO: add used cards
         currentlyAhead = 0
         for transp in self.futureTransports[index]:
             if currentlyAhead <= turnsAhead:
