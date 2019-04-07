@@ -13,7 +13,8 @@ import game.constants as const
 #   Cleanup code: try to use less for loops and more python adapted stuff
 #   Implement getAdvancedOptions
 #   Collisions on uneven turns (one in previous turn)
-#
+#   Evaluate best transport function
+#   Prevent metro in shortest path
 #
 printplez = True
 def condpr(item):
@@ -135,22 +136,23 @@ class ExampleAIImplementationDetective(Detective):
         assert (len(targetMetro) == len(self.game.detectives)), "MetroList and detectiveList not of same length!"
         
         for i in range(0, len(self.game.detectives)):
-            path = nx.shortest_path(self.game.board.graph, self.game.detectives[i].position, targetMetro[i][0])
+            path = nx.shortest_path(self.game.board.graph, self.game.detectives[i].position, targetMetro[i])
             assert (len(path) != 0), "Path lenght is 0!"
-            condpr(f"Path length: {len(path)}")
+            condpr(f"Shortest path calculation for detective {i}, path length : {len(path)}")
             # to test: are there conflicting shortest paths?
             taken = []
             for turnToEval in range(1,min([3,len(path)])):
                 for j in range(0,i): 
-                        taken.append(self.futureNodes[j][turnToEval])
+                        taken.append(self.futureNodes[j][turnToEval-1])
                 
                 if path[turnToEval] in taken:
+                    condpr(f"Collision detected for detective {i}, problematic node: {path[turnToEval]}.")
                     #collision: find node with shortest path
                     neighbours = [node[0] for node in self.game.board.getOptions(self.game.detectives[i], customStartPosition=path[turnToEval-1]) if node[0] not in taken]
-                    lengths = [nx.shortest_path(self.game.board.graph, pos, targetMetro[i][0]) for pos in neighbours]
+                    lengths = [nx.shortest_path_length(self.game.board.graph, pos, targetMetro[i]) for pos in neighbours]
                     index, _ = max(enumerate(lengths), key=itemgetter(1))
-                    newpath = nx.shortest_path(self.game.board.graph, neighbours[index], targetMetro[i][0])
-                    path = [path[0:turnToEval-1], newpath]
+                    newpath = nx.shortest_path(self.game.board.graph, neighbours[index], targetMetro[i])
+                    path = path[0:turnToEval] + newpath
             transp = [transport[1] for transport in self.options[i] if transport[0] == path[1]]
             
             # detective one turn away from a metro station
@@ -168,19 +170,20 @@ class ExampleAIImplementationDetective(Detective):
             
             if len(path) >3 :
                 # only look 2 moves ahead and remove other decisions
-                path = path[0:2]
+                path = path[0:3]
 
             #add missing transport
             if len(transp) < len(path)-1:
                 i0 = len(transp)
                 for j in range (i0,len(path)-1):
-                    neighbours = self.game.board.getOptions(self.game.detectives[i], customStartPosition=path[j])
+                    neighbours = self.getFutureOptions(self.game.detectives[i], j,path[j])
+                    # neighbours = self.game.board.getOptions(self.game.detectives[i], customStartPosition=path[j])
                     postrans = [transport[1] for transport in neighbours if transport[0] == path[j+1]]
                     transp.append(postrans[0])
 
                 
             if len(transp) > 2:
-                transp = transp[0:1]
+                transp = transp[0:2]
 
             print(f"Future moves for detective {i}:  {path}")
             self.futureNodes[i] = path[1:]
