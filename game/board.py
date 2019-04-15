@@ -124,16 +124,16 @@ class Board():
         # Is the proposed destination an option?
         options = self.getOptions(player)
         tup = (destination, transport)
-        assert(util.isOption(options, tup)),f"{tup} was not an option in {options}!"
-        # if not util.isOption(options, tup):
-        #     # return False, f"{tup} was not an option in {options}"
-        #     # Suggestie om een random move te doen zodat het proces niet exit bij problemen, maar ze wel meldt
-        #     print("WARNING:: The proposed move was invalid, continuing with a random move!!")
-        #     random.shuffle(options)
-        #     for op in options:
-        #         if self.movePlayer(player, op[0], op[1])[0] is True:
-        #             return True, None
-        #     return None, None  # speler heeft geen opties meer
+        # assert(util.isOption(options, tup)),f"{tup} was not an option in {options}!"
+        if not util.isOption(options, tup):
+            # return False, f"{tup} was not an option in {options}"
+            # Suggestie om een random move te doen zodat het proces niet exit bij problemen, maar ze wel meldt
+            print("WARNING:: The proposed move was invalid, continuing with a random move!!")
+            random.shuffle(options)
+            for op in options:
+                if self.movePlayer(player, op[0], op[1])[0] is True:
+                    return True, None
+            return None, None  # speler heeft geen opties meer
         
         # Is the destination not occupied by a detective?
         if destination in [d.position for d in self.game.detectives]:
