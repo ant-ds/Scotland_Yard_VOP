@@ -10,7 +10,6 @@ from game.game import ScotlandYard
 import game.constants as const
 
 # TODO-list: 
-#   Cleanup code: try to use less for loops and more python adapted stuff
 #   Implement getAdvancedOptions
 #   Evaluate best transport function
 #   Prevent metro in shortest path
@@ -29,7 +28,6 @@ class ExampleAIImplementationDetective(Detective):
     futureTransports = []  # List of lists of used transports for these nodes
     options = []  # List of lists of options for every detective
     living = []  # Gives first alive detective, needed in decide to make all choices when that detective plays
-    # varInit = False  # Set to true when all static variables are initisalised in decide. 
     
     def __init__(self, *args, **kwargs):
         self.trn = 1
@@ -44,15 +42,10 @@ class ExampleAIImplementationDetective(Detective):
 
         # Initialize static variables correctly
         if len(self.futureNodes) != len(self.game.detectives):
-            # TODO: use extend instead of forloop and append
-            for detective in self.game.detectives:
-                self.futureNodes.append([])
-                self.futureTransports.append([])
-                self.living.append(1)
-            # self.varInit = True
+            self.futureNodes.extend([[] for _ in range(len(self.game.detectives))])
+            self.futureTransports.extend([[] for _ in range(len(self.game.detectives))])
+            self.living.extend([1 for _ in range(len(self.game.detectives))])
 
-        # self.getFutureOptions(self, 2, 3)
-        
         disperseTurns = [1] # makes decission for turn 1 and 2 at the same time
         closeinTurns = [3, 4, 8, 13, 18, 24, 25]
         encircleTurns = [5, 6, 7, 9, 10, 11, 14, 15, 16, 19, 20, 21, 22, 23]
@@ -92,7 +85,7 @@ class ExampleAIImplementationDetective(Detective):
         def getMetroDistances():
             """
             Compose list of distance of a player to all metros that are within a distance of 3 turns
-            Returns list of tuples with (metropos, shortest path length to metro)
+            Returns: list of tuples with (metropos, shortest path length to metro)
             """
             # TODO: exclude metros from shortest path (max 1 metro?) - need to test availability!
             possibleMetros = [] # list containing lists of tuples, every list corresponds to one detective
@@ -136,11 +129,10 @@ class ExampleAIImplementationDetective(Detective):
         
         targetMetro = assignMetro()
 
-        #Small error check:
         assert (len(targetMetro) == len(self.game.detectives)), "MetroList and detectiveList not of same length!"
         
-        for i in range(0, len(self.game.detectives)):
-            path = nx.shortest_path(self.game.board.graph, self.game.detectives[i].position, targetMetro[i])
+        for i, det in enumerate(self.game.detectives):
+            path = nx.shortest_path(self.game.board.graph, det.position, targetMetro[i])
             assert (len(path) != 0), "Path lenght is 0!"
             condpr(f"Shortest path calculation for detective {i}, path length : {len(path)}")
             transp = []
@@ -154,7 +146,7 @@ class ExampleAIImplementationDetective(Detective):
                 if path[turnToEval] in taken:
                     condpr(f"Collision detected for detective {i}, problematic node: {path[turnToEval]}.")
                     #collision: find node with shortest path
-                    neighbours = [node[0] for node in self.game.board.getOptions(self.game.detectives[i], customStartPosition=path[turnToEval-1]) if node[0] not in taken]
+                    neighbours = [node[0] for node in self.game.board.getOptions(det, customStartPosition=path[turnToEval-1]) if node[0] not in taken]
                     lengths = [nx.shortest_path_length(self.game.board.graph, pos, targetMetro[i]) for pos in neighbours]
                     index, _ = min(enumerate(lengths), key=itemgetter(1))
                     newpath = nx.shortest_path(self.game.board.graph, neighbours[index], targetMetro[i])
@@ -164,7 +156,7 @@ class ExampleAIImplementationDetective(Detective):
             
             # detective one turn away from a metro station
             if len(path) == 2: 
-                neighbours = self.getFutureOptions(self.game.detectives[i], 1, path[1])
+                neighbours = self.getFutureOptions(det, 1, path[1])
                 transportToUse = "taxi"
                 # print(backforth)
                 # print(f"viable taxi positions: {[viable for viable in backforth if viable[1] is transportToUse]} ")
@@ -179,12 +171,11 @@ class ExampleAIImplementationDetective(Detective):
                 path = path[0:3]
 
             #add missing transport
-            # TODO: issue here somewhere...
             if len(transp) < len(path)-1:
                 i0 = len(transp)
                 for j in range (i0,len(path)-1):
-                    neighbours = self.getFutureOptions(self.game.detectives[i], j, path[j])
-                    # neighbours = self.game.board.getOptions(self.game.detectives[i], customStartPosition=path[j])
+                    neighbours = self.getFutureOptions(det, j, path[j])
+                    # neighbours = self.game.board.getOptions(det, customStartPosition=path[j])
                     postrans = [transport[1] for transport in neighbours if transport[0] == path[j+1]]
                     transp.append(postrans[0])
 
@@ -344,8 +335,8 @@ class ExampleAIImplementationDetective(Detective):
 
     def getAvailableOptions(self, detOrId):
         """
-        Returns a list of tuples (position, transport) that are available after taking the future decissions made for earlier detectives into account
-        Takes as argument: a detective, or a detective id
+        Returns a list of tuples that are available after taking the future decissions, made for earlier detectives, into account
+        Arguments: a detective, or a detective id
         Returns: tuples (position, transport)
         """
 
