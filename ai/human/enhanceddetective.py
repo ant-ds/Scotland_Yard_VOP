@@ -16,7 +16,6 @@ import game.constants as const
 #   Prevent metro in shortest path
 #   Move from lists of lists to variables for every class separatly
 #   Implement enumerate
-#   None None in options als geen options
 
 printplez = True
 def condpr(item):
@@ -55,7 +54,7 @@ class ExampleAIImplementationDetective(Detective):
         # self.getFutureOptions(self, 2, 3)
         
         disperseTurns = [1] # makes decission for turn 1 and 2 at the same time
-        closeinTurns = [3, 4, 8, 13, 18, 24]
+        closeinTurns = [3, 4, 8, 13, 18, 24, 25]
         encircleTurns = [5, 6, 7, 9, 10, 11, 14, 15, 16, 19, 20, 21, 22, 23]
         broadenTurns = [12, 17]
         
@@ -74,10 +73,10 @@ class ExampleAIImplementationDetective(Detective):
             elif self.trn in closeinTurns:
                 self.closein()
             elif self.trn in encircleTurns:
-                self.encircle()
+                self.broaden()
             elif self.trn in broadenTurns:
                 self.broaden()
-        print(f"getting decision for id::{self.id}\nFuture:{self.futureNodes, self.futureTransports}")
+        print(f"getting decision for id:{self.id}\nFuture:{self.futureNodes, self.futureTransports}")
         decision = (self.futureNodes[self.id][0], self.futureTransports[self.id][0])
         del self.futureTransports[self.id][0]
         del self.futureNodes[self.id][0]
@@ -201,23 +200,15 @@ class ExampleAIImplementationDetective(Detective):
 
     def closein(self):
         self.emptyFutureLists()
-        targetpos = self.game.misterx.lastKnownPosition
-
         for i in range(len(self.game.detectives)):
-            taken = []
-            for j in range(i):
-                if self.futureNodes[j]:
-                    taken.append(self.futureNodes[j][0])
-                if len(self.futureNodes[j]) > 1:
-                    taken.append(self.futureNodes[j][1])
-            
-            neighbours = [node for node in self.options[i] if node[0] not in taken]
-            neighboursPos = [node[0] for node in neighbours]
-            lengths = [nx.shortest_path_length(self.game.board.graph, pos, targetpos) for pos in neighboursPos]
+            #split list of tuples (postion, transport) into two separate lists [positions] and [transport]
+            neighboursPos, neighboursTrans = map(list,zip(*self.getAvailableOptions(i))) 
+
+            lengths = [nx.shortest_path_length(self.game.board.graph, pos, self.game.misterx.lastKnownPosition) for pos in neighboursPos]
             if lengths:    
                 index, _ = min(enumerate(lengths), key=itemgetter(1))
-                self.futureNodes[i].append(neighbours[index][0])
-                self.futureTransports[i].append(neighbours[index][1])
+                self.futureNodes[i].append(neighboursPos[index])
+                self.futureTransports[i].append(neighboursTrans[index])
             # else:
             #     self.futureNodes[i].append([None])
             #     self.futureTransports[i].append([None])
@@ -276,6 +267,7 @@ class ExampleAIImplementationDetective(Detective):
             self.futureTransports[i].append(move[1])
 
     def broaden(self):
+        self.emptyFutureLists()
         print("---Broaden algo---")
         for i, det in enumerate(self.game.detectives):
             decision = self.randomMove(det)
@@ -283,14 +275,8 @@ class ExampleAIImplementationDetective(Detective):
             self.futureTransports[i].append(decision[1])
 
     def randomMove(self, det):
-        print("")
-        # print("~Making random move~")
-        options = self.game.board.getOptions(det)
-        # print(f"Detective: {det.id} at {det.position}, Possible moves: {options}")
-        if len(options) == 0:
-            return None, None
+        options = self.getAvailableOptions(det)
         decision = random.choice(options)
-        # print(f"Chosen move: {decision}")
         return decision[0], decision[1]
         
 ##########_TESTS_##########
@@ -356,5 +342,31 @@ class ExampleAIImplementationDetective(Detective):
             del self.futureNodes[i][:]
             del self.futureTransports[i][:]
 
+    def getAvailableOptions(self, detOrId):
+        """
+        Returns a list of tuples (position, transport) that are available after taking the future decissions made for earlier detectives into account
+        Takes as argument: a detective, or a detective id
+        Returns: tuples (position, transport)
+        """
+
+        assert(isinstance(detOrId, int) or (detOrId, Detective))
+        if isinstance(detOrId, int):
+            i = detOrId
+        elif isinstance(detOrId, Detective):
+            i= detOrId.id
+        
+        # Generate list of unavailable positions for our detective
+        taken = []
+        for j in range(i):
+            if self.futureNodes[j]:
+                taken.append(self.futureNodes[j][0]) #Those positions will still be occupied by other detectives
+            if len(self.futureNodes[j]) > 1:
+                taken.append(self.futureNodes[j][1]) #Those positions are where an earlier detective plans to go, so it may not be occupied.
+        
+        options = [node for node in self.options[i] if node[0] not in taken]
+        # Return None if options is empty
+        if not options:
+            return [(None, None)]
+        return options
 
 
