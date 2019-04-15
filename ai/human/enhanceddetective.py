@@ -12,10 +12,11 @@ import game.constants as const
 # TODO-list: 
 #   Cleanup code: try to use less for loops and more python adapted stuff
 #   Implement getAdvancedOptions
-#   Collisions on uneven turns (one in previous turn)
 #   Evaluate best transport function
 #   Prevent metro in shortest path
 #   Move from lists of lists to variables for every class separatly
+#   Implement enumerate
+#   None None in options als geen options
 
 printplez = True
 def condpr(item):
@@ -51,7 +52,7 @@ class ExampleAIImplementationDetective(Detective):
                 self.living.append(1)
             # self.varInit = True
 
-        self.getFutureOptions(self, 2, 3)
+        # self.getFutureOptions(self, 2, 3)
         
         disperseTurns = [1] # makes decission for turn 1 and 2 at the same time
         closeinTurns = [3, 4, 8, 13, 18, 24]
@@ -62,9 +63,12 @@ class ExampleAIImplementationDetective(Detective):
         if self.id == self.living.index(1):
             self.options = []
             # Generate all options for this turn
-            for detective in self.game.detectives:
-                condpr(f"Options for detective {detective.id}: {self.game.board.getOptions(detective, doubleAllowed=False)}")
-                self.options.append(self.game.board.getOptions(detective, doubleAllowed=False))
+            for i, detective in enumerate(self.game.detectives):
+                ops = self.game.board.getOptions(detective)
+                if ops == []:
+                   ops = [(None, None)]
+                self.options.append(ops)
+                condpr(f"Options for detective {detective.id}: {self.options[i]}")
             if self.trn in disperseTurns:
                 self.disperse()
             elif self.trn in closeinTurns:
@@ -81,7 +85,7 @@ class ExampleAIImplementationDetective(Detective):
             self.living[self.id] = 0
 
         print(f"Going to play {decision[1]} from {self.position} to {decision[0]}")
-        input("Press Enter to continue...")
+        # input("Press Enter to continue...")
         return decision[0], decision[1]
 
     def disperse(self):
@@ -202,16 +206,21 @@ class ExampleAIImplementationDetective(Detective):
         for i in range(len(self.game.detectives)):
             taken = []
             for j in range(i):
-                taken.append(self.futureNodes[j][0])
+                if self.futureNodes[j]:
+                    taken.append(self.futureNodes[j][0])
                 if len(self.futureNodes[j]) > 1:
                     taken.append(self.futureNodes[j][1])
             
             neighbours = [node for node in self.options[i] if node[0] not in taken]
             neighboursPos = [node[0] for node in neighbours]
             lengths = [nx.shortest_path_length(self.game.board.graph, pos, targetpos) for pos in neighboursPos]
-            index, _ = min(enumerate(lengths), key=itemgetter(1))
-            self.futureNodes[i].append(neighbours[index][0])
-            self.futureTransports[i].append(neighbours[index][1])
+            if lengths:    
+                index, _ = min(enumerate(lengths), key=itemgetter(1))
+                self.futureNodes[i].append(neighbours[index][0])
+                self.futureTransports[i].append(neighbours[index][1])
+            # else:
+            #     self.futureNodes[i].append([None])
+            #     self.futureTransports[i].append([None])
                 
 
 
@@ -298,17 +307,6 @@ class ExampleAIImplementationDetective(Detective):
                 print(f"PROBLEM: No less than {dist} metro for node {startPos}")
             metrodists.append(metrodist)
         print(metrodists)
-
-    # def testCollidingShortestPaths(self):
-    #     paths = []
-    #     for startPos in const.START_POSITIONS['detectives']:
-    #         for metro in const.METRO_STATIONS:
-    #             paths.append(nx.shortest_path(self.game.board.graph, startPos, metro))
-
-    #     for startPos in const.START_POSITIONS['detectives']:
-    #         for i in range (0, len(startPos)):
-    #             for j in range (0, len(const.START_POSITIONS)):
-    #                 if const.START_POSITIONS[j] != startPos and startPos(i) == 
 
 ###########################
 
