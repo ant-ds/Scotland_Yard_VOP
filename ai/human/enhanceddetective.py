@@ -10,6 +10,7 @@ from game.game import ScotlandYard
 import game.constants as const
 
 # TODO-list: 
+#   Debug Encircle
 #   Evaluate best transport function
 #   Prevent metro in shortest path
 #   (Move from lists of lists to variables for every class separatly)
@@ -64,7 +65,7 @@ class ExampleAIImplementationDetective(Detective):
             elif self.trn in closeinTurns:
                 self.closein()
             elif self.trn in encircleTurns:
-                self.broaden()
+                self.encircle()
             elif self.trn in broadenTurns:
                 self.broaden()
         print(f"getting decision for id:{self.id}\nFuture:{self.futureNodes, self.futureTransports}")
@@ -202,7 +203,29 @@ class ExampleAIImplementationDetective(Detective):
             #     self.futureTransports[i].append([None])
                 
 
+    # def encircle(self):
+    #     def narrowXPosition():
+    #         """
+    #         Narrow all mrX positions down to a subset of most likely positions
+    #         """
+    #         _, dictX = self.game.board.possibleMisterXPositions(returnProbabilities=True)
+    #         possibleX = list(dictX.items())
+    #         # print(f"Possible positions for mr X: {possibleX}")
+    #         averageProb = sum(map(lambda x: x[1], possibleX)) / len(possibleX)
+    #         probableX = [pos[0] for pos in possibleX if pos[1] >= averageProb]
+    #         # print(f"Average probability: {averageProb}\nNarrowed down positions for mr X: {probableX}")
+    #         condpr(f"Original amount of X positions: {len(possibleX)} now narrowed down to {len(probableX)}")
+    #         # TODO: do something with amount of options for a node.
+    #         return probableX
+        
+    #     def calcEntropy():
+    #         """
+    #         Calculate 
+    #         """
+    #         return None
 
+    #     narrowXPosition()
+    #     self.broaden()
     def encircle(self, decisiondepth=1):
         def validateOptionSet(optionset: list) -> bool:
             """
@@ -220,9 +243,7 @@ class ExampleAIImplementationDetective(Detective):
                 return [(game.board.mrxEntropy(), moves)]
             fullOptions = []  # create a list containing all lists of options per detecive
             for i, det in enumerate(game.detectives):
-                ops = game.board.getOptions(det)
-                if ops == []:
-                    ops = [(None, None)]
+                ops = self.getAvailableOptions(det)
                 fullOptions.append(ops)
             crossproduct = list(itertools.product(*fullOptions))  # Giant crossproduct of all possible options
             self.print_(f"Added fan-out of {len(crossproduct)} on level {depth}")
@@ -241,6 +262,7 @@ class ExampleAIImplementationDetective(Detective):
                     if depth == decisiondepth:
                         # Only save the first moves, rest is used to simulate the future
                         moves = options
+                # TODO: elliminate this update
                 clone.misterx.update()    
                 results += search(clone, moves, depth=depth - 1)
                 clone.misterx = origMrx.clone()
@@ -269,6 +291,11 @@ class ExampleAIImplementationDetective(Detective):
 
 
     def getFutureOptions(self, detective, turnsAhead, startPosition):
+        """
+        Returns a list of tuples that will be available in the future, taking into accounts the future moves
+        Arguments: a detective, amount of turns into the future, startposition
+        Returns: list of tuples (position, transport)
+        """
         cards = detective.cards 
         index = detective.id
         
@@ -294,7 +321,7 @@ class ExampleAIImplementationDetective(Detective):
         """
         Returns a list of tuples that are available after taking the future decissions, made for earlier detectives, into account
         Arguments: a detective, or a detective id
-        Returns: tuples (position, transport)
+        Returns: list of tuples (position, transport)
         """
 
         assert(isinstance(detOrId, int) or (detOrId, Detective))
