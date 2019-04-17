@@ -233,7 +233,7 @@ class ExampleAIImplementationDetective(Detective):
             entropy = 0.0
             for p in probabilities:
                 entropy -= p * log2(p)
-            condpr(f"Entropy: {entropy}")
+            # condpr(f"Entropy: {entropy}")
             return entropy
 
         def expand(newDetectivePositions):
@@ -245,19 +245,20 @@ class ExampleAIImplementationDetective(Detective):
             # Look up the most recent reveal and slice the history accordingly
             sliceStart = max([i for i in const.MRX_OPEN_TURNS if i <= self.trn])
             moves = [hist[1] for hist in mrx.history[sliceStart:]]
-            print(f"Moves: {moves}")
+            # print(f"Moves: {moves}")
             moves.append('black')
             prohibited = self.game.board.getprohibited(sliceStart - len(mrx.doubleMoves))  # Account for double moves disrupting the indices
             prohibited.append(newDetectivePositions)
-            print(f"{prohibited}")
-            # TODO: only return tuplelist! instead of weird dictionary thing
-            return self.game.board.possiblePositions(
+            # print(f"{prohibited}")
+            _, dictX = self.game.board.possiblePositions(
                             mrx.lastKnownPosition, 
                             moves=moves, 
                             occupied=prohibited, 
                             refuseCurrent=True, 
                             returnProbabilities=True, 
                         )
+            possibleX = list(dictX.items())
+            return possibleX
         
         fullOptions = []  # create a list containing all lists of options per detecive
         for i, det in enumerate(self.game.detectives):
@@ -266,16 +267,26 @@ class ExampleAIImplementationDetective(Detective):
         crossproduct = list(itertools.product(*fullOptions))  # Giant crossproduct of all possible options
         self.print_(f"Added fan-out of {len(crossproduct)} on level {decisiondepth}")
         # print(f"Crossproduct: {crossproduct}")
+        entropy = -1
+        bestScenario = 0
         for i, scenario in enumerate(crossproduct):
             detectivePos = [node[0] for node in scenario]
             # print(f"DetectivePos: {detectivePos}")
             ent = calcEntropy(expand(detectivePos))
-            print(f"Scenario {i}: entropy = {ent}")
-            print("")
+            # print(f"Scenario {i}: entropy = {ent}")
+            if entropy > ent or entropy == -1:
+                entropy = ent
+                bestScenario = i
+                print(f"ENTROPY CHANGED TO {entropy} (scenario: {i})")
+        
+        moves = crossproduct[bestScenario]
+        for i, decission in enumerate(moves):
+            self.futureNodes[i].append(decission[0])
+            self.futureTransports[i].append(decission[1])
 
         
         # print(f"{expand()}")
-        self.broaden()
+        # self.broaden()
     
     
     
