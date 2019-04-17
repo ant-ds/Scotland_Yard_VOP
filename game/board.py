@@ -82,6 +82,22 @@ class Board():
         
         return options
 
+    def getSimulatedOptions(self, cards, startPosition, detectivePositions):
+        """
+            Same as getOptions but with custom cards etc. instead of a player
+            Only for detectives
+        """
+        options = []
+        
+        # for nbr in G[n]: iterates through neighbors
+        for nbr in self.graph[startPosition]:
+            for k, transportDict in self.graph.get_edge_data(startPosition, nbr).items():  # edge data is a dict of dicts
+                transport = transportDict['transport']
+                if cards[transport]>0 and nbr not in detectivePositions:
+                    options.append((nbr, transport))
+        
+        return options
+
     def getOccupiedPositions(self):
         "Returns currently occupied positions"
         positions = [self.game.misterx.position]
@@ -106,6 +122,7 @@ class Board():
         # Is the proposed destination an option?
         options = self.getOptions(player)
         tup = (destination, transport)
+        # assert(util.isOption(options, tup)),f"{tup} was not an option in {options}!"
         if not util.isOption(options, tup):
             # return False, f"{tup} was not an option in {options}"
             # Suggestie om een random move te doen zodat het proces niet exit bij problemen, maar ze wel meldt
