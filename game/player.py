@@ -30,15 +30,13 @@ class Player():
         dest, transport = self.decide()
         status, issue = self.move(dest, transport)
         if status is None:
-            self._defeated()
-            return False
+            return self._defeated()
         while not status:
             self.print_(f"That move was invalid: {issue}")
             dest, transport = self.decide()
             status, issue = self.move(dest, transport)
             if status is None:
-                self._defeated()
-                return False
+                return self._defeated()
 
         self._printCards()
         self.print_(f"{self} ended his turn on position {self.position}")
@@ -53,7 +51,7 @@ class Player():
         """
 
         options = self.game.board.getOptions(self)
-        options = sorted(options, key=lambda x: x[0] == 'double')  # display signgle moves first
+        options = sorted(options, key=lambda x: x[0] == 'double')  # display single moves first
         self.print_(f"Your options are:: {options}")
 
         dest, transport = self._getInput()
@@ -91,6 +89,7 @@ class Player():
     
     def _defeated(self):
         self.defeated = True
+        return False
     
     @property
     def turn(self):

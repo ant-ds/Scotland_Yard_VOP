@@ -13,7 +13,7 @@ class ScotlandYard():
     """
     Class with implementation of the strategic boardgame Scotland Yard.
     """
-    def __init__(self, size=199, numDetectives=4, cfg=None, defaultPlayers=False, clone=False):
+    def __init__(self, size=199, turns=24, numDetectives=4, cfg=None, proj='', defaultPlayers=False, clone=False):
         self.isclone = clone  # Used in detecting clones, to prevent unnecessary calculations while cloning
         self.board = Board(size, game=self)
         if defaultPlayers:
@@ -25,11 +25,19 @@ class ScotlandYard():
 
         self.gui = None  # Gui can be added later if a one is available
         self.config = cfg
-        self.verbose = self.config['OUTPUT'].getboolean('verbose')
-        self.visualize = self.config['OUTPUT'].getboolean('visualization')
+
+        if self.config is not None:
+            self.verbose = self.config['OUTPUT'].getboolean('verbose')
+            self.visualize = self.config['OUTPUT'].getboolean('visualization')
+        else:
+            self.verbose = False
+            self.visualize = False
 
         self.timeAtStart = datetime.datetime.now()
+        self.proj = proj
+
         self.run = 0
+        self.turns = 24
 
     def update(self):
         if self.visualize:
@@ -47,6 +55,8 @@ class ScotlandYard():
 
     def addMisterX(self, misterx):
         "Overwrite the misterx instance used for playing the game"
+        if self.run != 0:
+            raise RuntimeWarning("Attempting to change a player while the game is running!")
         assert(isinstance(misterx, MisterX))
         self.misterx = misterx
 
@@ -54,6 +64,8 @@ class ScotlandYard():
     
     def addDetectives(self, detectives):
         "Overwrite the detective instances used for playing the game"
+        if self.run != 0:
+            raise RuntimeWarning("Attempting to change a player while the game is running!")
         assert(isinstance(detectives, list))
         for detective in detectives:
             assert(isinstance(detective, Detective))
@@ -65,11 +77,14 @@ class ScotlandYard():
     def hasEnded(self):
         """
         Checks all parameters that indicate that the game should end
-        1) A detective has reached Mr. X's position
-        2) Mr.x has no options left because he is surrounded
-        3) No detective is able to move
+        1) A detective has reached Mr. X's position;            status=0
+        2) Mr.x has no options left and cannot move;            status=1
+        3) No detective is able to move;                        status=-1
+        4) Mister X survived a full game;                       status=-2
 
         Returns: bool, statuscode
+
+        A statuscode >= 0 is a win for the Detectives, < 0 is a Mister X victory.
         """
 
         allDetectivesDefeated = True
@@ -86,6 +101,10 @@ class ScotlandYard():
         
         if self.misterx.defeated:
             status = 1
+            return True, status
+        
+        if len(self.misterx.history) >= self.turns:
+            status = -2
             return True, status
 
         return False, None
@@ -116,11 +135,11 @@ class ScotlandYard():
         self.print_("Saving game data...")
 
         data = [self.statuscode]
-        data.append([self.misterx.history, self.misterx.doubleMoves])
-        data.append([det.history for det in self.detectives])
+        data = np.append(np.array(data), np.array([self.misterx.history, self.misterx.doubleMoves]))
+        data = np.append(np.array(data), np.array([det.history for det in self.detectives]))
         data = np.array(data)
 
-        filepath = f"history/scly-replay-{self.timeAtStart}-{self.run}"
+        filepath = f"history/{self.proj}scly-replay-{self.timeAtStart}-{self.run}"
         for char in [" ", ".", ":", "-"]:
             filepath = filepath.replace(char, "_")
         

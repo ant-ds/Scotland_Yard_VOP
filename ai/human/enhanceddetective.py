@@ -37,7 +37,7 @@ class ExampleAIImplementationDetective(Detective):
         
         # Determine turn
         self.trn = len(self.game.misterx.history)
-        print(f"Current Turn: {self.trn}")
+        self.print_(f"Current Turn: {self.trn}")
 
         # Initialize static variables correctly
         if len(self.futureNodes) != len(self.game.detectives):
@@ -54,12 +54,14 @@ class ExampleAIImplementationDetective(Detective):
         if self.id == self.living.index(1):
             self.options = []
             # Generate all options for this turn
+
             for i, detective in enumerate(self.game.detectives):
                 ops = self.game.board.getOptions(detective)
                 if ops == []:
                    ops = [(None, None)]
                 self.options.append(ops)
                 condpr(f"Options for detective {detective.id}: {self.options[i]}")
+
             if self.trn in disperseTurns:
                 self.disperse()
             elif self.trn in closeinTurns:
@@ -68,14 +70,16 @@ class ExampleAIImplementationDetective(Detective):
                 self.encircle()
             elif self.trn in broadenTurns:
                 self.broaden()
-        print(f"getting decision for id:{self.id}\nFuture:{self.futureNodes, self.futureTransports}")
+
+        self.print_(f"getting decision for id::{self.id}\nFuture:{self.futureNodes, self.futureTransports}")
+
         decision = (self.futureNodes[self.id][0], self.futureTransports[self.id][0])
         del self.futureTransports[self.id][0]
         del self.futureNodes[self.id][0]
         if decision == (None, None):
             self.living[self.id] = 0
 
-        print(f"Going to play {decision[1]} from {self.position} to {decision[0]}")
+        self.print_(f"Going to play {decision[1]} from {self.position} to {decision[0]}")
         # input("Press Enter to continue...")
         return decision[0], decision[1]
 
@@ -187,6 +191,7 @@ class ExampleAIImplementationDetective(Detective):
             print(f"Shortened: {self.futureNodes[i]}")
         return 0
 
+
     def closein(self):
         self.emptyFutureLists()
         for i in range(len(self.game.detectives)):
@@ -277,16 +282,20 @@ class ExampleAIImplementationDetective(Detective):
             self.futureTransports[i].append(move[1])
 
     def broaden(self):
+
         self.emptyFutureLists()
-        print("---Broaden algo---")
+        self.print_("---Broaden algo---")
+
         for i, det in enumerate(self.game.detectives):
             decision = self.randomMove(det)
             self.futureNodes[i].append(decision[0])
             self.futureTransports[i].append(decision[1])
 
     def randomMove(self, det):
+
         options = self.getAvailableOptions(det)
         decision = random.choice(options)
+
         return decision[0], decision[1]
 
 
@@ -356,8 +365,11 @@ class ExampleAIImplementationDetective(Detective):
                 if nx.shortest_path_length(self.game.board.graph, metro, startPos) <= dist:
                     metrodist.append([metro, nx.shortest_path_length(self.game.board.graph, metro, startPos)])
             if(len(metrodist) == 0):
-                print(f"PROBLEM: No less than {dist} metro for node {startPos}")
+
+                self.print_(f"PROBLEM: No less than {dist} metro for node {pospos}")
+
             metrodists.append(metrodist)
-        print(metrodists)
+        self.print_(metrodists)
+
 
 ###########################

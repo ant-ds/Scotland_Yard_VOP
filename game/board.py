@@ -35,9 +35,6 @@ class Board():
             pos = random.choice(const.START_POSITIONS[playertype])
         self._usedStartingPositions.append(pos)
         return pos
-    
-    # def draw(self):
-    #     util.drawGraph(self.graph)
 
     def getTransport(self, node):
         "Returns a list of transport options leaving a given node"
@@ -119,6 +116,7 @@ class Board():
             transport = transport[0]
         
         if destination is None and transport is None:
+            player.print_(f"{player} was defeated!")
             return None, None  # Suicide-move
 
         # Is the proposed destination an option?
@@ -128,7 +126,8 @@ class Board():
         if not util.isOption(options, tup):
             # return False, f"{tup} was not an option in {options}"
             # Suggestie om een random move te doen zodat het proces niet exit bij problemen, maar ze wel meldt
-            print("WARNING:: The proposed move was invalid, continuing with a random move!!")
+            self.print_("WARNING:: The proposed move was invalid, continuing with a random move!!")
+            self.print_(f"You tried to move {tup}\nwhile your options were {options}\n-----------")
             random.shuffle(options)
             for op in options:
                 if self.movePlayer(player, op[0], op[1])[0] is True:
@@ -201,6 +200,9 @@ class Board():
         """
         options = [start]
         probs = {start: startprob}
+        while occupied is not None and len(occupied) < len(moves):  # TODO: prevent indexerror interrupting training, fix this later
+            occupied.append([])
+        
         for i, move in enumerate(moves):
             newOptions = []  # new list of possible locations
             newProbs = {}
@@ -260,9 +262,9 @@ class Board():
                             dpositions = [d.position]
                         else:
                             dpositions = [d.history[-1][-1]]
-                        """<<-- elif len(d.history) == start - 1:
-                            print("elif case!")
-                            dpositions = [d.history[-1][-1]]"""
+                    elif len(d.history) == start - 1:
+                        self.print_("elif case!")
+                        dpositions = [d.history[-1][-1]]
                     else:
                         dpositions = [d.history[start][0]]
                         dpositions += [h[-1] for h in d.history[start:]]
@@ -328,3 +330,6 @@ class Board():
         for p in probabilities:
             entropy -= p * log2(p)
         return entropy
+    
+    def print_(self, msg):
+        return self.game.print_(msg)

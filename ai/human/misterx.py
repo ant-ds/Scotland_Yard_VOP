@@ -10,7 +10,7 @@ class ExampleAIImplementationMisterX(MisterX):
     # Should return a tuple (destination:int, transportation:string)
     def decide(self):
         # play double move to pass over reveal
-        if self.game.turn in [2, 7, 12, 17] and self.cards['double'] > 0:
+        if len(self.history) in [2, 7, 12, 17] and self.cards['double'] > 0:
             mrxOptions = self.game.board.getOptions(self, doubleAllowed=True)
             mrxOptions = [option for option in mrxOptions if option[0] == 'double']
             if self.cards['black'] >= 2:  # we need a minimum of 2 black cards, since it is possible to take the ferry and then play a black card
@@ -50,7 +50,7 @@ class ExampleAIImplementationMisterX(MisterX):
         if not bestOptions:
             return None, None
 
-        if self.game.turn in [4, 9, 14, 19] and self.cards['black'] > 0 and any(el in [option[1] for option in mrxOptions] for el in ['bus', 'underground']):
+        if len(self.history) in [4, 9, 14, 19] and self.cards['black'] > 0 and any(el in [option[1] for option in mrxOptions] for el in ['bus', 'underground']):
             decision = (decision[0], 'black')
 
         if decision[1] in ['bus', 'underground'] and (decision[0], 'taxi') in mrxOptions:
