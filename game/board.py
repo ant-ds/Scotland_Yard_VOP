@@ -250,41 +250,7 @@ class Board():
         mapping each option to its probability of being occupied.
         """
         # TODO: handle deaths and look into weird behaviour after a few reveals
-        def getprohibited(start):
-            prohibited = []
-            for d in self.game.detectives:
-                try:
-                    if d.defeated:
-                        # necessary? TODO
-                        continue
-                    if len(d.history) == start:
-                        if start == 0:
-                            dpositions = [d.position]
-                        else:
-                            dpositions = [d.history[-1][-1]]
-                    elif len(d.history) == start - 1:
-                        self.print_("elif case!")
-                        dpositions = [d.history[-1][-1]]
-                    else:
-                        dpositions = [d.history[start][0]]
-                        dpositions += [h[-1] for h in d.history[start:]]
-                except Exception as e:
-                    # TODO: should be deleted after proper testing
-                    print(f"{d}'s history: {d.history}")
-                    print(f"Start: {start}")
-                    print(vars(d))
-                    raise e
-                for i, p in enumerate(dpositions):
-                    if len(prohibited) == i:
-                        prohibited.append([])
-                    prohibited[i].append(p)
-            # Account for double moves, where the prohibited positions should be duplicated
-            for double in mrx.doubleMoves:
-                i = double - start - len(mrx.doubleMoves)
-                if i >= 0:
-                    prohibited.insert(i, prohibited[i])
-            return prohibited
-
+        
         mrx = self.game.misterx
         turn = len(mrx.history)  # current turn
         start = mrx.lastKnownPosition
@@ -294,7 +260,7 @@ class Board():
         if start is None:
             # No reveal has yet happened
             moves = [hist[1] for hist in mrx.history]
-            prohibited = getprohibited(0)
+            prohibited = self.getprohibited(0)
             for s in const.START_POSITIONS['mrx']:
                 newops, probs = self.possiblePositions(
                     s, 
@@ -311,7 +277,7 @@ class Board():
             # Look up the most recent reveal and slice the history accordingly
             sliceStart = max([i for i in const.MRX_OPEN_TURNS if i <= turn])
             moves = [hist[1] for hist in mrx.history[sliceStart:]]
-            prohibited = getprohibited(sliceStart - len(mrx.doubleMoves))  # Account for double moves disrupting the indices
+            prohibited = self.getprohibited(sliceStart - len(mrx.doubleMoves))  # Account for double moves disrupting the indices
             options, probabilities = self.possiblePositions(
                 start, 
                 moves=moves, 
@@ -322,6 +288,43 @@ class Board():
         if returnProbabilities:
             return options, probabilities
         return options
+
+    def getprohibited(self, start):
+        mrx = self.game.misterx
+        prohibited = []
+        for d in self.game.detectives:
+            try:
+                if d.defeated:
+                    # necessary? TODO
+                    continue
+                if len(d.history) == start:
+                    if start == 0:
+                        dpositions = [d.position]
+                    else:
+                        dpositions = [d.history[-1][-1]]
+                elif len(d.history) == start - 1:
+                    self.print_("elif case!")
+                    dpositions = [d.history[-1][-1]]
+                else:
+                    dpositions = [d.history[start][0]]
+                    dpositions += [h[-1] for h in d.history[start:]]
+            except Exception as e:
+                # TODO: should be deleted after proper testing
+                print(f"{d}'s history: {d.history}")
+                print(f"Start: {start}")
+                print(vars(d))
+                raise e
+            for i, p in enumerate(dpositions):
+                if len(prohibited) == i:
+                    prohibited.append([])
+                prohibited[i].append(p)
+        # Account for double moves, where the prohibited positions should be duplicated
+        for double in mrx.doubleMoves:
+            i = double - start - len(mrx.doubleMoves)
+            if i >= 0:
+                prohibited.insert(i, prohibited[i])
+        return prohibited
+
 
     def mrxEntropy(self):
         _, probabilities = self.possibleMisterXPositions(returnProbabilities=True)

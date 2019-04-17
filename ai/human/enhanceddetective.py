@@ -1,6 +1,6 @@
 import networkx as nx
 import itertools
-
+from math import log2
 from operator import itemgetter
 import random
 
@@ -208,78 +208,126 @@ class ExampleAIImplementationDetective(Detective):
             #     self.futureTransports[i].append([None])
                 
 
-    # def encircle(self):
-    #     def narrowXPosition():
-    #         """
-    #         Narrow all mrX positions down to a subset of most likely positions
-    #         """
-    #         _, dictX = self.game.board.possibleMisterXPositions(returnProbabilities=True)
-    #         possibleX = list(dictX.items())
-    #         # print(f"Possible positions for mr X: {possibleX}")
-    #         averageProb = sum(map(lambda x: x[1], possibleX)) / len(possibleX)
-    #         probableX = [pos[0] for pos in possibleX if pos[1] >= averageProb]
-    #         # print(f"Average probability: {averageProb}\nNarrowed down positions for mr X: {probableX}")
-    #         condpr(f"Original amount of X positions: {len(possibleX)} now narrowed down to {len(probableX)}")
-    #         # TODO: do something with amount of options for a node.
-    #         return probableX
+    def encircle(self, decisiondepth = 1):
+        # def narrowXPosition():
+        #     """
+        #     Narrow all mrX positions down to a subset of most likely positions
+        #     Returns: list of tuples (position, probability)
+        #     """
+        #     _, dictX = self.game.board.possibleMisterXPositions(returnProbabilities=True)
+        #     possibleX = list(dictX.items())
+        #     # print(f"Possible positions for mr X: {possibleX}")
+        #     averageProb = sum(map(lambda x: x[1], possibleX)) / len(possibleX)
+        #     probableX = [pos for pos in possibleX if pos[1] >= averageProb]
+        #     # print(f"Average probability: {averageProb}\nNarrowed down positions for mr X: {probableX}")
+        #     condpr(f"Original amount of X positions: {len(possibleX)} now narrowed down to {len(probableX)}")
+        #     # TODO: do something with amount of options for a node.
+        #     return probableX
         
-    #     def calcEntropy():
-    #         """
-    #         Calculate 
-    #         """
-    #         return None
-
-    #     narrowXPosition()
-    #     self.broaden()
-    def encircle(self, decisiondepth=1):
-        def validateOptionSet(optionset: list) -> bool:
+        def calcEntropy(tupleList):
             """
-            Validate a set of options for detectives:
-            1) Check no end positions overlap
+            Calculate the entropy of a given list of tuples (..., probability)
+            Returns: a double
             """
-            ends = [option[0] for option in optionset if option[0] is not None]
-            for end in ends:
-                if ends.count(end) > 1:
-                    return False
-            return True
+            _, probabilities = map(list, zip(*tupleList))
+            entropy = 0.0
+            for p in probabilities:
+                entropy -= p * log2(p)
+            condpr(f"Entropy: {entropy}")
+            return entropy
 
-        def search(game, moves=[], depth=0):
-            if depth == 0:
-                return [(game.board.mrxEntropy(), moves)]
-            fullOptions = []  # create a list containing all lists of options per detecive
-            for i, det in enumerate(game.detectives):
-                ops = self.getAvailableOptions(det)
-                fullOptions.append(ops)
-            crossproduct = list(itertools.product(*fullOptions))  # Giant crossproduct of all possible options
-            self.print_(f"Added fan-out of {len(crossproduct)} on level {depth}")
+        def expand(newDetectivePositions):
+            """
+            Expands a given list of mrXpositions with it's neighbours
+            Returns: list of tuples (position, probability)
+            """
+            mrx = self.game.misterx 
+            # Look up the most recent reveal and slice the history accordingly
+            sliceStart = max([i for i in const.MRX_OPEN_TURNS if i <= self.trn])
+            moves = [hist[1] for hist in mrx.history[sliceStart:]]
+            print(f"Moves: {moves}")
+            moves.append('black')
+            prohibited = self.game.board.getprohibited(sliceStart - len(mrx.doubleMoves))  # Account for double moves disrupting the indices
+            prohibited.append(newDetectivePositions)
+            print(f"{prohibited}")
+            # TODO: only return tuplelist! instead of weird dictionary thing
+            return self.game.board.possiblePositions(
+                            mrx.lastKnownPosition, 
+                            moves=moves, 
+                            occupied=prohibited, 
+                            refuseCurrent=True, 
+                            returnProbabilities=True, 
+                        )
+        
+        fullOptions = []  # create a list containing all lists of options per detecive
+        for i, det in enumerate(self.game.detectives):
+            ops = self.game.board.getOptions(det)
+            fullOptions.append(ops)
+        crossproduct = list(itertools.product(*fullOptions))  # Giant crossproduct of all possible options
+        self.print_(f"Added fan-out of {len(crossproduct)} on level {decisiondepth}")
+        # print(f"Crossproduct: {crossproduct}")
+        for i, scenario in enumerate(crossproduct):
+            detectivePos = [node[0] for node in scenario]
+            # print(f"DetectivePos: {detectivePos}")
+            ent = calcEntropy(expand(detectivePos))
+            print(f"Scenario {i}: entropy = {ent}")
+            print("")
 
-            results = []
-            clone = game.clone()
-            origDets = [d for d in clone.detectives]
-            origMrx = clone.misterx.clone()
-            clone.verbose = False
-            for options in crossproduct:
-                if not validateOptionSet(options):
-                    continue
-                for j, det in enumerate(clone.detectives):  # Manually create new moves that change the entropy of the current state
-                    clone.detectives[j] = origDets[j].clone()
-                    clone.board.movePlayer(clone.detectives[j], options[j][0], options[j][1])
-                    if depth == decisiondepth:
-                        # Only save the first moves, rest is used to simulate the future
-                        moves = options
-                # TODO: elliminate this update
-                clone.misterx.update()    
-                results += search(clone, moves, depth=depth - 1)
-                clone.misterx = origMrx.clone()
-            return results
+        
+        # print(f"{expand()}")
+        self.broaden()
+    
+    
+    
+    # def encircle(self, decisiondepth=1):
+    #     def validateOptionSet(optionset: list) -> bool:
+    #         """
+    #         Validate a set of options for detectives:
+    #         1) Check no end positions overlap
+    #         """
+    #         ends = [option[0] for option in optionset if option[0] is not None]
+    #         for end in ends:
+    #             if ends.count(end) > 1:
+    #                 return False
+    #         return True
 
-        self.print_("---Encircle algo---")
-        bestEntropy, bestMove = min(search(self.game, depth=decisiondepth), key=lambda x: x[0])
-        # Assign best option's positions to futurenodes/transports
-        self.print_(f"Best move for lowering the entropy: {bestMove}\nGives a resulting entropy of {bestEntropy}")
-        for i, move in enumerate(bestMove):
-            self.futureNodes[i].append(move[0])
-            self.futureTransports[i].append(move[1])
+    #     def search(game, moves=[], depth=0):
+    #         if depth == 0:
+    #             return [(game.board.mrxEntropy(), moves)]
+    #         fullOptions = []  # create a list containing all lists of options per detecive
+    #         for i, det in enumerate(game.detectives):
+    #             ops = self.getAvailableOptions(det)
+    #             fullOptions.append(ops)
+    #         crossproduct = list(itertools.product(*fullOptions))  # Giant crossproduct of all possible options
+    #         self.print_(f"Added fan-out of {len(crossproduct)} on level {depth}")
+
+    #         results = []
+    #         clone = game.clone()
+    #         origDets = [d for d in clone.detectives]
+    #         origMrx = clone.misterx.clone()
+    #         clone.verbose = False
+    #         for options in crossproduct:
+    #             if not validateOptionSet(options):
+    #                 continue
+    #             for j, det in enumerate(clone.detectives):  # Manually create new moves that change the entropy of the current state
+    #                 clone.detectives[j] = origDets[j].clone()
+    #                 clone.board.movePlayer(clone.detectives[j], options[j][0], options[j][1])
+    #                 if depth == decisiondepth:
+    #                     # Only save the first moves, rest is used to simulate the future
+    #                     moves = options
+    #             # TODO: elliminate this update
+    #             clone.misterx.update()    
+    #             results += search(clone, moves, depth=depth - 1)
+    #             clone.misterx = origMrx.clone()
+    #         return results
+
+    #     self.print_("---Encircle algo---")
+    #     bestEntropy, bestMove = min(search(self.game, depth=decisiondepth), key=lambda x: x[0])
+    #     # Assign best option's positions to futurenodes/transports
+    #     self.print_(f"Best move for lowering the entropy: {bestMove}\nGives a resulting entropy of {bestEntropy}")
+    #     for i, move in enumerate(bestMove):
+    #         self.futureNodes[i].append(move[0])
+    #         self.futureTransports[i].append(move[1])
 
     def broaden(self):
 
@@ -366,7 +414,7 @@ class ExampleAIImplementationDetective(Detective):
                     metrodist.append([metro, nx.shortest_path_length(self.game.board.graph, metro, startPos)])
             if(len(metrodist) == 0):
 
-                self.print_(f"PROBLEM: No less than {dist} metro for node {pospos}")
+                self.print_(f"PROBLEM: No less than {dist} metro for node {startPos}")
 
             metrodists.append(metrodist)
         self.print_(metrodists)

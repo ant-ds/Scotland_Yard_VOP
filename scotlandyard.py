@@ -31,19 +31,19 @@ def main(args):
     game.addMisterX(misterx.ExampleAIImplementationMisterX(game=game, name="AI Mister X", blackCards=4))
     # game.addMisterX(randomMrX.ExampleAIImplementationRandomMisterX(name=f"Random Mr. X", game=game, blackCards=4))
 
-    # game.addDetectives([detective.ExampleAIImplementationDetective(idNumber=i, game=game) for i in range(4)])
+    game.addDetectives([enhanceddetective.ExampleAIImplementationDetective(idNumber=i, game=game) for i in range(4)])
     # game.addDetectives([randomDetective.ExampleAIImplementationRandomDetective(idNumber=i, game=game) for i in range(4)])
-    game.addDetectives(
-        [
-            AIModelDetective(
-                idNumber=i,
-                game=game,
-                longest_path=longest_path,
-                coordinates=coordinates,
-                modelname='ai\ml\models\DetDense[64, 32, 16]_52660_targetNNupd50') 
-            for i in range(4)
-        ]
-    )
+    # game.addDetectives(
+    #     [
+    #         AIModelDetective(
+    #             idNumber=i,
+    #             game=game,
+    #             longest_path=longest_path,
+    #             coordinates=coordinates,
+    #             modelname='ai\ml\models\DetDense[64, 32, 16]_52660_targetNNupd50') 
+    #         for i in range(4)
+    #     ]
+    # )
     
     t = time.time()
     print(f"Initialisation took {t - start} seconds.")
