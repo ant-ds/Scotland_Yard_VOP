@@ -261,10 +261,14 @@ class ExampleAIImplementationDetective(Detective):
             return possibleX
         
         fullOptions = []  # create a list containing all lists of options per detecive
+        skip = []
         for i, det in enumerate(self.game.detectives):
             if not det.defeated:
                 ops = self.game.board.getOptions(det)
-                fullOptions.append(ops)
+                if ops:
+                    fullOptions.append(ops)
+                else:
+                    skip.append(i)
         crossproduct = list(itertools.product(*fullOptions))  # Giant crossproduct of all possible options
         self.print_(f"Added fan-out of {len(crossproduct)} on level {decisiondepth}")
         # print(f"Crossproduct: {crossproduct}")
@@ -281,11 +285,11 @@ class ExampleAIImplementationDetective(Detective):
                 print(f"ENTROPY CHANGED TO {entropy} (scenario: {i})")
         
         moves = crossproduct[bestScenario]
-        #TODO: reconstruct moves with nones in place for dead detectives
+        
         decissions = []
         j=0
         for i, det in enumerate(self.game.detectives):
-            if not det.defeated:
+            if not det.defeated or i in skip:
                 print(f"Da moves are: {moves[j]}")
                 decissions.append(moves[j])
                 j+=1
