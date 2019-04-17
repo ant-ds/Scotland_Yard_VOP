@@ -289,7 +289,7 @@ class ExampleAIImplementationDetective(Detective):
         decissions = []
         j=0
         for i, det in enumerate(self.game.detectives):
-            if not det.defeated or i in skip:
+            if not det.defeated and i not in skip:
                 print(f"Da moves are: {moves[j]}")
                 decissions.append(moves[j])
                 j+=1
