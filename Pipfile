@@ -8,7 +8,7 @@ networkx = "*"
 matplotlib = "*"
 opencv-python = "*"
 "pyqt5" = "*"
-tensorflow-gpu = "==1.10"
+tensorflow = "*"
 pylint = "*"
 h5py = "*"
 

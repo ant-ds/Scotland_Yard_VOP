@@ -15,7 +15,7 @@ import game.constants as const
 #   Prevent metro in shortest path
 #   (Move from lists of lists to variables for every class separatly)
 
-printplez = True
+printplez = False
 def condpr(item):
     if printplez:
         print(item)
@@ -32,6 +32,15 @@ class ExampleAIImplementationDetective(Detective):
         self.trn = 1
         super().__init__(*args, **kwargs)
 
+    def reset(self):
+        super().reset()
+        self.trn = 1
+        
+        self.futureNodes = []
+        self.futureTransports = []
+        self.options = []
+        self.living = []
+    
     def decide(self):
         # self.testMetroStartDists(3)
         
@@ -125,10 +134,10 @@ class ExampleAIImplementationDetective(Detective):
                             # Assign random unassigned metro
                             remainingMetros = [metro for metro in const.METRO_STATIONS if metro not in targetMetro]
                             targetMetro.append(random.choice(remainingMetros))
-            print(f"Target metros for detectives: {targetMetro}")
+            # print(f"Target metros for detectives: {targetMetro}")
             return targetMetro
 
-        print("---Disperse algo---")
+        # print("---Disperse algo---")
         
         targetMetro = assignMetro()
 
@@ -185,10 +194,10 @@ class ExampleAIImplementationDetective(Detective):
             if len(transp) > 2:
                 transp = transp[0:2]
 
-            print(f"Future moves for detective {i}:  {path}")
+            # print(f"Future moves for detective {i}:  {path}")
             self.futureNodes[i] = path[1:]
             self.futureTransports[i] = transp
-            print(f"Shortened: {self.futureNodes[i]}")
+            # print(f"Shortened: {self.futureNodes[i]}")
         return 0
 
 
@@ -282,7 +291,7 @@ class ExampleAIImplementationDetective(Detective):
             if entropy > ent or entropy == -1:
                 entropy = ent
                 bestScenario = i
-                print(f"ENTROPY CHANGED TO {entropy} (scenario: {i})")
+                # print(f"ENTROPY CHANGED TO {entropy} (scenario: {i})")
         
         moves = crossproduct[bestScenario]
         
@@ -290,7 +299,7 @@ class ExampleAIImplementationDetective(Detective):
         j=0
         for i, det in enumerate(self.game.detectives):
             if not det.defeated and i not in skip:
-                print(f"Da moves are: {moves[j]}")
+                # print(f"Da moves are: {moves[j]}")
                 decissions.append(moves[j])
                 j+=1
             else:
