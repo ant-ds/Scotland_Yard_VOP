@@ -303,7 +303,7 @@ class Board():
                     else:
                         dpositions = [d.history[-1][-1]]
                 elif len(d.history) == start - 1:
-                    self.print_("elif case!")
+                    print("elif case!")
                     dpositions = [d.history[-1][-1]]
                 else:
                     dpositions = [d.history[start][0]]

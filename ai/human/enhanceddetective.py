@@ -35,11 +35,15 @@ class ExampleAIImplementationDetective(Detective):
     def reset(self):
         super().reset()
         self.trn = 1
-        
-        self.futureNodes = []
-        self.futureTransports = []
-        self.options = []
-        self.living = []
+        self.emptyFutureLists()
+        # self.futureNodes = []
+        # self.futureTransports = []
+        if self.options:
+            for i in range(len(self.game.detectives)):
+                del self.options[:][:]
+        del self.living[:]    
+        # self.options = []
+        # self.living = []
     
     def decide(self):
         # self.testMetroStartDists(3)
@@ -60,7 +64,7 @@ class ExampleAIImplementationDetective(Detective):
         broadenTurns = [12, 17]
         
         # Decide everything in first detective decide call of this turn
-        if self.id == self.living.index(1):
+        if 1 in self.living and self.id == self.living.index(1):
             self.options = []
             # Generate all options for this turn
 
@@ -286,7 +290,8 @@ class ExampleAIImplementationDetective(Detective):
         for i, scenario in enumerate(crossproduct):
             detectivePos = [node[0] for node in scenario]
             # print(f"DetectivePos: {detectivePos}")
-            ent = calcEntropy(expand(detectivePos))
+            expanded = expand(detectivePos)
+            ent = calcEntropy(expanded)
             # print(f"Scenario {i}: entropy = {ent}")
             if entropy > ent or entropy == -1:
                 entropy = ent
@@ -388,7 +393,7 @@ class ExampleAIImplementationDetective(Detective):
         index = detective.id
         
         for i in range(min(len(self.futureTransports[index]), turnsAhead)):
-            cards[self.futureTransports[i]] -= min(0, cards[self.futureTransports[i]]-1)
+            cards[self.futureTransports[i]] = min(0, cards[self.futureTransports[i]]-1)
         
         taken = []
         for nodeList in self.futureNodes:
