@@ -1,4 +1,3 @@
-import numpy as np
 import datetime
 
 from game.misterx import MisterX
@@ -133,17 +132,11 @@ class ScotlandYard():
         self.print_(f"Game ended with status {status}::  {const.GAME_END_MESSAGES[status]}")
 
         self.print_("Saving game data...")
-
-        data = [self.statuscode]
-        data = np.append(np.array(data), np.array([self.misterx.history, self.misterx.doubleMoves]))
-        data = np.append(np.array(data), np.array([det.history for det in self.detectives]))
-        data = np.array(data)
-
         filepath = f"history/{self.proj}scly-replay-{self.timeAtStart}-{self.run}"
         for char in [" ", ".", ":", "-"]:
             filepath = filepath.replace(char, "_")
-        
-        np.save(filepath, data)
+        filepath += ".hist"
+        self.save(filepath)
 
         self.print_("Done saving game data.")
 
@@ -162,3 +155,24 @@ class ScotlandYard():
         self.misterx.reset()
         for det in self.detectives:
             det.reset()
+
+    def save(self, filepath):
+        def writeHistory(fp, history):
+            for element in history:
+                for data in element:
+                    fp.write(f"{data};")
+                fp.write('::')
+        
+        with open(filepath, "w") as fp:
+            fp.write(f"{self.statuscode}\n")
+
+            writeHistory(fp, self.misterx.history)
+            fp.write('\n')
+            for turn in self.misterx.doubleMoves:
+                fp.write(f"{turn};")
+            fp.write('\n')
+
+            for det in self.detectives:
+                writeHistory(fp, det.history)
+                fp.write('**')
+            fp.write('\n')
