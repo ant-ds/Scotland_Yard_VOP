@@ -9,6 +9,8 @@ def score(arr):
 
 
 def printResult(foldername, arr):
+    if foldername is None:  # Don't know where it comes from but it exists
+        return
     base = f"{foldername}: "
     if sum(arr) > 0:
         base += f"{sum(arr)}"
@@ -25,6 +27,13 @@ def readFile(data, arr):
     return arr
 
 
+def readHistoryFile(fpath, arr):
+    with open(fpath, 'r') as fp:
+        lines = fp.readlines()
+        status = int(lines[0])
+    return readFile([status], arr)
+
+
 def readZip(filename, data):
     s = [0, 0]
     for k, v in data.items():
@@ -32,26 +41,36 @@ def readZip(filename, data):
     return s
 
 
-def main(unix: bool):
+def main(unix: bool, basepath=None):
     if unix:
         sep = '/'
     else:
         sep = '\\'
 
-    basepath = os.getcwd()
-    basepath = basepath.split(f'{sep}analytics')[0]
-    basepath += f"{sep}history"
+    if basepath is None:
+        basepath = os.getcwd()
+        basepath = basepath.split(f'{sep}analytics')[0]
+        basepath += f"{sep}history"
+
+        name = "Main Folder"
+    else:
+        name = basepath.split(sep)[-1]
 
     r = [0, 0]
 
     for f in os.listdir(basepath):
         fpath = basepath + f"{sep}" + f
-        data = np.load(fpath)
-        if "zip" in f:
-            printResult(f, readZip(f, data))
+        if '.' not in fpath.split(sep)[-1]:
+            printResult(main(unix, basepath=fpath), r)
+        elif '.hist' in fpath:
+            r = readHistoryFile(fpath, r)
         else:
-            r = readFile(data, r)
-    printResult("Main folder", r)
+            data = np.load(fpath)
+            if "zip" in f:
+                printResult(f, readZip(f, data))
+            else:
+                r = readFile(data, r)
+    printResult(name, r)
 
 
 if __name__ == '__main__':
