@@ -10,14 +10,37 @@
 
 import networkx as nx
 import pickle
-from game.util import createGraph
 import random
+import game.constants as const
+
+
+# from game.utils, but altered so ferry connections are not put into the graph
+def createGraph(size):
+    graph = nx.MultiGraph()
+
+    graph.add_nodes_from(range(1, size + 1))
+
+    if len(const.CONNECTIONS) > size + 1:  # size+1: 0 not used on the physical board, so a None is used as padding
+        print(f"Running a smaller sized board: {size} instead of 199")
+    elif len(const.CONNECTIONS) < size + 1:
+        raise ValueError(f"Size variable too large for registered connections on the board: recieved {size}, which is not <= 199!")
+
+    for i in range(1, size + 1):
+        # CONNECTIONS[i] contains dict with keys transport and values tuples of connections
+        for transport, neighbours in const.CONNECTIONS[i].items():
+            if isinstance(neighbours, int):
+                # Tuple with one element is interpreted as regular int
+                neighbours = [neighbours]
+            for neighbour in neighbours:
+                if neighbour <= size and not transport is 'ferry':
+                    graph.add_edge(i, neighbour, transport=transport)  # If edges connect nodes not in the graph, nodes added automatically
+    return graph
 
 debug = 0
 size = 199
-anchors = 11
+anchors = 10
 gamegraph = createGraph(size)
-if nx.is_connected(gamegraph) == False:
+if nx.is_connected(gamegraph) is False:
     raise "Not connected"
 
 print(f'Searching configuration with {anchors} anchors for size {size}')
@@ -25,7 +48,7 @@ print(f'Searching configuration with {anchors} anchors for size {size}')
 anchorsfound = False
 
 
-for a in range(1, 4000000):
+for a in range(1, 40000000):
     if a % 2000 == 0:
         print(f'loop {a}')
     
@@ -53,7 +76,7 @@ for a in range(1, 4000000):
                 no_duplicate = False
                 break
 
-        if no_duplicate == True:
+        if no_duplicate is True:
             alldistances.append(nodedistance)
         else:
             break
@@ -62,11 +85,11 @@ for a in range(1, 4000000):
         anchorsfound = True
         print('Anchors found!')
         print(nodes)
-        pickle_out = open(f"Anchors{anchors}_s{size}.pickle", "wb")
+        pickle_out = open(f"Anchors{anchors}_s{size}_noferry.pickle", "wb")
         pickle.dump(nodes, pickle_out)
         pickle_out.close()
 
-        pickle_out = open(f"Distances_A{anchors}_s{size}.pickle", "wb")
+        pickle_out = open(f"Distances_A{anchors}_s{size}_noferry.pickle", "wb")
         pickle.dump(alldistances, pickle_out)
         pickle_out.close()
         
