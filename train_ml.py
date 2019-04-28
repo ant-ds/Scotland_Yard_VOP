@@ -64,12 +64,9 @@ targetNN.set_weights(model.get_weights())
 memory = []
 print('Warming up memory')
 while(len(memory) < warmup_capacity):
-    game.reset()    
+    game.reset()
 
-    game_done = False
-    while(not game_done):
-        memunits, game_done = generateMemUnitsDet(model, game, epsilon, coordinates, longest_path)
-        memory.extend(memunits)
+    memory.extend(generateMemUnitsDet(model, game, epsilon, coordinates, longest_path))
 
 # 5 Training
 print('Start training')
@@ -82,10 +79,7 @@ for i in range(0, episodes):
         # reset game
         game.reset()    
 
-        game_done = False
-        while(not game_done):
-            memunits, game_done = generateMemUnitsDet(model, game, epsilon, coordinates, longest_path)
-            memory.extend(memunits)
+        memory.extend(generateMemUnitsDet(model, game, epsilon, coordinates, longest_path))
 
     if len(memory) > memorymax:
         del memory[:1000]

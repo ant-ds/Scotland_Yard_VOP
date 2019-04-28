@@ -8,10 +8,13 @@ networkx = "*"
 matplotlib = "*"
 opencv-python = "*"
 "pyqt5" = "*"
-tensorflow-gpu = "==1.10"
+tensorflow = "*"
+pylint = "*"
+h5py = "*"
 
 [dev-packages]
 "flake8" = "*"
+pylint = "*"
 
 [requires]
 python_version = "3.6"

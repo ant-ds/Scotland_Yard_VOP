@@ -9,6 +9,7 @@ settings.ini
 test.py
 notes.txt
 history/
+storage/
 run.sh
 training.sh
 

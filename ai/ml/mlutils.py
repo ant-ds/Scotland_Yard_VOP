@@ -11,6 +11,7 @@ from ai.human import misterx
 import ai.ml.trainingdetective as detAI
 from detectivestate import DetectiveState
 from ai.ml.memunitdet import MemUnitDet
+from networkx import shortest_path_length
 
 
 # returns state action as numpy array for NN input
@@ -67,29 +68,48 @@ def chooseAction(model, poss_det_action, detstate, epsilon, longest_path, coordi
 
 # formalize game state, action, reward and following state
 def generateMemUnitsDet(model, game, epsilon, coordinates, longest_path):
-    memunits = [MemUnitDet() for _ in game.detectives]
+    exp_base = 0.9  # number by which the rewards will be multiplied going backwards through the turns
+    gameover = False
+    memory = [[] for _ in range(len(game.detectives))]
+    while(not gameover):
+        memunits = [MemUnitDet() for _ in game.detectives]
 
-    # state & action
-    for i, unit in enumerate(memunits):
-        unit.currDetState = DetectiveState().extractDetState(game, i)
-        game.detectives[i].nextaction, __ = unit.action, _ = chooseAction(model, game.board.getOptions(game.detectives[i], doubleAllowed=False), unit.currDetState, epsilon, longest_path, coordinates)
+        # state & action
+        for i, unit in enumerate(memunits):
+            unit.currDetState = DetectiveState().extractDetState(game, i)
+            game.detectives[i].nextaction, __ = unit.action, _ = chooseAction(model, game.board.getOptions(game.detectives[i], doubleAllowed=False), unit.currDetState, epsilon, longest_path, coordinates)
 
-    # reward
-    gameover, statuscode = game.update()
-    if gameover:
-        if statuscode >= 0:
-            for unit in memunits:
-                unit.reward = 100
-        else:
-            for unit in memunits:
-                unit.reward = -100
+        # reward
+        gameover, statuscode = game.update()
+        if gameover:
+            shortest_paths = [shortest_path_length(game.board.graph, detectivepos, game.misterx.position) for detectivepos
+                              in [detective.position for detective in game.detectives]]
+            farthest = max(shortest_paths)
+            if statuscode >= 0:
+                for i, unit in enumerate(memunits):
+                    if shortest_paths[i] != 0:
+                        unit.reward = 100 / (shortest_paths[i] + 1)
+                    else:
+                        unit.reward = 100
+            else:
+                for i, unit in enumerate(memunits):
+                    unit.reward = -100 * shortest_paths[i] / farthest
 
-    # next state
-    for i, unit in enumerate(memunits):
-        unit.nextDetState = DetectiveState().extractDetState(game, i)
-        unit.nextPossActions = game.board.getOptions(game.detectives[i], doubleAllowed=False)
+        # next state
+        for i, unit in enumerate(memunits):
+            unit.nextDetState = DetectiveState().extractDetState(game, i)
+            unit.nextPossActions = game.board.getOptions(game.detectives[i], doubleAllowed=False)
 
-    return memunits, gameover
+        # save the memunits for the current turn in memory
+        for i, unit in enumerate(memunits):
+            memory[i].append(unit)
+
+    # make rewards exponentially smaller going backwards through the turns
+    for i in range(len(game.detectives)):
+        for j in range(len(memory[i]) + 1)[2:]:
+            memory[i][-j].reward = memory[i][-j + 1].reward * exp_base
+    
+    return [unit for sublist in memory for unit in sublist]  # flatten the list
 
 
 # Constants

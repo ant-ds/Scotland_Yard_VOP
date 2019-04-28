@@ -82,6 +82,22 @@ class Board():
         
         return options
 
+    def getSimulatedOptions(self, cards, startPosition, detectivePositions):
+        """
+            Same as getOptions but with custom cards etc. instead of a player
+            Only for detectives
+        """
+        options = []
+        
+        # for nbr in G[n]: iterates through neighbors
+        for nbr in self.graph[startPosition]:
+            for k, transportDict in self.graph.get_edge_data(startPosition, nbr).items():  # edge data is a dict of dicts
+                transport = transportDict['transport']
+                if cards[transport] > 0 and nbr not in detectivePositions:
+                    options.append((nbr, transport))
+        
+        return options
+
     def getOccupiedPositions(self):
         "Returns currently occupied positions"
         positions = [self.game.misterx.position]
@@ -106,6 +122,7 @@ class Board():
         # Is the proposed destination an option?
         options = self.getOptions(player)
         tup = (destination, transport)
+        # assert(util.isOption(options, tup)),f"{tup} was not an option in {options}!"
         if not util.isOption(options, tup):
             # return False, f"{tup} was not an option in {options}"
             # Suggestie om een random move te doen zodat het proces niet exit bij problemen, maar ze wel meldt
@@ -233,41 +250,7 @@ class Board():
         mapping each option to its probability of being occupied.
         """
         # TODO: handle deaths and look into weird behaviour after a few reveals
-        def getprohibited(start):
-            prohibited = []
-            for d in self.game.detectives:
-                try:
-                    if d.defeated:
-                        # necessary? TODO
-                        continue
-                    if len(d.history) == start:
-                        if start == 0:
-                            dpositions = [d.position]
-                        else:
-                            dpositions = [d.history[-1][-1]]
-                    elif len(d.history) == start - 1:
-                        self.print_("elif case!")
-                        dpositions = [d.history[-1][-1]]
-                    else:
-                        dpositions = [d.history[start][0]]
-                        dpositions += [h[-1] for h in d.history[start:]]
-                except Exception as e:
-                    # TODO: should be deleted after proper testing
-                    print(f"{d}'s history: {d.history}")
-                    print(f"Start: {start}")
-                    print(vars(d))
-                    raise e
-                for i, p in enumerate(dpositions):
-                    if len(prohibited) == i:
-                        prohibited.append([])
-                    prohibited[i].append(p)
-            # Account for double moves, where the prohibited positions should be duplicated
-            for double in mrx.doubleMoves:
-                i = double - start - len(mrx.doubleMoves)
-                if i >= 0:
-                    prohibited.insert(i, prohibited[i])
-            return prohibited
-
+        
         mrx = self.game.misterx
         turn = len(mrx.history)  # current turn
         start = mrx.lastKnownPosition
@@ -277,7 +260,7 @@ class Board():
         if start is None:
             # No reveal has yet happened
             moves = [hist[1] for hist in mrx.history]
-            prohibited = getprohibited(0)
+            prohibited = self.getprohibited(0)
             for s in const.START_POSITIONS['mrx']:
                 newops, probs = self.possiblePositions(
                     s, 
@@ -293,8 +276,9 @@ class Board():
         else:
             # Look up the most recent reveal and slice the history accordingly
             sliceStart = max([i for i in const.MRX_OPEN_TURNS if i <= turn])
+            sliceStart -= 1  # Convert turns number to index in history
             moves = [hist[1] for hist in mrx.history[sliceStart:]]
-            prohibited = getprohibited(sliceStart - len(mrx.doubleMoves))  # Account for double moves disrupting the indices
+            prohibited = self.getprohibited(sliceStart - len(mrx.doubleMoves))  # Account for double moves disrupting the indices
             options, probabilities = self.possiblePositions(
                 start, 
                 moves=moves, 
@@ -305,6 +289,43 @@ class Board():
         if returnProbabilities:
             return options, probabilities
         return options
+
+    def getprohibited(self, start):
+        mrx = self.game.misterx
+        
+        prohibited = []
+        for d in self.game.detectives:
+            try:
+                if d.defeated:
+                    # necessary? TODO
+                    continue
+                if len(d.history) == start:
+                    if start == 0:
+                        dpositions = [d.position]
+                    else:
+                        dpositions = [d.history[-1][-1]]
+                elif len(d.history) == start - 1:
+                    print("elif case!")
+                    dpositions = [d.history[-1][-1]]
+                else:
+                    dpositions = [d.history[start][0]]
+                    dpositions += [h[-1] for h in d.history[start:]]
+            except Exception as e:
+                # TODO: should be deleted after proper testing
+                print(f"{d}'s history: {d.history}")
+                print(f"Start: {start}")
+                print(vars(d))
+                raise e
+            for i, p in enumerate(dpositions):
+                if len(prohibited) == i:
+                    prohibited.append([])
+                prohibited[i].append(p)
+        # Account for double moves, where the prohibited positions should be duplicated
+        for double in mrx.doubleMoves:
+            i = double - start - len(mrx.doubleMoves)
+            if i >= 0:
+                prohibited.insert(i, prohibited[i])
+        return prohibited
 
     def mrxEntropy(self):
         _, probabilities = self.possibleMisterXPositions(returnProbabilities=True)
