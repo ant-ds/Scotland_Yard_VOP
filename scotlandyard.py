@@ -8,7 +8,7 @@ from ai.human import misterx, enhanceddetective
 import display.gui as gui
 import ai.random.misterx as randomMrX
 import ai.random.detective as randomDetective
-from ai.ml.mldetective import AIModelDetective, AIModelMisterX
+from ai.ml.mldetective import AIModelDetective
 import game.util as util
 from pickle import load
 
@@ -17,6 +17,7 @@ def main(args):
     start = time.time()
     config = util.readConfig('settings.ini')
     runs = int(args['runs'])
+    percent = runs / 100
     game = ScotlandYard(cfg=config, proj=args['proj'])
 
     coordinate_anchors = 14
@@ -41,7 +42,7 @@ def main(args):
                 game=game,
                 longest_path=longest_path,
                 coordinates=coordinates,
-                modelname="ai\ml\models\DetDense[128, 128, 128, 64, 64, 64, 64, 64, 32, 32, 32, 32, 32, 32, 16, 16, 16]_adv_Det1556643593_epi13700.model") 
+                modelname="ai/ml/models/DetDense[128, 128, 128, 64, 64, 64, 64, 64, 32, 32, 32, 32, 32, 32, 16, 16, 16]_adv_Det1556643593_epi13700.model") 
             for i in range(5)
         ]
     )
@@ -65,6 +66,9 @@ def main(args):
         else:
             game.loop()
         game.reset()
+
+        if i % percent == 0:
+            print(f"{int(i/percent)}%")
 
     stop = time.time()
     print(f"{runs} games took {stop - t} seconds, averaging {(stop - t) / runs} seconds per loop")
