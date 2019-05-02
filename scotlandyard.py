@@ -34,18 +34,18 @@ def main(args):
     # game.addMisterX(AIModelMisterX(game=game, name="AI Mister X", longest_path=longest_path, coordinates=coordinates, modelname="ai\ml\MrXmodels\DetDense[128, 128, 64, 64, 32, 32, 16, 16]_adv_MrX_epi26160"))
 
     # game.addDetectives([enhanceddetective.ExampleAIImplementationDetective(idNumber=i, game=game) for i in range(5)])
-    # game.addDetectives([randomDetective.ExampleAIImplementationRandomDetective(idNumber=i, game=game) for i in range(4)])
-    game.addDetectives(
-        [
-            AIModelDetective(
-                idNumber=i,
-                game=game,
-                longest_path=longest_path,
-                coordinates=coordinates,
-                modelname="ai/ml/models/DetDense[128, 128, 128, 64, 64, 64, 64, 64, 32, 32, 32, 32, 32, 32, 16, 16, 16]_adv_Det1556643593_epi13700.model") 
-            for i in range(5)
-        ]
-    )
+    game.addDetectives([randomDetective.ExampleAIImplementationRandomDetective(idNumber=i, game=game) for i in range(4)])
+    # game.addDetectives(
+    #     [
+    #         AIModelDetective(
+    #             idNumber=i,
+    #             game=game,
+    #             longest_path=longest_path,
+    #             coordinates=coordinates,
+    #             modelname="ai/ml/models/DetDense[128, 128, 128, 64, 64, 64, 64, 64, 32, 32, 32, 32, 32, 32, 16, 16, 16]_adv_Det1556643593_epi13700.model") 
+    #         for i in range(5)
+    #     ]
+    # )
     
     t = time.time()
     print(f"Initialisation took {t - start} seconds.")
