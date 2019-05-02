@@ -58,7 +58,7 @@ def main(unix: bool, basepath=None):
 
     r = [0, 0]
 
-    for f in os.listdir(basepath):
+    for f in sorted(os.listdir(basepath)):
         fpath = basepath + f"{sep}" + f
         if '.' not in fpath.split(sep)[-1]:
             printResult(main(unix, basepath=fpath), r)
