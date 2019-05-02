@@ -242,7 +242,7 @@ class ExampleAIImplementationDetective(Detective):
             Calculate the entropy of a given list of tuples (..., probability)
             Returns: a double
             """
-                _, probabilities = map(list, zip(*tupleList))
+            _, probabilities = map(list, zip(*tupleList))
             entropy = 0.0
             for p in probabilities:
                 entropy -= p * log2(p)
@@ -271,7 +271,7 @@ class ExampleAIImplementationDetective(Detective):
                             returnProbabilities=True, 
                         )
             possibleX = list(dictX.items())
-            if(possibleX == [])
+            if possibleX == []:
                 print("BUG")
             return possibleX
         
