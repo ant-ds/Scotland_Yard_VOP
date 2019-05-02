@@ -5,8 +5,6 @@ from operator import itemgetter
 import random
 
 from game.detective import Detective
-from game.board import Board
-from game.game import ScotlandYard
 import game.constants as const
 
 # TODO-list: 
@@ -15,10 +13,6 @@ import game.constants as const
 #   Prevent metro in shortest path
 #   (Move from lists of lists to variables for every class separatly)
 
-printplez = False
-def condpr(item):
-    if printplez:
-        print(item)
 
 class ExampleAIImplementationDetective(Detective):
     
@@ -39,6 +33,7 @@ class ExampleAIImplementationDetective(Detective):
         # self.futureNodes = []
         # self.futureTransports = []
         if self.options:
+
             for i in range(len(self.game.detectives)):
                 del self.options[i][:]
         del self.living[:] 
@@ -74,7 +69,7 @@ class ExampleAIImplementationDetective(Detective):
                 if ops == []:
                    ops = [(None, None)]
                 self.options.append(ops)
-                condpr(f"Options for detective {detective.id}: {self.options[i]}")
+                self.print_(f"Options for detective {detective.id}: {self.options[i]}")
 
             if self.trn in disperseTurns:
                 self.disperse()
@@ -117,7 +112,7 @@ class ExampleAIImplementationDetective(Detective):
                     if pl <= 3 and pl > 0:
                         metrodist.append((metro, pl))
                 possibleMetros.append(metrodist)
-            condpr(f"Metro's for the detectives: {possibleMetros}")
+            self.print_(f"Metro's for the detectives: {possibleMetros}")
             return possibleMetros
         
         def assignMetro():
@@ -155,7 +150,7 @@ class ExampleAIImplementationDetective(Detective):
         for i, det in enumerate(self.game.detectives):
             path = nx.shortest_path(self.game.board.graph, det.position, targetMetro[i])
             assert (len(path) != 0), "Path lenght is 0!"
-            condpr(f"Shortest path calculation for detective {i}, path length : {len(path)}")
+            self.print_(f"Shortest path calculation for detective {i}, path length : {len(path)}")
             transp = []
             taken = []
             for turnToEval in range(1,min([3,len(path)])):
@@ -165,7 +160,7 @@ class ExampleAIImplementationDetective(Detective):
                             taken.append(self.futureNodes[j][turnToEval]) # prevent next detective from blocking earlier detective by being on needed position before moving
                 
                 if path[turnToEval] in taken:
-                    condpr(f"Collision detected for detective {i}, problematic node: {path[turnToEval]}.")
+                    self.print_(f"Collision detected for detective {i}, problematic node: {path[turnToEval]}.")
                     #collision: find node with shortest path
                     neighbours = [node[0] for node in self.game.board.getOptions(det, customStartPosition=path[turnToEval-1]) if node[0] not in taken]
                     lengths = [nx.shortest_path_length(self.game.board.graph, pos, targetMetro[i]) for pos in neighbours]

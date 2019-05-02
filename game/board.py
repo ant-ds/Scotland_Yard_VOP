@@ -93,7 +93,7 @@ class Board():
         for nbr in self.graph[startPosition]:
             for k, transportDict in self.graph.get_edge_data(startPosition, nbr).items():  # edge data is a dict of dicts
                 transport = transportDict['transport']
-                if cards[transport]>0 and nbr not in detectivePositions:
+                if cards[transport] > 0 and nbr not in detectivePositions:
                     options.append((nbr, transport))
         
         return options
@@ -276,6 +276,7 @@ class Board():
         else:
             # Look up the most recent reveal and slice the history accordingly
             sliceStart = max([i for i in const.MRX_OPEN_TURNS if i <= turn])
+            sliceStart -= 1  # Convert turns number to index in history
             moves = [hist[1] for hist in mrx.history[sliceStart:]]
             prohibited = self.getprohibited(sliceStart - len(mrx.doubleMoves))  # Account for double moves disrupting the indices
             options, probabilities = self.possiblePositions(
@@ -291,6 +292,7 @@ class Board():
 
     def getprohibited(self, start):
         mrx = self.game.misterx
+        
         prohibited = []
         for d in self.game.detectives:
             try:
@@ -324,7 +326,6 @@ class Board():
             if i >= 0:
                 prohibited.insert(i, prohibited[i])
         return prohibited
-
 
     def mrxEntropy(self):
         _, probabilities = self.possibleMisterXPositions(returnProbabilities=True)

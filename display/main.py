@@ -69,18 +69,52 @@ class MainReplayWidget(QtWidgets.QWidget):
 
         self.setLayout(layout)
 
+    def loadFile(self, filepath):
+        """
+        Loads a custom .hist file containing replay data of a Scotland Yard game.
+        """
+        def readHistory(line):
+            """
+            Reads a line containing history data for one player.
+            Returns: history data in original format (list of tuples)
+            """
+            history = []
+            for element in line.split('::'):
+                if element in ['\n', '']:  # Don't process, means last element is reached
+                    continue
+                tup = element.split(';')[:3]  # Always a trailing "" in fourth place
+                history.append(tuple([int(tup[0]), tup[1], int(tup[2])]))
+            return history
+
+        with open(filepath, "r") as fp:
+            lines = fp.readlines()
+        assert(len(lines) == 4)
+
+        data = [[], [], []]
+        data[0] = int(lines[0])
+        data[1].append(readHistory(lines[1]))
+        data[1].append([int(i) for i in lines[2].split(';')[:-1]])  # Append list of doublemoves. [:-1] is to skip trailing ''
+        for dethist in lines[3].split('**'):
+            if dethist == '\n':
+                continue
+            data[2].append(readHistory(dethist))
+        return data
+    
     def openFile(self):
         options = QtWidgets.QFileDialog.Options()
         options |= QtWidgets.QFileDialog.DontUseNativeDialog
         filepath, _ = QtWidgets.QFileDialog.getOpenFileName(
             self,
             "Scotland Yard File Selector",
-            "",
-            "Numpy Files (*.npy);;All Files (*)",
+            "history",
+            "History Files (*.hist);;Numpy Files (*.npy);;All Files (*)",
             options=options
         )
         if filepath:
-            self.data = np.load(filepath)
+            if '.hist' in filepath:  # Should become the default!
+                self.data = self.loadFile(filepath)
+            else:
+                self.data = np.load(filepath)
 
             self.openfile_button.deleteLater()
 
@@ -145,6 +179,8 @@ class MainReplayWidget(QtWidgets.QWidget):
         self.update()
 
     def reconstructData(self):
+        if isinstance(self.data, list) and len(self.data) == 3:
+            return self.data
         if self.data.shape[0] == 3:
             return self.data
         data = [self.data[0]]
@@ -161,12 +197,12 @@ class MainReplayWidget(QtWidgets.QWidget):
         return data
     
     def parseData(self):
-        data = self.reconstructData()
+        self.reconstructData()
 
-        self.numDetectives = len(data[2])
-        self.startPositions = [data[1][0][0][0]] + [det[0][0] for det in data[2]]
+        self.numDetectives = len(self.data[2])
+        self.startPositions = [self.data[1][0][0][0]] + [det[0][0] for det in self.data[2]]
         self.positions = self.startPositions
-        self.createTurns(data)
+        self.createTurns(self.data)
         self.idx = -1  # Index of turn currently showing, -1 for startpositions
     
     def createTurns(self, data):

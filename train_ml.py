@@ -26,23 +26,23 @@ import tensorflow.keras as ks
 # Game parameters
 coordinate_anchors = 10 
 gamesize = 199
-det_amount = 4
-modelinputsize = 249
+det_amount = 5
+modelinputsize = 259    # 249 voor 4 detectives
 
 # Hyperparameters
-epsilon = 1
-epsilon_startdecay = 400    # let agent explore first, exploitation is meaningless
-epsilon_decay = 1e-4   
+epsilon = 0.7
+epsilon_startdecay = 300    # let agent explore first, exploitation is meaningless
+epsilon_decay = 3e-5   
 epsilon_min = 0.2          # 0.15 as found in an article
-learning_rate = 0.005
-lr_decay = 1e-7         # rather low because model.fit will be called very often with little input
-gamma = 0.92            # MDP discount parameter, this used to be 0.99
+learning_rate = 0.001
+# lr_decay = 1e-8         # rather low because model.fit will be called very often with little input
+gamma = 0.90            # MDP discount parameter, this used to be 0.99
 
-target_upd_cycles = 50   # amount of NN trainings before target NN gets updated
+target_upd_cycles = 40   # amount of NN trainings before target NN gets updated
 episodes = 200000
 warmup_capacity = 800  # amount of memory units to generate before starting to train
 batch_size = 128
-training_period = 8     # amount of games to play before 1 NN training
+training_period = 7     # amount of games to play before 1 NN training
 
 play_test_games_interval = 25
 test_games = 100
@@ -52,24 +52,21 @@ memorymax = 20000
 longest_path, coordinates, game = initTrainingConstants(coordinate_anchors, gamesize, det_amount)
 
 # 2 Initialize NN
-layersizes = [64, 32, 16]
-model = newDenseModel(modelinputsize, layersizes, learning_rate, lr_decay)
-NAME = f'DetDense{layersizes}_startdecay{int(time.time())}'
+layersizes = [128, 128, 128, 64, 64, 64, 32, 32, 32, 32, 32, 32, 16, 16, 16, 16, 16, 8, 8]
+model = ks.models.load_model("ai\ml\models\DetDense[128, 128, 128, 64, 64, 64, 32, 32, 32, 32, 32, 32, 16, 16, 16, 16, 16, 8, 8]_solodet_1556089964")  # newDenseModel(modelinputsize, layersizes, learning_rate)
+NAME = f'DetDense{layersizes}_solodet_{int(time.time())}'
 
 # 3 Clone NN = targetNN
-targetNN = newDenseModel(modelinputsize, layersizes, learning_rate, lr_decay)
+targetNN = newDenseModel(modelinputsize, layersizes, learning_rate)
 targetNN.set_weights(model.get_weights())
 
 # 4 Initialize replay memory capacity
 memory = []
 print('Warming up memory')
 while(len(memory) < warmup_capacity):
-    game.reset()    
+    game.reset()
 
-    game_done = False
-    while(not game_done):
-        memunits, game_done = generateMemUnitsDet(model, game, epsilon, coordinates, longest_path)
-        memory.extend(memunits)
+    memory.extend(generateMemUnitsDet(model, game, epsilon, coordinates, longest_path))
 
 # 5 Training
 print('Start training')
@@ -82,10 +79,7 @@ for i in range(0, episodes):
         # reset game
         game.reset()    
 
-        game_done = False
-        while(not game_done):
-            memunits, game_done = generateMemUnitsDet(model, game, epsilon, coordinates, longest_path)
-            memory.extend(memunits)
+        memory.extend(generateMemUnitsDet(model, game, epsilon, coordinates, longest_path))
 
     if len(memory) > memorymax:
         del memory[:1000]
