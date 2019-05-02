@@ -40,8 +40,9 @@ class ExampleAIImplementationDetective(Detective):
         # self.futureTransports = []
         if self.options:
             for i in range(len(self.game.detectives)):
-                del self.options[:][:]
-        del self.living[:]    
+                del self.options[i][:]
+        del self.living[:] 
+        self.living.extend([1 for _ in range(len(self.game.detectives))])   
         # self.options = []
         # self.living = []
     
@@ -85,8 +86,12 @@ class ExampleAIImplementationDetective(Detective):
                 self.broaden()
 
         self.print_(f"getting decision for id::{self.id}\nFuture:{self.futureNodes, self.futureTransports}")
-
-        decision = (self.futureNodes[self.id][0], self.futureTransports[self.id][0])
+        try:
+            decision = (self.futureNodes[self.id][0], self.futureTransports[self.id][0])
+        except Exception as e:
+            print(vars(self))
+            print(vars(ExampleAIImplementationDetective))
+            raise e
         del self.futureTransports[self.id][0]
         del self.futureNodes[self.id][0]
         if decision == (None, None):
@@ -196,7 +201,7 @@ class ExampleAIImplementationDetective(Detective):
 
                 
             if len(transp) > 2:
-                transp = transp[0:2]
+                transp = transp[:2]
 
             # print(f"Future moves for detective {i}:  {path}")
             self.futureNodes[i] = path[1:]
@@ -242,7 +247,7 @@ class ExampleAIImplementationDetective(Detective):
             Calculate the entropy of a given list of tuples (..., probability)
             Returns: a double
             """
-            _, probabilities = map(list, zip(*tupleList))
+                _, probabilities = map(list, zip(*tupleList))
             entropy = 0.0
             for p in probabilities:
                 entropy -= p * log2(p)
@@ -271,6 +276,8 @@ class ExampleAIImplementationDetective(Detective):
                             returnProbabilities=True, 
                         )
             possibleX = list(dictX.items())
+            if(possibleX == [])
+                print("BUG")
             return possibleX
         
         fullOptions = []  # create a list containing all lists of options per detecive

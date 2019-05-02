@@ -160,5 +160,6 @@ class ScotlandYard():
     def reset(self):
         self.board.reset()
         self.misterx.reset()
+        # self.detectives[0].reset()
         for det in self.detectives:
             det.reset()
