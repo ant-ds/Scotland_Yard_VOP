@@ -17,6 +17,8 @@ def main(args):
     start = time.time()
     config = util.readConfig('settings.ini')
     runs = int(args['runs'])
+    episodes = int(args['episodes'])
+    random_ = args['random']
     percent = runs / 100
     game = ScotlandYard(cfg=config, proj=args['proj'])
 
@@ -29,8 +31,10 @@ def main(args):
         if longest_path < max(co):
             longest_path = max(co)
     
-    game.addMisterX(misterx.ExampleAIImplementationMisterX(game=game, name="AI Mister X", blackCards=4))
-    # game.addMisterX(randomMrX.ExampleAIImplementationRandomMisterX(name=f"Random Mr. X", game=game, blackCards=4))
+    if random_ != 'y':
+        game.addMisterX(misterx.ExampleAIImplementationMisterX(game=game, name="AI Mister X", blackCards=4))
+    else:
+        game.addMisterX(randomMrX.ExampleAIImplementationRandomMisterX(name=f"Random Mr. X", game=game, blackCards=4))
     # game.addMisterX(AIModelMisterX(game=game, name="AI Mister X", longest_path=longest_path, coordinates=coordinates, modelname="ai\ml\MrXmodels\DetDense[128, 128, 64, 64, 32, 32, 16, 16]_adv_MrX_epi26160"))
 
     # game.addDetectives([enhanceddetective.ExampleAIImplementationDetective(idNumber=i, game=game) for i in range(5)])
@@ -42,7 +46,7 @@ def main(args):
                 game=game,
                 longest_path=longest_path,
                 coordinates=coordinates,
-                modelname="ai/ml/models/DetDense[128, 128, 128, 64, 64, 64, 64, 64, 32, 32, 32, 32, 32, 32, 16, 16, 16]_adv_Det1556643593_epi13700.model") 
+                modelname=f"ai/ml/models/DetDense[128, 128, 128, 64, 64, 64, 64, 64, 32, 32, 32, 32, 32, 32, 16, 16, 16]_adv_Det1556643593_epi{episodes}.model") 
             for i in range(5)
         ]
     )
@@ -76,6 +80,8 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
+    parser.add_argument('--episodes', default=33800)
+    parser.add_argument('--random', default='n')
     parser.add_argument('--runs', default=1)
     parser.add_argument('--proj', default='')
     args = vars(parser.parse_args())
