@@ -1,0 +1,82 @@
+Er stond een fout in de procedure waardoor MrX niet goed getraind werd.
+Detectives maakten wel duidelijk progressie! tegen episode 1500 ging hun winrate naar 60%, komende van 35% initieel
+-----------
+Episode 0
+Detective win percentage: 33.33333333333333
+Mister X win percentage: 66.66666666666666
+Games played: 15
+-----------
+Episode 100
+Detective win percentage: 37.6
+Mister X win percentage: 62.4
+Games played: 500
+-----------
+Episode 200
+Detective win percentage: 38.800000000000004
+Mister X win percentage: 61.199999999999996
+Games played: 500
+-----------
+Episode 300
+Detective win percentage: 36.0
+Mister X win percentage: 64.0
+Games played: 500
+-----------
+Episode 400
+Detective win percentage: 39.6
+Mister X win percentage: 60.4
+Games played: 500
+-----------
+Episode 500
+Detective win percentage: 37.4
+Mister X win percentage: 62.6
+Games played: 500
+-----------
+Episode 600
+Detective win percentage: 41.6
+Mister X win percentage: 58.4
+Games played: 500
+-----------
+Episode 700
+Detective win percentage: 47.0
+Mister X win percentage: 53.0
+Games played: 500
+-----------
+Episode 800
+Detective win percentage: 43.6
+Mister X win percentage: 56.39999999999999
+Games played: 500
+-----------
+Episode 900
+Detective win percentage: 50.4
+Mister X win percentage: 49.6
+Games played: 500
+-----------
+Episode 1000
+Detective win percentage: 51.800000000000004
+Mister X win percentage: 48.199999999999996
+Games played: 500
+-----------
+Episode 1100
+Detective win percentage: 54.6
+Mister X win percentage: 45.4
+Games played: 500
+-----------
+Episode 1200
+Detective win percentage: 59.8
+Mister X win percentage: 40.2
+Games played: 500
+-----------
+Episode 1300
+Detective win percentage: 65.2
+Mister X win percentage: 34.8
+Games played: 500
+-----------
+Episode 1400
+Detective win percentage: 63.0
+Mister X win percentage: 37.0
+Games played: 500
+-----------
+Episode 1500
+Detective win percentage: 66.4
+Mister X win percentage: 33.6
+Games played: 500
