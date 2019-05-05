@@ -125,17 +125,18 @@ done
 or for Unix systems:
 ```sh
 #!/bin/bash
-for i in {0..57600..600}
+for i in $(eval echo {${1}..${2}..200})
 do
-  mkdir -p "history/manylayermodel$i"
-  pipenv run python scotlandyard.py --proj "manylayermodel${i}/" --runs 1000 --episodes $i
+   mkdir -p "history/manylayermodel$i"
+   pipenv run python scotlandyard.py --proj "manylayermodel${i}/" --runs $3 --episodes $i
 
 
-  mkdir -p "history/manylayermodel${i}VRandom"
-  pipenv run python scotlandyard.py --proj "manylayermodel${i}VRandom/" --runs 500 --episodes $i --random y
+   mkdir -p "history/manylayermodel${i}VRandom"
+   pipenv run python scotlandyard.py --proj "manylayermodel${i}VRandom/" --runs $3 --episodes $i --random y
 
-  echo "Done with ${i} episodes!"
+   echo "Done with ${i} episodes!"
 done
+echo "Done"
 ```
 
 
