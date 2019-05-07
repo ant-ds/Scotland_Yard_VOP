@@ -3,6 +3,7 @@ import itertools
 from math import log2
 from operator import itemgetter
 import random
+import numpy as np
 
 from game.detective import Detective
 import game.constants as const
@@ -69,7 +70,7 @@ class ExampleAIImplementationDetective(Detective):
             elif self.trn in closeinTurns:
                 self.closein()
             elif self.trn in encircleTurns:
-                self.encircle(decisiondepth=2)
+                self.encircle(decisiondepth=1)
             elif self.trn in broadenTurns:
                 self.broaden()
 
@@ -361,39 +362,51 @@ class ExampleAIImplementationDetective(Detective):
 
         def filterSolution(solution, averageEnt = None, skip = [], currentDepth = 0):
             """
-            Filters all solutions to a subset to be examined in next depth
+            Filters all solutions to a subset to be examined in next depth based on a score given by entropy and transportmethods. The lower the score, the better.
             """
-            #TODO: convert this to a score function
-            #Filter 1: only consider scenario's above average Entropy
-            scenarios = []
-            if averageEnt:
-                scenarios = [sol[0] for sol in solution if sol[1] < averageEnt]
-                print(f"Filter 1: reduced fanout of level {currentDepth} to: {len(scenarios)}")
-            else:
-                scenarios = [sol[0] for sol in solution]
-            
 
             optimalTransport = []
-            #Filter 2: only consider scenario's with preferred transport
             for i, det in enumerate(self.game.detectives):
                 if(i not in skip):
                     # TODO: filter transport here
                     optimalTransport.append("taxi")
-            scenarios = [scenario for scenario in scenarios if [node[1] for node in scenario] == optimalTransport]
-            print(f"Filter 2: reduced fanout of level {currentDepth} to: {len(scenarios)}")
+
+            #Increment score (=entropy) 0.25 for every lesser transport
+            
+            scoresol = []
+            scorearray = []
+            for sol in solution:
+                for i, tup in enumerate(sol[0]):
+                    penalty = 0
+                    if tup[1] != optimalTransport[i]:
+                        penalty = penalty + 0.25
+                score = sol[1] + penalty
+                scorearray.append(score)
+                scoresol.append((sol[0],score))
+            scorearray = np.array(scorearray)
+            scorefilter = np.percentile(scorearray, 1)
+            #TODO: choose percentile in order to have x amount of scenarios left
+            
+            #Filter: only consider scenario's below average score
+            scenarios = []
+            if averageEnt:
+                scenarios = [sol[0] for sol in scoresol if sol[1] < scorefilter]
+                print(f"Filter: reduced fanout of level {currentDepth} to: {len(scenarios)}")
+            else:
+                scenarios = [sol[0] for sol in scoresol]
+            
+            if not scenarios:
+                scenarios.append(min(scoresol, key = lambda t: t[1])[0])
 
             #Change scenarios to options
             filteredSol = [] 
-            if scenarios:
-                for i in range(len(scenarios[0])): #TODO: DEBUG HERE
-                    allsols = [scenario[i] for scenario in scenarios]
-                    uniquesols = list(set(allsols))
-                    filteredSol.append(uniquesols)
-            else:
-                print("fook")
-                #TODO: in case of empty scenarios
-            
-            return filteredSol
+            for i in range(len(scenarios[0])): #TODO: DEBUG HERE
+                allsols = [scenario[i] for scenario in scenarios]
+                uniquesols = list(set(allsols))
+                filteredSol.append(uniquesols)
+
+
+            return filteredSol, scenarios
 
 
         assert(decisiondepth != 0), "Decisiondepth must be greater than zero" 
@@ -403,29 +416,35 @@ class ExampleAIImplementationDetective(Detective):
 
 
         for i in range(1, decisiondepth):    
-            options = filterSolution(sol, averageEnt = ae, skip = skp, currentDepth = i)
-            sol, ae, skp = solutionCompute(i, options, skp)
+            options, _ = filterSolution(sol, averageEnt = ae, skip = skp, currentDepth = i)
+            sol, ae, skp = solutionCompute(i+1, options, skp)
         
-            
+        _, scenarios = filterSolution(sol, averageEnt = ae, skip = skp, currentDepth = decisiondepth)
 
 
+        best = min(scenarios, key = lambda t: t[1])
         
-
-
-        
-        #TODO
-        # decissions = []
-        # j=0
-        # for i, det in enumerate(self.game.detectives):
-        #     if not det.defeated and i not in skip:
-        #         # print(f"Da moves are: {moves[j]}")
-        #         decissions.append(moves[j])
-        #         j+=1
-        #     else:
-        #         decissions.append((None,None))
-        # for i, decission in enumerate(decissions):
-        #     self.futureNodes[i].append(decission[0])
-        #     self.futureTransports[i].append(decission[1])
+        decissions = []
+        j=0
+        for i, det in enumerate(self.game.detectives):
+            if not det.defeated and i not in skp:
+                # print(f"Da moves are: {moves[j]}")
+                neighboursPos, neighboursTrans = map(list,zip(*self.getAvailableOptions(i)))
+                if neighboursPos and neighboursTrans:
+                    lengths = [nx.shortest_path_length(self.game.board.graph, pos, best[j][0]) for pos in neighboursPos]
+                    if lengths:    
+                        index, _ = min(enumerate(lengths), key=itemgetter(1))
+                        decissions.append((neighboursPos[index]),neighboursTrans[index])
+                        # self.futureNodes[i].append(neighboursPos[index])
+                        # self.futureTransports[i].append(neighboursTrans[index])
+                    j+=1
+                else:
+                    decissions.append((None,None))
+            else:
+                decissions.append((None,None))
+        for i, decission in enumerate(decissions):
+            self.futureNodes[i].append(decission[0])
+            self.futureTransports[i].append(decission[1])
     
     
     
