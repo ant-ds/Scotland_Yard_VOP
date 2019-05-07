@@ -76,7 +76,7 @@ class ExampleAIImplementationDetective(Detective):
             elif self.trn in closeinTurns:
                 self.closein()
             elif self.trn in encircleTurns:
-                self.encircle(decisiondepth=2)
+                self.encircle(decisiondepth=1)
             elif self.trn in broadenTurns:
                 self.broaden()
 
@@ -336,6 +336,8 @@ class ExampleAIImplementationDetective(Detective):
                 detectivePos = [node[0] for node in scenario]
                 expanded = multipleExpand(detectivePos, depth=currentDepth)
                 ent = calcEntropy(expanded)
+                #TODO: add score here
+                
                 summedEnt = summedEnt + ent
                 solution.append((crossproduct[i],ent))
             averageEnt = summedEnt/len(crossproduct)
@@ -368,7 +370,7 @@ class ExampleAIImplementationDetective(Detective):
             
             
             scorearray = np.array(scorearray)
-            amount = 100
+            amount = 10
             perc = min(amount/len(solution),100)
             
             print(f"Percentile chosen: {perc}")
@@ -377,11 +379,9 @@ class ExampleAIImplementationDetective(Detective):
             
             #Filter: only consider scenario's below average score
             scenarios = []
-            if averageEnt:
-                scenarios = [sol[0] for sol in scoresol if sol[1] <= scorefilter]
-                print(f"Filter: reduced fanout of level {currentDepth} from {len(solution)} to {len(scenarios)}")
-            else:
-                scenarios = [sol[0] for sol in scoresol]
+            scenarios = [sol[0] for sol in scoresol if sol[1] <= scorefilter]
+            print(f"Filter: reduced fanout of level {currentDepth} from {len(solution)} to {len(scenarios)}")
+            #     scenarios = [sol[0] for sol in scoresol]
             
             if not scenarios:
                 scenarios.append(min(scoresol, key = lambda t: t[1])[0])
