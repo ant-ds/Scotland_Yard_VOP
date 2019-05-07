@@ -64,6 +64,14 @@ class ExampleAIImplementationDetective(Detective):
                    ops = [(None, None)]
                 self.options.append(ops)
                 self.print_(f"Options for detective {detective.id}: {self.options[i]}")
+            
+            optionsleft = False
+            for i, det in enumerate(self.game.detectives):
+                if self.options[i] != [(None, None)]:
+                    optionsleft = True
+            
+            if not optionsleft:
+                return None, None
 
             if self.trn in disperseTurns:
                 self.disperse()
@@ -375,6 +383,7 @@ class ExampleAIImplementationDetective(Detective):
             
             scoresol = []
             scorearray = []
+            penalty = 0
             for sol in solution:
                 for i, tup in enumerate(sol[0]):
                     penalty = 0
@@ -421,8 +430,11 @@ class ExampleAIImplementationDetective(Detective):
         
         _, scenarios = filterSolution(sol, averageEnt = ae, skip = skp, currentDepth = decisiondepth)
 
-
-        best = min(scenarios, key = lambda t: t[1])
+        if len(scenarios) != 1:
+            best = min(scenarios, key = lambda t: t[1])
+        else:
+            best = scenarios[0]    
+        
         
         decissions = []
         j=0
@@ -434,12 +446,12 @@ class ExampleAIImplementationDetective(Detective):
                     lengths = [nx.shortest_path_length(self.game.board.graph, pos, best[j][0]) for pos in neighboursPos]
                     if lengths:    
                         index, _ = min(enumerate(lengths), key=itemgetter(1))
-                        decissions.append((neighboursPos[index]),neighboursTrans[index])
+                        decissions.append((neighboursPos[index],neighboursTrans[index]))
                         # self.futureNodes[i].append(neighboursPos[index])
                         # self.futureTransports[i].append(neighboursTrans[index])
-                    j+=1
                 else:
                     decissions.append((None,None))
+                j+=1
             else:
                 decissions.append((None,None))
         for i, decission in enumerate(decissions):
