@@ -76,7 +76,7 @@ class ExampleAIImplementationDetective(Detective):
             elif self.trn in closeinTurns:
                 self.closein()
             elif self.trn in encircleTurns:
-                self.encircle(decisiondepth=1)
+                self.encircle(decisiondepth=2)
             elif self.trn in broadenTurns:
                 self.broaden()
 
@@ -324,92 +324,69 @@ class ExampleAIImplementationDetective(Detective):
 
         def solutionCompute(currentDepth, fullOptions, skip = []):
             """
-            Calculate entropy for every possible option
-            Returns list of sets (possibility, entropy), the average entropy and the list to skip
+            Assign a score for every possibility and filter based on that score (entropy + transport)
+            Returns list of sets (possibility, score), the average entropy and the list to skip
             """
             fullOptions, skip = optionGenerator(fullOptions, skip)
             crossproduct = list(itertools.product(*fullOptions))  # Giant crossproduct of all possible options      
-            self.print_(f"Added fan-out of {len(crossproduct)} on level {currentDepth}")
+            print(f"Added fan-out of {len(crossproduct)} on level {currentDepth}")
             summedEnt = 0
             solution = []
+            scoreList = []
             for i, scenario in enumerate(crossproduct):
                 detectivePos = [node[0] for node in scenario]
                 expanded = multipleExpand(detectivePos, depth=currentDepth)
+                # entropy for score
                 ent = calcEntropy(expanded)
-                #TODO: add score here
-                
-                summedEnt = summedEnt + ent
-                solution.append((crossproduct[i],ent))
+                # transport for score
+                score = ent
+                for tup in scenario:
+                    if tup[1] != "taxi":
+                        score += 0.25
+                summedEnt += ent
+                scoreList.append(score)
+                solution.append((crossproduct[i],score))
             averageEnt = summedEnt/len(crossproduct)
-            return solution, averageEnt, skip
+            averageScore = sum(scoreList)/len(crossproduct)
+            self.print_(f"Average entropy: {averageEnt}, Average score: {averageScore}")
 
-        def filterSolution(solution, averageEnt = None, skip = [], currentDepth = 0):
-            """
-            Filters all solutions to a subset to be examined in next depth based on a score given by entropy and transportmethods. The lower the score, the better.
-            """
-
-            optimalTransport = []
-            for i, det in enumerate(self.game.detectives):
-                if(i not in skip):
-                    # TODO: filter transport here
-                    optimalTransport.append("taxi")
-
-            #Increment score (=entropy) 0.25 for every lesser transport
+            #TODO: filter solution based on score
+            npScores = np.array(scoreList)
+            #Give the k best scores
+            k = min(20,len(npScores)-1)
+            indexes = np.argpartition(npScores, k)[:k]
             
-            scoresol = []
-            scorearray = []
-            penalty = 0
-            for sol in solution:
-                for i, tup in enumerate(sol[0]):
-                    penalty = 0
-                    if tup[1] != optimalTransport[i]:
-                        penalty = penalty + 0.25
-                score = sol[1] + penalty
-                scorearray.append(score)
-                scoresol.append((sol[0],score))
-            
-            
-            scorearray = np.array(scorearray)
-            amount = 10
-            perc = min(amount/len(solution),100)
-            
-            print(f"Percentile chosen: {perc}")
-            scorefilter = np.percentile(scorearray, perc)
-            #TODO: test
-            
-            #Filter: only consider scenario's below average score
             scenarios = []
-            scenarios = [sol[0] for sol in scoresol if sol[1] <= scorefilter]
-            print(f"Filter: reduced fanout of level {currentDepth} from {len(solution)} to {len(scenarios)}")
-            #     scenarios = [sol[0] for sol in scoresol]
+            for ind in indexes:
+                scenarios.append(solution[ind])
             
-            if not scenarios:
-                scenarios.append(min(scoresol, key = lambda t: t[1])[0])
+            print(f"Filter: reduced fanout of level {currentDepth} from {len(solution)} to {len(scenarios)}")
 
             #Change scenarios to options
             filteredSol = [] 
-            for i in range(len(scenarios[0])): #TODO: DEBUG HERE
-                allsols = [scenario[i] for scenario in scenarios]
+            solutions = [scenario[0] for scenario in scenarios]
+            for i in range(len(solutions[0])):
+                allsols = [scenario[i] for scenario in solutions]
                 uniquesols = list(set(allsols))
                 filteredSol.append(uniquesols)
-            return filteredSol, scenarios
+            return filteredSol, scenarios, skip
 
 
         assert(decisiondepth != 0), "Decisiondepth must be greater than zero" 
         
+
         #sol is a list of tuples (scenario, entropy)
-        sol, ae, skp = solutionCompute(1,[],[])
+        sol, scenarios, skp = solutionCompute(1,[],[])
 
         for i in range(1, decisiondepth):    
-            options, _ = filterSolution(sol, averageEnt = ae, skip = skp, currentDepth = i)
-            sol, ae, skp = solutionCompute(i+1, options, skp)
-        
-        _, scenarios = filterSolution(sol, averageEnt = ae, skip = skp, currentDepth = decisiondepth)
+            sol, scenarios, skp = solutionCompute(i+1, sol, skp)
 
         if len(scenarios) != 1:
-            best = min(scenarios, key = lambda t: t[1])
+            #TODO: use numpy here
+            best = min(scenarios, key = lambda t: t[1])[0]
         else:
-            best = scenarios[0]    
+            print(scenarios)
+            best = scenarios[0][0]
         
         
         decissions = []
