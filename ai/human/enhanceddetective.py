@@ -302,6 +302,7 @@ class ExampleAIImplementationDetective(Detective):
             possibleX = list(dictX.items())
             if possibleX == []:
                 print("BUG")
+                return self.game.mrXpositions
             return possibleX
 
         def optionGenerator(prevOptions = [], skip = []):
