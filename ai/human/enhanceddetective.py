@@ -275,10 +275,10 @@ class ExampleAIImplementationDetective(Detective):
             possibleX = list(dictX.items())
             
             if possibleX == []:
-                print("BUG")
+                print("bug")
                 _, dictX = self.game.board.possibleMisterXPositions(returnProbabilities=True)
                 possibleX = list(dictX.items())
-                print(possibleX)
+                # print(possibleX)
             return possibleX
 
         def optionGenerator(prevOptions = [], skip = []):
