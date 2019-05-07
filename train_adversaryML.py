@@ -5,6 +5,16 @@ import numpy as np
 from random import sample
 import time
 import tensorflow.keras as ks
+import tensorflow as tf
+
+
+# ks.backend.set_floatx('float16')
+# ks.backend.set_epsilon(1e-4)
+
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+# config.gpu_options.per_process_gpu_memory_fraction = 0.1
+session = tf.Session(config=config)
 
 # Game parameters
 coordinate_anchors = 14 
@@ -20,7 +30,7 @@ epsilon_decay = 1e-4
 epsilon_min = 0.2          # 0.15 as found in an article
 learning_rate = 0.001
 # lr_decay = 1e-8         # rather low because model.fit will be called very often with little input
-gamma = 0.90
+gamma = 0.85
 
 target_upd_cycles = 40   # amount of NN trainings before target NN gets updated
 episodes = 200000
@@ -37,11 +47,11 @@ longest_path, coordinates, game = initTrainingConstantsAdv(coordinate_anchors, g
 # Detectives
 layersizesDet = [128, 128, 128, 64, 64, 64, 64, 64, 32, 32, 32, 32, 32, 32, 16, 16, 16]
 modelDet = newDenseModel(modelinputsizeDet, layersizesDet, learning_rate)  # ks.models.load_model("ai\ml\models\DetDense[128, 128, 128, 64, 64, 64, 32, 32, 32, 32, 32, 32, 16, 16, 16, 16, 16, 8, 8]_solodet_1556089964")
-NAMEDet = f'DetDense{layersizesDet}_adv_Det{int(time.time())}'
+NAMEDet = f'Dense{layersizesDet}_adv_Det_gamma{gamma}_{int(time.time())}'
 # Mr X
 layersizesMrX = [128, 128, 128, 64, 64, 64, 64, 64, 32, 32, 32, 32, 32, 32, 16, 16, 16]
 modelMrX = newDenseModel(modelinputsizeMrX, layersizesMrX, learning_rate)  # ks.models.load_model("ai\ml\models\DetDense[128, 128, 128, 64, 64, 64, 32, 32, 32, 32, 32, 32, 16, 16, 16, 16, 16, 8, 8]_solodet_1556089964")
-NAMEMrX = f'DetDense{layersizesMrX}_adv_MrX{int(time.time())}'
+NAMEMrX = f'Dense{layersizesMrX}_adv_MrX_gamma{gamma}_{int(time.time())}'
 
 # 3 Clone NN = targetNN
 targetNNDet = newDenseModel(modelinputsizeDet, layersizesDet, learning_rate)
