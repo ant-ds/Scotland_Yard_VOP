@@ -33,8 +33,8 @@ def main(args):
     # game.addMisterX(randomMrX.ExampleAIImplementationRandomMisterX(name=f"Random Mr. X", game=game, blackCards=4))
     # game.addMisterX(AIModelMisterX(game=game, name="AI Mister X", longest_path=longest_path, coordinates=coordinates, modelname="ai\ml\MrXmodels\DetDense[128, 128, 64, 64, 32, 32, 16, 16]_adv_MrX_epi26160"))
 
-    # game.addDetectives([enhanceddetective.ExampleAIImplementationDetective(idNumber=i, game=game) for i in range(5)])
-    game.addDetectives([randomDetective.ExampleAIImplementationRandomDetective(idNumber=i, game=game) for i in range(4)])
+    game.addDetectives([enhanceddetective.ExampleAIImplementationDetective(idNumber=i, game=game) for i in range(4)])
+    # game.addDetectives([randomDetective.ExampleAIImplementationRandomDetective(idNumber=i, game=game) for i in range(4)])
     # game.addDetectives(
     #     [
     #         AIModelDetective(

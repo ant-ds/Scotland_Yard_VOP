@@ -7,13 +7,6 @@ import random
 from game.detective import Detective
 import game.constants as const
 
-# TODO-list: 
-#   Debug Encircle
-#   Evaluate best transport function
-#   Prevent metro in shortest path
-#   (Move from lists of lists to variables for every class separatly)
-
-
 class ExampleAIImplementationDetective(Detective):
     
     # static variables
@@ -76,7 +69,7 @@ class ExampleAIImplementationDetective(Detective):
             elif self.trn in closeinTurns:
                 self.closein()
             elif self.trn in encircleTurns:
-                self.encircle()
+                self.encircle(decisiondepth=2)
             elif self.trn in broadenTurns:
                 self.broaden()
 
@@ -249,7 +242,33 @@ class ExampleAIImplementationDetective(Detective):
             # condpr(f"Entropy: {entropy}")
             return entropy
 
-        def expand(newDetectivePositions):
+        # def expand(newDetectivePositions):
+        #     """
+        #     Expands a given list of mrXpositions with it's neighbours
+        #     Returns: list of tuples (position, probability)
+        #     """
+        #     mrx = self.game.misterx 
+        #     # Look up the most recent reveal and slice the history accordingly
+        #     sliceStart = max([i for i in const.MRX_OPEN_TURNS if i <= self.trn])
+        #     moves = [hist[1] for hist in mrx.history[sliceStart:]]
+        #     # print(f"Moves: {moves}")
+        #     moves.append('black')
+        #     prohibited = self.game.board.getprohibited(sliceStart - len(mrx.doubleMoves))  # Account for double moves disrupting the indices
+        #     prohibited.append(newDetectivePositions)
+        #     # print(f"{prohibited}")
+        #     _, dictX = self.game.board.possiblePositions(
+        #                     mrx.lastKnownPosition, 
+        #                     moves=moves, 
+        #                     occupied=prohibited, 
+        #                     refuseCurrent=True, 
+        #                     returnProbabilities=True, 
+        #                 )
+        #     possibleX = list(dictX.items())
+        #     if possibleX == []:
+        #         print("BUG")
+        #     return possibleX
+        
+        def multipleExpand(newDetectivePositions, depth = decisiondepth):
             """
             Expands a given list of mrXpositions with it's neighbours
             Returns: list of tuples (position, probability)
@@ -259,7 +278,8 @@ class ExampleAIImplementationDetective(Detective):
             sliceStart = max([i for i in const.MRX_OPEN_TURNS if i <= self.trn])
             moves = [hist[1] for hist in mrx.history[sliceStart:]]
             # print(f"Moves: {moves}")
-            moves.append('black')
+            for _ in range(0, depth):
+                moves.append('black')
             prohibited = self.game.board.getprohibited(sliceStart - len(mrx.doubleMoves))  # Account for double moves disrupting the indices
             prohibited.append(newDetectivePositions)
             # print(f"{prohibited}")
@@ -274,46 +294,138 @@ class ExampleAIImplementationDetective(Detective):
             if possibleX == []:
                 print("BUG")
             return possibleX
-        
-        fullOptions = []  # create a list containing all lists of options per detecive
-        skip = []
-        for i, det in enumerate(self.game.detectives):
-            if not det.defeated:
-                ops = self.game.board.getOptions(det)
-                if ops:
-                    fullOptions.append(ops)
-                else:
-                    skip.append(i)
-        crossproduct = list(itertools.product(*fullOptions))  # Giant crossproduct of all possible options
-        self.print_(f"Added fan-out of {len(crossproduct)} on level {decisiondepth}")
-        # print(f"Crossproduct: {crossproduct}")
-        entropy = -1
-        bestScenario = 0
-        for i, scenario in enumerate(crossproduct):
-            detectivePos = [node[0] for node in scenario]
-            # print(f"DetectivePos: {detectivePos}")
-            expanded = expand(detectivePos)
-            ent = calcEntropy(expanded)
-            # print(f"Scenario {i}: entropy = {ent}")
-            if entropy > ent or entropy == -1:
-                entropy = ent
-                bestScenario = i
-                # print(f"ENTROPY CHANGED TO {entropy} (scenario: {i})")
-        
-        moves = crossproduct[bestScenario]
-        
-        decissions = []
-        j=0
-        for i, det in enumerate(self.game.detectives):
-            if not det.defeated and i not in skip:
-                # print(f"Da moves are: {moves[j]}")
-                decissions.append(moves[j])
-                j+=1
+
+        def optionGenerator(prevOptions = [], skip = []):
+            """
+            Generates a list of options for each detective
+            """
+            if prevOptions == [] and skip == []:
+                fullOptions = []  # create a list containing all lists of options per detecive
+                # skip = []
+                
+                for i, det in enumerate(self.game.detectives):
+                    if not det.defeated:
+                        ops = self.game.board.getOptions(det)
+                        if ops:
+                            fullOptions.append(ops)
+                        else:
+                            skip.append(i)
+                return fullOptions, skip
+            
+            if prevOptions: 
+                # TODO: test
+                oldOptions = prevOptions
+                fullOptions = []
+                for i, det in enumerate(self.game.detectives):
+                    if (not det.defeated) and (i not in skip):
+                        tempOptions = []
+                        for nde, _ in oldOptions[i]:
+                            ops = self.game.board.getOptions(det, customStartPosition = nde)
+                            if ops:
+                                tempOptions.extend(ops)
+                        if tempOptions:
+                            fullOptions.append(tempOptions)
+                        else:
+                            if oldOptions[i]:
+                                fullOptions.append(oldOptions[i])
+                            else:
+                                assert(False), "Error in optionGenerator"
+                return fullOptions, skip
+            assert(False), "Error in optionGenerator"
+
+        def solutionCompute(currentDepth, fullOptions, skip = []):
+            """
+            Calculate entropy for every possible option
+            Returns list of sets (possibility, entropy), the average entropy and the list to skip
+            """
+            fullOptions, skip = optionGenerator(fullOptions, skip)
+            crossproduct = list(itertools.product(*fullOptions))  # Giant crossproduct of all possible options      
+            self.print_(f"Added fan-out of {len(crossproduct)} on level {currentDepth}")
+            # print(f"Crossproduct: {crossproduct}")
+            # entropy = -1
+            # bestScenario = 0
+            summedEnt = 0
+            solution = []
+            for i, scenario in enumerate(crossproduct):
+                detectivePos = [node[0] for node in scenario]
+                expanded = multipleExpand(detectivePos, depth=currentDepth)
+                ent = calcEntropy(expanded)
+                summedEnt = summedEnt + ent
+                solution.append((crossproduct[i],ent))
+                # if entropy > ent or entropy == -1:
+                #     entropy = ent
+                #     bestScenario = i
+                #     # print(f"ENTROPY CHANGED TO {entropy} (scenario: {i})")
+            averageEnt = summedEnt/len(crossproduct)
+            return solution, averageEnt, skip
+
+        def filterSolution(solution, averageEnt = None, skip = [], currentDepth = 0):
+            """
+            Filters all solutions to a subset to be examined in next depth
+            """
+            #TODO: convert this to a score function
+            #Filter 1: only consider scenario's above average Entropy
+            scenarios = []
+            if averageEnt:
+                scenarios = [sol[0] for sol in solution if sol[1] < averageEnt]
+                print(f"Filter 1: reduced fanout of level {currentDepth} to: {len(scenarios)}")
             else:
-                decissions.append((None,None))
-        for i, decission in enumerate(decissions):
-            self.futureNodes[i].append(decission[0])
-            self.futureTransports[i].append(decission[1])
+                scenarios = [sol[0] for sol in solution]
+            
+
+            optimalTransport = []
+            #Filter 2: only consider scenario's with preferred transport
+            for i, det in enumerate(self.game.detectives):
+                if(i not in skip):
+                    # TODO: filter transport here
+                    optimalTransport.append("taxi")
+            scenarios = [scenario for scenario in scenarios if [node[1] for node in scenario] == optimalTransport]
+            print(f"Filter 2: reduced fanout of level {currentDepth} to: {len(scenarios)}")
+
+            #Change scenarios to options
+            filteredSol = [] 
+            if scenarios:
+                for i in range(len(scenarios[0])): #TODO: DEBUG HERE
+                    allsols = [scenario[i] for scenario in scenarios]
+                    uniquesols = list(set(allsols))
+                    filteredSol.append(uniquesols)
+            else:
+                print("fook")
+                #TODO: in case of empty scenarios
+            
+            return filteredSol
+
+
+        assert(decisiondepth != 0), "Decisiondepth must be greater than zero" 
+
+        sol, ae, skp = solutionCompute(1,[],[])
+        #sol is a list of tuples (scenario, entropy)
+
+
+        for i in range(1, decisiondepth):    
+            options = filterSolution(sol, averageEnt = ae, skip = skp, currentDepth = i)
+            sol, ae, skp = solutionCompute(i, options, skp)
+        
+            
+
+
+        
+
+
+        
+        #TODO
+        # decissions = []
+        # j=0
+        # for i, det in enumerate(self.game.detectives):
+        #     if not det.defeated and i not in skip:
+        #         # print(f"Da moves are: {moves[j]}")
+        #         decissions.append(moves[j])
+        #         j+=1
+        #     else:
+        #         decissions.append((None,None))
+        # for i, decission in enumerate(decissions):
+        #     self.futureNodes[i].append(decission[0])
+        #     self.futureTransports[i].append(decission[1])
     
     
     
