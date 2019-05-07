@@ -298,7 +298,6 @@ class ExampleAIImplementationDetective(Detective):
                 return fullOptions, skip
             
             if prevOptions: 
-                # TODO: test
                 oldOptions = prevOptions
                 if len(oldOptions) != len(self.game.detectives):
                     print("Breakpoint")
@@ -340,6 +339,7 @@ class ExampleAIImplementationDetective(Detective):
                 ent = calcEntropy(expanded)
                 # transport for score
                 score = ent
+                # OPTION: comment the 3 following lines to remove transport scoring
                 for tup in scenario:
                     if tup[1] != "taxi":
                         score += 0.25
@@ -350,11 +350,14 @@ class ExampleAIImplementationDetective(Detective):
             averageScore = sum(scoreList)/len(crossproduct)
             self.print_(f"Average entropy: {averageEnt}, Average score: {averageScore}")
 
-            #TODO: filter solution based on score
             npScores = np.array(scoreList)
-            #Give the k best scores
-            k = min(20,len(npScores)-1)
-            indexes = np.argpartition(npScores, k)[:k]
+            
+            # k is the amount options chosen for next level
+            # OPTION: change value of k to narrow/broaden branching
+            k = (int) (60/len(self.game.detectives))
+            
+            kk = (int) (min(k,len(npScores)-1))
+            indexes = np.argpartition(npScores, kk)[:kk]
             
             scenarios = []
             for ind in indexes:
@@ -382,7 +385,6 @@ class ExampleAIImplementationDetective(Detective):
             sol, scenarios, skp = solutionCompute(i+1, sol, skp)
 
         if len(scenarios) != 1:
-            #TODO: use numpy here
             best = min(scenarios, key = lambda t: t[1])[0]
         else:
             print(scenarios)
