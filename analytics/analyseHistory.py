@@ -1,5 +1,6 @@
 import os
 import numpy as np
+import zipfile
 
 
 def score(arr):
@@ -27,14 +28,36 @@ def readFile(data, arr):
     return arr
 
 
-def readHistoryFile(fpath, arr):
-    with open(fpath, 'r') as fp:
+def readHistoryFile(fpath, arr, filepath=True):
+    if filepath:
+        with open(fpath, 'r') as fp:
+            lines = fp.readlines()
+            status = int(lines[0])
+        return readFile([status], arr)
+    else:
+        fp = fpath
         lines = fp.readlines()
         status = int(lines[0])
-    return readFile([status], arr)
+        return readFile([status], arr)
 
 
-def readZip(filename, data):
+def readHistoryZip(filename):
+    archive = zipfile.ZipFile(filename, 'r')
+    d = {}
+    for fn in archive.namelist():
+        if '.hist' in fn:
+            parts = fn.split('/')
+            d[parts[0]] = readHistoryFile(archive.open(fn), d[parts[0]], filepath=False)
+        else:
+            d[fn.split('/')[0]] = [0, 0]
+    
+    for k, v in d.items():
+        printResult(k, v)
+    
+    return [0, 0]
+
+
+def readNumpyZip(filename, data):
     s = [0, 0]
     for k, v in data.items():
         s = readFile(v, s)
@@ -58,20 +81,25 @@ def main(unix: bool, basepath=None):
 
     r = [0, 0]
 
-    for f in os.listdir(basepath):
+    for f in sorted(os.listdir(basepath)):
         fpath = basepath + f"{sep}" + f
         if '.' not in fpath.split(sep)[-1]:
             printResult(main(unix, basepath=fpath), r)
         elif '.hist' in fpath:
             r = readHistoryFile(fpath, r)
         else:
-            data = np.load(fpath)
             if "zip" in f:
-                printResult(f, readZip(f, data))
+                if f.startswith('np_'):
+                    data = np.load(fpath)
+                    printResult(f, readNumpyZip(f, data))
+                else:
+                    # .hist zip file
+                    printResult(f, readHistoryZip(fpath))
             else:
+                data = np.load(fpath)
                 r = readFile(data, r)
     printResult(name, r)
 
 
 if __name__ == '__main__':
-    main(False)
+    main(True)

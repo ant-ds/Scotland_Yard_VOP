@@ -22,17 +22,26 @@ import numpy as np
 from random import sample
 import time
 import tensorflow.keras as ks
+import tensorflow as tf
+
+ks.backend.set_floatx('float16')
+ks.backend.set_epsilon(1e-4)
+
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+# config.gpu_options.per_process_gpu_memory_fraction = 0.1
+session = tf.Session(config=config)
 
 # Game parameters
-coordinate_anchors = 10 
+coordinate_anchors = 14 
 gamesize = 199
 det_amount = 5
-modelinputsize = 259    # 249 voor 4 detectives
+modelinputsize = 279  # 259 voor 5 det, 10 anchors    # 249 voor 4 detectives
 
 # Hyperparameters
-epsilon = 0.7
-epsilon_startdecay = 300    # let agent explore first, exploitation is meaningless
-epsilon_decay = 3e-5   
+epsilon = 0.2
+epsilon_startdecay = 100    # let agent explore first, exploitation is meaningless
+epsilon_decay = 2e-4   
 epsilon_min = 0.2          # 0.15 as found in an article
 learning_rate = 0.001
 # lr_decay = 1e-8         # rather low because model.fit will be called very often with little input
@@ -42,18 +51,15 @@ target_upd_cycles = 40   # amount of NN trainings before target NN gets updated
 episodes = 200000
 warmup_capacity = 800  # amount of memory units to generate before starting to train
 batch_size = 128
-training_period = 7     # amount of games to play before 1 NN training
-
-play_test_games_interval = 25
-test_games = 100
-memorymax = 20000
+training_period = 4     # amount of games to play before 1 NN training
+memorymax = 10000
 
 # 1 Initialize game
 longest_path, coordinates, game = initTrainingConstants(coordinate_anchors, gamesize, det_amount)
 
 # 2 Initialize NN
-layersizes = [128, 128, 128, 64, 64, 64, 32, 32, 32, 32, 32, 32, 16, 16, 16, 16, 16, 8, 8]
-model = ks.models.load_model("ai\ml\models\DetDense[128, 128, 128, 64, 64, 64, 32, 32, 32, 32, 32, 32, 16, 16, 16, 16, 16, 8, 8]_solodet_1556089964")  # newDenseModel(modelinputsize, layersizes, learning_rate)
+layersizes = [64, 32, 16]
+model = newDenseModel(modelinputsize, layersizes, learning_rate)  # ks.models.load_model("ai\ml\models\DetDense[128, 128, 128, 64, 64, 64, 32, 32, 32, 32, 32, 32, 16, 16, 16, 16, 16, 8, 8]_solodet_1556089964")
 NAME = f'DetDense{layersizes}_solodet_{int(time.time())}'
 
 # 3 Clone NN = targetNN
@@ -92,7 +98,7 @@ for i in range(0, episodes):
 
     target_batch = []
     for s in sam:
-        if s.reward == 0:
+        if s.nextDetState is not None:
             _, targetQ = chooseAction(targetNN, s.nextPossActions, s.nextDetState, 0, longest_path, coordinates)
             target_batch.append(s.reward + gamma * targetQ)
         else:   # game ended, no more rewards can be earned => cumulative rewards (=Q) should be zero => targetQ = 0

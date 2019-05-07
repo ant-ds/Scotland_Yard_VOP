@@ -1,0 +1,1310 @@
+-----------
+Episode 0
+Detective win percentage: 47.05882352941176
+Mister X win percentage: 52.94117647058824
+Games played: 17
+-----------
+Episode 100
+Detective win percentage: 37.666666666666664
+Mister X win percentage: 62.33333333333333
+Games played: 600
+-----------
+Episode 200
+Detective win percentage: 36.333333333333336
+Mister X win percentage: 63.66666666666667
+Games played: 600
+-----------
+Episode 300
+Detective win percentage: 30.833333333333336
+Mister X win percentage: 69.16666666666667
+Games played: 600
+-----------
+Episode 400
+Detective win percentage: 36.333333333333336
+Mister X win percentage: 63.66666666666667
+Games played: 600
+-----------
+Episode 500
+Detective win percentage: 38.666666666666664
+Mister X win percentage: 61.33333333333333
+Games played: 600
+-----------
+Episode 600
+Detective win percentage: 35.833333333333336
+Mister X win percentage: 64.16666666666667
+Games played: 600
+-----------
+Episode 700
+Detective win percentage: 34.333333333333336
+Mister X win percentage: 65.66666666666666
+Games played: 600
+-----------
+Episode 800
+Detective win percentage: 39.83333333333333
+Mister X win percentage: 60.16666666666667
+Games played: 600
+-----------
+Episode 900
+Detective win percentage: 34.333333333333336
+Mister X win percentage: 65.66666666666666
+Games played: 600
+-----------
+Episode 1000
+Detective win percentage: 36.16666666666667
+Mister X win percentage: 63.83333333333333
+Games played: 600
+-----------
+Episode 1100
+Detective win percentage: 35.833333333333336
+Mister X win percentage: 64.16666666666667
+Games played: 600
+-----------
+Episode 1200
+Detective win percentage: 36.5
+Mister X win percentage: 63.5
+Games played: 600
+-----------
+Episode 1300
+Detective win percentage: 34.833333333333336
+Mister X win percentage: 65.16666666666666
+Games played: 600
+-----------
+Episode 1400
+Detective win percentage: 32.166666666666664
+Mister X win percentage: 67.83333333333333
+Games played: 600
+-----------
+Episode 1500
+Detective win percentage: 33.5
+Mister X win percentage: 66.5
+Games played: 600
+-----------
+Episode 1600
+Detective win percentage: 35.5
+Mister X win percentage: 64.5
+Games played: 600
+-----------
+Episode 1700
+Detective win percentage: 29.333333333333332
+Mister X win percentage: 70.66666666666667
+Games played: 600
+-----------
+Episode 1800
+Detective win percentage: 34.66666666666667
+Mister X win percentage: 65.33333333333333
+Games played: 600
+-----------
+Episode 1900
+Detective win percentage: 29.333333333333332
+Mister X win percentage: 70.66666666666667
+Games played: 600
+-----------
+Episode 2000
+Detective win percentage: 29.833333333333336
+Mister X win percentage: 70.16666666666667
+Games played: 600
+-----------
+Episode 2100
+Detective win percentage: 31.0
+Mister X win percentage: 69.0
+Games played: 600
+-----------
+Episode 2200
+Detective win percentage: 28.499999999999996
+Mister X win percentage: 71.5
+Games played: 600
+-----------
+Episode 2300
+Detective win percentage: 29.5
+Mister X win percentage: 70.5
+Games played: 600
+-----------
+Episode 2400
+Detective win percentage: 25.166666666666664
+Mister X win percentage: 74.83333333333333
+Games played: 600
+-----------
+Episode 2500
+Detective win percentage: 28.833333333333332
+Mister X win percentage: 71.16666666666667
+Games played: 600
+-----------
+Episode 2600
+Detective win percentage: 27.500000000000004
+Mister X win percentage: 72.5
+Games played: 600
+-----------
+Episode 2700
+Detective win percentage: 28.166666666666668
+Mister X win percentage: 71.83333333333334
+Games played: 600
+-----------
+Episode 2800
+Detective win percentage: 26.666666666666668
+Mister X win percentage: 73.33333333333333
+Games played: 600
+-----------
+Episode 2900
+Detective win percentage: 23.166666666666664
+Mister X win percentage: 76.83333333333333
+Games played: 600
+-----------
+Episode 3000
+Detective win percentage: 24.166666666666668
+Mister X win percentage: 75.83333333333333
+Games played: 600
+-----------
+Episode 3100
+Detective win percentage: 26.666666666666668
+Mister X win percentage: 73.33333333333333
+Games played: 600
+-----------
+Episode 3200
+Detective win percentage: 22.166666666666668
+Mister X win percentage: 77.83333333333333
+Games played: 600
+-----------
+Episode 3300
+Detective win percentage: 21.166666666666668
+Mister X win percentage: 78.83333333333333
+Games played: 600
+-----------
+Episode 3400
+Detective win percentage: 21.666666666666668
+Mister X win percentage: 78.33333333333333
+Games played: 600
+-----------
+Episode 3500
+Detective win percentage: 22.333333333333332
+Mister X win percentage: 77.66666666666666
+Games played: 600
+-----------
+Episode 3600
+Detective win percentage: 18.5
+Mister X win percentage: 81.5
+Games played: 600
+-----------
+Episode 3700
+Detective win percentage: 15.5
+Mister X win percentage: 84.5
+Games played: 600
+-----------
+Episode 3800
+Detective win percentage: 16.166666666666664
+Mister X win percentage: 83.83333333333334
+Games played: 600
+-----------
+Episode 3900
+Detective win percentage: 18.166666666666668
+Mister X win percentage: 81.83333333333334
+Games played: 600
+-----------
+Episode 4000
+Detective win percentage: 14.499999999999998
+Mister X win percentage: 85.5
+Games played: 600
+-----------
+Episode 4100
+Detective win percentage: 15.333333333333332
+Mister X win percentage: 84.66666666666667
+Games played: 600
+-----------
+Episode 4200
+Detective win percentage: 16.166666666666664
+Mister X win percentage: 83.83333333333334
+Games played: 600
+-----------
+Episode 4300
+Detective win percentage: 19.833333333333332
+Mister X win percentage: 80.16666666666666
+Games played: 600
+-----------
+Episode 4400
+Detective win percentage: 18.666666666666668
+Mister X win percentage: 81.33333333333333
+Games played: 600
+-----------
+Episode 4500
+Detective win percentage: 16.5
+Mister X win percentage: 83.5
+Games played: 600
+-----------
+Episode 4600
+Detective win percentage: 17.833333333333336
+Mister X win percentage: 82.16666666666667
+Games played: 600
+-----------
+Episode 4700
+Detective win percentage: 16.833333333333332
+Mister X win percentage: 83.16666666666667
+Games played: 600
+-----------
+Episode 4800
+Detective win percentage: 23.0
+Mister X win percentage: 77.0
+Games played: 600
+-----------
+Episode 4900
+Detective win percentage: 13.0
+Mister X win percentage: 87.0
+Games played: 600
+-----------
+Episode 5000
+Detective win percentage: 15.5
+Mister X win percentage: 84.5
+Games played: 600
+-----------
+Episode 5100
+Detective win percentage: 20.5
+Mister X win percentage: 79.5
+Games played: 600
+-----------
+Episode 5200
+Detective win percentage: 18.166666666666668
+Mister X win percentage: 81.83333333333334
+Games played: 600
+-----------
+Episode 5300
+Detective win percentage: 20.166666666666664
+Mister X win percentage: 79.83333333333333
+Games played: 600
+-----------
+Episode 5400
+Detective win percentage: 20.5
+Mister X win percentage: 79.5
+Games played: 600
+-----------
+Episode 5500
+Detective win percentage: 21.5
+Mister X win percentage: 78.5
+Games played: 600
+-----------
+Episode 5600
+Detective win percentage: 25.166666666666664
+Mister X win percentage: 74.83333333333333
+Games played: 600
+-----------
+Episode 5700
+Detective win percentage: 21.5
+Mister X win percentage: 78.5
+Games played: 600
+-----------
+Episode 5800
+Detective win percentage: 21.833333333333332
+Mister X win percentage: 78.16666666666666
+Games played: 600
+-----------
+Episode 5900
+Detective win percentage: 24.333333333333336
+Mister X win percentage: 75.66666666666667
+Games played: 600
+-----------
+Episode 6000
+Detective win percentage: 23.5
+Mister X win percentage: 76.5
+Games played: 600
+-----------
+Episode 6100
+Detective win percentage: 19.833333333333332
+Mister X win percentage: 80.16666666666666
+Games played: 600
+-----------
+Episode 6200
+Detective win percentage: 15.166666666666668
+Mister X win percentage: 84.83333333333334
+Games played: 600
+-----------
+Episode 6300
+Detective win percentage: 16.833333333333332
+Mister X win percentage: 83.16666666666667
+Games played: 600
+-----------
+Episode 6400
+Detective win percentage: 17.666666666666668
+Mister X win percentage: 82.33333333333334
+Games played: 600
+-----------
+Episode 6500
+Detective win percentage: 17.333333333333336
+Mister X win percentage: 82.66666666666667
+Games played: 600
+-----------
+Episode 6600
+Detective win percentage: 17.0
+Mister X win percentage: 83.0
+Games played: 600
+-----------
+Episode 6700
+Detective win percentage: 23.666666666666668
+Mister X win percentage: 76.33333333333333
+Games played: 600
+-----------
+Episode 6800
+Detective win percentage: 19.0
+Mister X win percentage: 81.0
+Games played: 600
+-----------
+Episode 6900
+Detective win percentage: 15.5
+Mister X win percentage: 84.5
+Games played: 600
+-----------
+Episode 7000
+Detective win percentage: 17.0
+Mister X win percentage: 83.0
+Games played: 600
+-----------
+Episode 7100
+Detective win percentage: 17.0
+Mister X win percentage: 83.0
+Games played: 600
+-----------
+Episode 7200
+Detective win percentage: 15.666666666666668
+Mister X win percentage: 84.33333333333334
+Games played: 600
+-----------
+Episode 7300
+Detective win percentage: 15.333333333333332
+Mister X win percentage: 84.66666666666667
+Games played: 600
+-----------
+Episode 7400
+Detective win percentage: 15.833333333333332
+Mister X win percentage: 84.16666666666667
+Games played: 600
+-----------
+Episode 7500
+Detective win percentage: 14.333333333333334
+Mister X win percentage: 85.66666666666667
+Games played: 600
+-----------
+Episode 7600
+Detective win percentage: 17.833333333333336
+Mister X win percentage: 82.16666666666667
+Games played: 600
+-----------
+Episode 7700
+Detective win percentage: 17.5
+Mister X win percentage: 82.5
+Games played: 600
+-----------
+Episode 7800
+Detective win percentage: 24.666666666666668
+Mister X win percentage: 75.33333333333333
+Games played: 600
+-----------
+Episode 7900
+Detective win percentage: 21.333333333333336
+Mister X win percentage: 78.66666666666666
+Games played: 600
+-----------
+Episode 8000
+Detective win percentage: 17.166666666666668
+Mister X win percentage: 82.83333333333334
+Games played: 600
+-----------
+Episode 8100
+Detective win percentage: 19.333333333333332
+Mister X win percentage: 80.66666666666666
+Games played: 600
+-----------
+Episode 8200
+Detective win percentage: 21.0
+Mister X win percentage: 79.0
+Games played: 600
+-----------
+Episode 8300
+Detective win percentage: 23.166666666666664
+Mister X win percentage: 76.83333333333333
+Games played: 600
+-----------
+Episode 8400
+Detective win percentage: 20.0
+Mister X win percentage: 80.0
+Games played: 600
+-----------
+Episode 8500
+Detective win percentage: 23.0
+Mister X win percentage: 77.0
+Games played: 600
+-----------
+Episode 8600
+Detective win percentage: 18.666666666666668
+Mister X win percentage: 81.33333333333333
+Games played: 600
+-----------
+Episode 8700
+Detective win percentage: 21.666666666666668
+Mister X win percentage: 78.33333333333333
+Games played: 600
+-----------
+Episode 8800
+Detective win percentage: 21.666666666666668
+Mister X win percentage: 78.33333333333333
+Games played: 600
+-----------
+Episode 8900
+Detective win percentage: 21.0
+Mister X win percentage: 79.0
+Games played: 600
+-----------
+Episode 9000
+Detective win percentage: 18.5
+Mister X win percentage: 81.5
+Games played: 600
+-----------
+Episode 9100
+Detective win percentage: 22.333333333333332
+Mister X win percentage: 77.66666666666666
+Games played: 600
+-----------
+Episode 9200
+Detective win percentage: 21.666666666666668
+Mister X win percentage: 78.33333333333333
+Games played: 600
+-----------
+Episode 9300
+Detective win percentage: 25.666666666666664
+Mister X win percentage: 74.33333333333333
+Games played: 600
+-----------
+Episode 9400
+Detective win percentage: 26.166666666666664
+Mister X win percentage: 73.83333333333333
+Games played: 600
+-----------
+Episode 9500
+Detective win percentage: 24.833333333333332
+Mister X win percentage: 75.16666666666667
+Games played: 600
+-----------
+Episode 9600
+Detective win percentage: 27.0
+Mister X win percentage: 73.0
+Games played: 600
+-----------
+Episode 9700
+Detective win percentage: 30.333333333333336
+Mister X win percentage: 69.66666666666667
+Games played: 600
+-----------
+Episode 9800
+Detective win percentage: 35.0
+Mister X win percentage: 65.0
+Games played: 600
+-----------
+Episode 9900
+Detective win percentage: 35.333333333333336
+Mister X win percentage: 64.66666666666666
+Games played: 600
+-----------
+Episode 10000
+Detective win percentage: 28.833333333333332
+Mister X win percentage: 71.16666666666667
+Games played: 600
+-----------
+Episode 10100
+Detective win percentage: 30.5
+Mister X win percentage: 69.5
+Games played: 600
+-----------
+Episode 10200
+Detective win percentage: 33.0
+Mister X win percentage: 67.0
+Games played: 600
+-----------
+Episode 10300
+Detective win percentage: 31.0
+Mister X win percentage: 69.0
+Games played: 600
+-----------
+Episode 10400
+Detective win percentage: 33.166666666666664
+Mister X win percentage: 66.83333333333333
+Games played: 600
+-----------
+Episode 10500
+Detective win percentage: 34.166666666666664
+Mister X win percentage: 65.83333333333333
+Games played: 600
+-----------
+Episode 10600
+Detective win percentage: 36.333333333333336
+Mister X win percentage: 63.66666666666667
+Games played: 600
+-----------
+Episode 10700
+Detective win percentage: 36.5
+Mister X win percentage: 63.5
+Games played: 600
+-----------
+Episode 10800
+Detective win percentage: 35.5
+Mister X win percentage: 64.5
+Games played: 600
+-----------
+Episode 10900
+Detective win percentage: 32.5
+Mister X win percentage: 67.5
+Games played: 600
+-----------
+Episode 11000
+Detective win percentage: 35.66666666666667
+Mister X win percentage: 64.33333333333333
+Games played: 600
+-----------
+Episode 11100
+Detective win percentage: 31.166666666666664
+Mister X win percentage: 68.83333333333333
+Games played: 600
+-----------
+Episode 11200
+Detective win percentage: 31.0
+Mister X win percentage: 69.0
+Games played: 600
+-----------
+Episode 11300
+Detective win percentage: 34.166666666666664
+Mister X win percentage: 65.83333333333333
+Games played: 600
+-----------
+Episode 11400
+Detective win percentage: 30.5
+Mister X win percentage: 69.5
+Games played: 600
+-----------
+Episode 11500
+Detective win percentage: 35.333333333333336
+Mister X win percentage: 64.66666666666666
+Games played: 600
+-----------
+Episode 11600
+Detective win percentage: 31.166666666666664
+Mister X win percentage: 68.83333333333333
+Games played: 600
+-----------
+Episode 11700
+Detective win percentage: 32.0
+Mister X win percentage: 68.0
+Games played: 600
+-----------
+Episode 11800
+Detective win percentage: 33.5
+Mister X win percentage: 66.5
+Games played: 600
+-----------
+Episode 11900
+Detective win percentage: 28.000000000000004
+Mister X win percentage: 72.0
+Games played: 600
+-----------
+Episode 12000
+Detective win percentage: 32.83333333333333
+Mister X win percentage: 67.16666666666666
+Games played: 600
+-----------
+Episode 12100
+Detective win percentage: 34.0
+Mister X win percentage: 66.0
+Games played: 600
+-----------
+Episode 12200
+Detective win percentage: 30.333333333333336
+Mister X win percentage: 69.66666666666667
+Games played: 600
+-----------
+Episode 12300
+Detective win percentage: 34.0
+Mister X win percentage: 66.0
+Games played: 600
+-----------
+Episode 12400
+Detective win percentage: 41.66666666666667
+Mister X win percentage: 58.333333333333336
+Games played: 600
+-----------
+Episode 12500
+Detective win percentage: 40.666666666666664
+Mister X win percentage: 59.333333333333336
+Games played: 600
+-----------
+Episode 12600
+Detective win percentage: 40.833333333333336
+Mister X win percentage: 59.166666666666664
+Games played: 600
+-----------
+Episode 12700
+Detective win percentage: 40.33333333333333
+Mister X win percentage: 59.66666666666667
+Games played: 600
+-----------
+Episode 12800
+Detective win percentage: 33.166666666666664
+Mister X win percentage: 66.83333333333333
+Games played: 600
+-----------
+Episode 12900
+Detective win percentage: 34.166666666666664
+Mister X win percentage: 65.83333333333333
+Games played: 600
+-----------
+Episode 13000
+Detective win percentage: 38.166666666666664
+Mister X win percentage: 61.83333333333333
+Games played: 600
+-----------
+Episode 13100
+Detective win percentage: 40.33333333333333
+Mister X win percentage: 59.66666666666667
+Games played: 600
+-----------
+Episode 13200
+Detective win percentage: 41.0
+Mister X win percentage: 59.0
+Games played: 600
+-----------
+Episode 13300
+Detective win percentage: 40.5
+Mister X win percentage: 59.5
+Games played: 600
+-----------
+Episode 13400
+Detective win percentage: 37.333333333333336
+Mister X win percentage: 62.66666666666667
+Games played: 600
+-----------
+Episode 13500
+Detective win percentage: 35.5
+Mister X win percentage: 64.5
+Games played: 600
+-----------
+Episode 13600
+Detective win percentage: 36.666666666666664
+Mister X win percentage: 63.33333333333333
+Games played: 600
+-----------
+Episode 13700
+Detective win percentage: 40.833333333333336
+Mister X win percentage: 59.166666666666664
+Games played: 600
+-----------
+Episode 13800
+Detective win percentage: 36.333333333333336
+Mister X win percentage: 63.66666666666667
+Games played: 600
+-----------
+Episode 13900
+Detective win percentage: 38.333333333333336
+Mister X win percentage: 61.66666666666667
+Games played: 600
+-----------
+Episode 14000
+Detective win percentage: 41.66666666666667
+Mister X win percentage: 58.333333333333336
+Games played: 600
+-----------
+Episode 14100
+Detective win percentage: 37.333333333333336
+Mister X win percentage: 62.66666666666667
+Games played: 600
+-----------
+Episode 14200
+Detective win percentage: 37.833333333333336
+Mister X win percentage: 62.16666666666667
+Games played: 600
+-----------
+Episode 14300
+Detective win percentage: 38.5
+Mister X win percentage: 61.5
+Games played: 600
+-----------
+Episode 14400
+Detective win percentage: 32.83333333333333
+Mister X win percentage: 67.16666666666666
+Games played: 600
+-----------
+Episode 14500
+Detective win percentage: 32.5
+Mister X win percentage: 67.5
+Games played: 600
+-----------
+Episode 14600
+Detective win percentage: 30.666666666666664
+Mister X win percentage: 69.33333333333334
+Games played: 600
+-----------
+Episode 14700
+Detective win percentage: 32.83333333333333
+Mister X win percentage: 67.16666666666666
+Games played: 600
+-----------
+Episode 14800
+Detective win percentage: 32.33333333333333
+Mister X win percentage: 67.66666666666666
+Games played: 600
+-----------
+Episode 14900
+Detective win percentage: 32.0
+Mister X win percentage: 68.0
+Games played: 600
+-----------
+Episode 15000
+Detective win percentage: 31.5
+Mister X win percentage: 68.5
+Games played: 600
+-----------
+Episode 15100
+Detective win percentage: 40.33333333333333
+Mister X win percentage: 59.66666666666667
+Games played: 600
+-----------
+Episode 15200
+Detective win percentage: 35.333333333333336
+Mister X win percentage: 64.66666666666666
+Games played: 600
+-----------
+Episode 15300
+Detective win percentage: 39.666666666666664
+Mister X win percentage: 60.333333333333336
+Games played: 600
+-----------
+Episode 15400
+Detective win percentage: 39.166666666666664
+Mister X win percentage: 60.83333333333333
+Games played: 600
+-----------
+Episode 15500
+Detective win percentage: 40.0
+Mister X win percentage: 60.0
+Games played: 600
+-----------
+Episode 15600
+Detective win percentage: 39.0
+Mister X win percentage: 61.0
+Games played: 600
+-----------
+Episode 15700
+Detective win percentage: 34.66666666666667
+Mister X win percentage: 65.33333333333333
+Games played: 600
+-----------
+Episode 15800
+Detective win percentage: 33.666666666666664
+Mister X win percentage: 66.33333333333333
+Games played: 600
+-----------
+Episode 15900
+Detective win percentage: 40.666666666666664
+Mister X win percentage: 59.333333333333336
+Games played: 600
+-----------
+Episode 16000
+Detective win percentage: 40.0
+Mister X win percentage: 60.0
+Games played: 600
+-----------
+Episode 16100
+Detective win percentage: 43.333333333333336
+Mister X win percentage: 56.666666666666664
+Games played: 600
+-----------
+Episode 16200
+Detective win percentage: 39.666666666666664
+Mister X win percentage: 60.333333333333336
+Games played: 600
+-----------
+Episode 16300
+Detective win percentage: 36.16666666666667
+Mister X win percentage: 63.83333333333333
+Games played: 600
+-----------
+Episode 16400
+Detective win percentage: 38.83333333333333
+Mister X win percentage: 61.16666666666667
+Games played: 600
+-----------
+Episode 16500
+Detective win percentage: 40.33333333333333
+Mister X win percentage: 59.66666666666667
+Games played: 600
+-----------
+Episode 16600
+Detective win percentage: 39.166666666666664
+Mister X win percentage: 60.83333333333333
+Games played: 600
+-----------
+Episode 16700
+Detective win percentage: 40.33333333333333
+Mister X win percentage: 59.66666666666667
+Games played: 600
+-----------
+Episode 16800
+Detective win percentage: 36.333333333333336
+Mister X win percentage: 63.66666666666667
+Games played: 600
+-----------
+Episode 16900
+Detective win percentage: 35.333333333333336
+Mister X win percentage: 64.66666666666666
+Games played: 600
+-----------
+Episode 17000
+Detective win percentage: 37.833333333333336
+Mister X win percentage: 62.16666666666667
+Games played: 600
+-----------
+Episode 17100
+Detective win percentage: 31.833333333333336
+Mister X win percentage: 68.16666666666666
+Games played: 600
+-----------
+Episode 17200
+Detective win percentage: 35.333333333333336
+Mister X win percentage: 64.66666666666666
+Games played: 600
+-----------
+Episode 17300
+Detective win percentage: 40.833333333333336
+Mister X win percentage: 59.166666666666664
+Games played: 600
+-----------
+Episode 17400
+Detective win percentage: 36.833333333333336
+Mister X win percentage: 63.16666666666667
+Games played: 600
+-----------
+Episode 17500
+Detective win percentage: 43.666666666666664
+Mister X win percentage: 56.333333333333336
+Games played: 600
+-----------
+Episode 17600
+Detective win percentage: 41.833333333333336
+Mister X win percentage: 58.166666666666664
+Games played: 600
+-----------
+Episode 17700
+Detective win percentage: 39.5
+Mister X win percentage: 60.5
+Games played: 600
+-----------
+Episode 17800
+Detective win percentage: 42.16666666666667
+Mister X win percentage: 57.833333333333336
+Games played: 600
+-----------
+Episode 17900
+Detective win percentage: 47.0
+Mister X win percentage: 53.0
+Games played: 600
+-----------
+Episode 18000
+Detective win percentage: 40.833333333333336
+Mister X win percentage: 59.166666666666664
+Games played: 600
+-----------
+Episode 18100
+Detective win percentage: 41.66666666666667
+Mister X win percentage: 58.333333333333336
+Games played: 600
+-----------
+Episode 18200
+Detective win percentage: 41.0
+Mister X win percentage: 59.0
+Games played: 600
+-----------
+Episode 18300
+Detective win percentage: 45.666666666666664
+Mister X win percentage: 54.333333333333336
+Games played: 600
+-----------
+Episode 18400
+Detective win percentage: 41.66666666666667
+Mister X win percentage: 58.333333333333336
+Games played: 600
+-----------
+Episode 18500
+Detective win percentage: 42.16666666666667
+Mister X win percentage: 57.833333333333336
+Games played: 600
+-----------
+Episode 18600
+Detective win percentage: 44.0
+Mister X win percentage: 56.00000000000001
+Games played: 600
+-----------
+Episode 18700
+Detective win percentage: 40.0
+Mister X win percentage: 60.0
+Games played: 600
+-----------
+Episode 18800
+Detective win percentage: 40.666666666666664
+Mister X win percentage: 59.333333333333336
+Games played: 600
+-----------
+Episode 18900
+Detective win percentage: 41.5
+Mister X win percentage: 58.5
+Games played: 600
+-----------
+Episode 19000
+Detective win percentage: 41.5
+Mister X win percentage: 58.5
+Games played: 600
+-----------
+Episode 19100
+Detective win percentage: 41.5
+Mister X win percentage: 58.5
+Games played: 600
+-----------
+Episode 19200
+Detective win percentage: 40.5
+Mister X win percentage: 59.5
+Games played: 600
+-----------
+Episode 19300
+Detective win percentage: 38.333333333333336
+Mister X win percentage: 61.66666666666667
+Games played: 600
+-----------
+Episode 19400
+Detective win percentage: 39.83333333333333
+Mister X win percentage: 60.16666666666667
+Games played: 600
+-----------
+Episode 19500
+Detective win percentage: 31.833333333333336
+Mister X win percentage: 68.16666666666666
+Games played: 600
+-----------
+Episode 19600
+Detective win percentage: 39.83333333333333
+Mister X win percentage: 60.16666666666667
+Games played: 600
+-----------
+Episode 19700
+Detective win percentage: 43.0
+Mister X win percentage: 56.99999999999999
+Games played: 600
+-----------
+Episode 19800
+Detective win percentage: 39.5
+Mister X win percentage: 60.5
+Games played: 600
+-----------
+Episode 19900
+Detective win percentage: 39.166666666666664
+Mister X win percentage: 60.83333333333333
+Games played: 600
+-----------
+Episode 20000
+Detective win percentage: 41.833333333333336
+Mister X win percentage: 58.166666666666664
+Games played: 600
+-----------
+Episode 20100
+Detective win percentage: 42.66666666666667
+Mister X win percentage: 57.333333333333336
+Games played: 600
+-----------
+Episode 20200
+Detective win percentage: 42.16666666666667
+Mister X win percentage: 57.833333333333336
+Games played: 600
+-----------
+Episode 20300
+Detective win percentage: 44.333333333333336
+Mister X win percentage: 55.666666666666664
+Games played: 600
+-----------
+Episode 20400
+Detective win percentage: 33.33333333333333
+Mister X win percentage: 66.66666666666666
+Games played: 600
+-----------
+Episode 20500
+Detective win percentage: 36.833333333333336
+Mister X win percentage: 63.16666666666667
+Games played: 600
+-----------
+Episode 20600
+Detective win percentage: 37.333333333333336
+Mister X win percentage: 62.66666666666667
+Games played: 600
+-----------
+Episode 20700
+Detective win percentage: 37.0
+Mister X win percentage: 63.0
+Games played: 600
+-----------
+Episode 20800
+Detective win percentage: 37.0
+Mister X win percentage: 63.0
+Games played: 600
+-----------
+Episode 20900
+Detective win percentage: 40.166666666666664
+Mister X win percentage: 59.833333333333336
+Games played: 600
+-----------
+Episode 21000
+Detective win percentage: 42.66666666666667
+Mister X win percentage: 57.333333333333336
+Games played: 600
+-----------
+Episode 21100
+Detective win percentage: 42.333333333333336
+Mister X win percentage: 57.666666666666664
+Games played: 600
+-----------
+Episode 21200
+Detective win percentage: 39.0
+Mister X win percentage: 61.0
+Games played: 600
+-----------
+Episode 21300
+Detective win percentage: 37.5
+Mister X win percentage: 62.5
+Games played: 600
+-----------
+Episode 21400
+Detective win percentage: 43.333333333333336
+Mister X win percentage: 56.666666666666664
+Games played: 600
+-----------
+Episode 21500
+Detective win percentage: 40.5
+Mister X win percentage: 59.5
+Games played: 600
+-----------
+Episode 21600
+Detective win percentage: 41.66666666666667
+Mister X win percentage: 58.333333333333336
+Games played: 600
+-----------
+Episode 21700
+Detective win percentage: 46.33333333333333
+Mister X win percentage: 53.666666666666664
+Games played: 600
+-----------
+Episode 21800
+Detective win percentage: 43.5
+Mister X win percentage: 56.49999999999999
+Games played: 600
+-----------
+Episode 21900
+Detective win percentage: 42.833333333333336
+Mister X win percentage: 57.166666666666664
+Games played: 600
+-----------
+Episode 22000
+Detective win percentage: 38.5
+Mister X win percentage: 61.5
+Games played: 600
+-----------
+Episode 22100
+Detective win percentage: 38.166666666666664
+Mister X win percentage: 61.83333333333333
+Games played: 600
+-----------
+Episode 22200
+Detective win percentage: 34.0
+Mister X win percentage: 66.0
+Games played: 600
+-----------
+Episode 22300
+Detective win percentage: 40.33333333333333
+Mister X win percentage: 59.66666666666667
+Games played: 600
+-----------
+Episode 22400
+Detective win percentage: 39.33333333333333
+Mister X win percentage: 60.66666666666667
+Games played: 600
+-----------
+Episode 22500
+Detective win percentage: 37.0
+Mister X win percentage: 63.0
+Games played: 600
+-----------
+Episode 22600
+Detective win percentage: 35.0
+Mister X win percentage: 65.0
+Games played: 600
+-----------
+Episode 22700
+Detective win percentage: 36.0
+Mister X win percentage: 64.0
+Games played: 600
+-----------
+Episode 22800
+Detective win percentage: 40.166666666666664
+Mister X win percentage: 59.833333333333336
+Games played: 600
+-----------
+Episode 22900
+Detective win percentage: 37.666666666666664
+Mister X win percentage: 62.33333333333333
+Games played: 600
+-----------
+Episode 23000
+Detective win percentage: 35.833333333333336
+Mister X win percentage: 64.16666666666667
+Games played: 600
+-----------
+Episode 23100
+Detective win percentage: 37.833333333333336
+Mister X win percentage: 62.16666666666667
+Games played: 600
+-----------
+Episode 23200
+Detective win percentage: 39.5
+Mister X win percentage: 60.5
+Games played: 600
+-----------
+Episode 23300
+Detective win percentage: 37.5
+Mister X win percentage: 62.5
+Games played: 600
+-----------
+Episode 23400
+Detective win percentage: 40.5
+Mister X win percentage: 59.5
+Games played: 600
+-----------
+Episode 23500
+Detective win percentage: 34.66666666666667
+Mister X win percentage: 65.33333333333333
+Games played: 600
+-----------
+Episode 23600
+Detective win percentage: 41.333333333333336
+Mister X win percentage: 58.666666666666664
+Games played: 600
+-----------
+Episode 23700
+Detective win percentage: 38.666666666666664
+Mister X win percentage: 61.33333333333333
+Games played: 600
+-----------
+Episode 23800
+Detective win percentage: 38.166666666666664
+Mister X win percentage: 61.83333333333333
+Games played: 600
+-----------
+Episode 23900
+Detective win percentage: 36.666666666666664
+Mister X win percentage: 63.33333333333333
+Games played: 600
+-----------
+Episode 24000
+Detective win percentage: 37.833333333333336
+Mister X win percentage: 62.16666666666667
+Games played: 600
+-----------
+Episode 24100
+Detective win percentage: 34.5
+Mister X win percentage: 65.5
+Games played: 600
+-----------
+Episode 24200
+Detective win percentage: 35.333333333333336
+Mister X win percentage: 64.66666666666666
+Games played: 600
+-----------
+Episode 24300
+Detective win percentage: 38.333333333333336
+Mister X win percentage: 61.66666666666667
+Games played: 600
+-----------
+Episode 24400
+Detective win percentage: 36.666666666666664
+Mister X win percentage: 63.33333333333333
+Games played: 600
+-----------
+Episode 24500
+Detective win percentage: 36.16666666666667
+Mister X win percentage: 63.83333333333333
+Games played: 600
+-----------
+Episode 24600
+Detective win percentage: 35.333333333333336
+Mister X win percentage: 64.66666666666666
+Games played: 600
+-----------
+Episode 24700
+Detective win percentage: 36.0
+Mister X win percentage: 64.0
+Games played: 600
+-----------
+Episode 24800
+Detective win percentage: 37.166666666666664
+Mister X win percentage: 62.83333333333333
+Games played: 600
+-----------
+Episode 24900
+Detective win percentage: 37.166666666666664
+Mister X win percentage: 62.83333333333333
+Games played: 600
+-----------
+Episode 25000
+Detective win percentage: 39.166666666666664
+Mister X win percentage: 60.83333333333333
+Games played: 600
+-----------
+Episode 25100
+Detective win percentage: 35.333333333333336
+Mister X win percentage: 64.66666666666666
+Games played: 600
+-----------
+Episode 25200
+Detective win percentage: 36.0
+Mister X win percentage: 64.0
+Games played: 600
+-----------
+Episode 25300
+Detective win percentage: 38.333333333333336
+Mister X win percentage: 61.66666666666667
+Games played: 600
+-----------
+Episode 25400
+Detective win percentage: 34.833333333333336
+Mister X win percentage: 65.16666666666666
+Games played: 600
+-----------
+Episode 25500
+Detective win percentage: 31.833333333333336
+Mister X win percentage: 68.16666666666666
+Games played: 600
+-----------
+Episode 25600
+Detective win percentage: 36.666666666666664
+Mister X win percentage: 63.33333333333333
+Games played: 600
+-----------
+Episode 25700
+Detective win percentage: 40.33333333333333
+Mister X win percentage: 59.66666666666667
+Games played: 600
+-----------
+Episode 25800
+Detective win percentage: 34.166666666666664
+Mister X win percentage: 65.83333333333333
+Games played: 600
+-----------
+Episode 25900
+Detective win percentage: 36.5
+Mister X win percentage: 63.5
+Games played: 600
+-----------
+Episode 26000
+Detective win percentage: 34.833333333333336
+Mister X win percentage: 65.16666666666666
+Games played: 600
+-----------
+Episode 26100
+Detective win percentage: 40.5
+Mister X win percentage: 59.5
+Games played: 600

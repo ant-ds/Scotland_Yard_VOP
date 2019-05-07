@@ -125,14 +125,18 @@ done
 or for Unix systems:
 ```sh
 #!/bin/bash
-echo "Started"
-for i in {1..5000}
+for i in $(eval echo {${1}..${2}..200})
 do
-  pipenv run python scotlandyard.py >> /dev/null
-  if ! ((i % 100)); then
-    echo "$i/5k done"
-  fi
+   mkdir -p "history/manylayermodel$i"
+   pipenv run python scotlandyard.py --proj "manylayermodel${i}/" --runs $3 --episodes $i
+
+
+   mkdir -p "history/manylayermodel${i}VRandom"
+   pipenv run python scotlandyard.py --proj "manylayermodel${i}VRandom/" --runs $3 --episodes $i --random y
+
+   echo "Done with ${i} episodes!"
 done
+echo "Done"
 ```
 
 
