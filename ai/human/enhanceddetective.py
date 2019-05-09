@@ -369,6 +369,8 @@ class ExampleAIImplementationDetective(Detective):
             #Change scenarios to options
             filteredSol = [] 
             solutions = [scenario[0] for scenario in scenarios]
+            if not solutions:
+                print(f"Second bug? Printing some info: \nscenarios: {scenarios}\n k: {k}\n scoreList: {scoreList}\n length of crossproduct: {len(crossproduct)}\n fulloptions: {fullOptions}\n Currentdepth: {currentDepth}")
             for i in range(len(solutions[0])):
                 allsols = [scenario[i] for scenario in solutions]
                 uniquesols = list(set(allsols))
