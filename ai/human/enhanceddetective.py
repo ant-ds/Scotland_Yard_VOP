@@ -279,7 +279,7 @@ class ExampleAIImplementationDetective(Detective):
                 possibleX = list(dictX.items())
                 if not possibleX:
                     print("Da last buggggg")
-                    possibleX = [(self.game.misterx.lastKnownPosition, 0)]
+                    possibleX = [(self.game.misterx.lastKnownPosition, 0.01)]
             return possibleX
 
         def optionGenerator(prevOptions = [], skip = []):
