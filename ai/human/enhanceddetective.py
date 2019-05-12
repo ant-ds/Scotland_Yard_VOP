@@ -78,7 +78,7 @@ class ExampleAIImplementationDetective(Detective):
             elif self.trn in encircleTurns:
                 self.encircle(decisiondepth=2)
             elif self.trn in randomTurns:
-                self.broaden()
+                self.random()
 
         self.print_(f"getting decision for id::{self.id}\nFuture:{self.futureNodes, self.futureTransports}")
         try:
