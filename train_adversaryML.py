@@ -20,7 +20,7 @@ session = tf.Session(config=config)
 coordinate_anchors = 14 
 gamesize = 199
 det_amount = 5
-modelinputsizeDet = 279  # 259 voor 5 det, 10 anchors    # 249 voor 4 detectives
+modelinputsizeDet = 292  # 259 voor 5 det, 10 anchors    # 249 voor 4 detectives
 modelinputsizeMrX = 126
 
 # Hyperparameters Detectives
@@ -30,9 +30,9 @@ epsilon_decay = 1e-4
 epsilon_min = 0.2          # 0.15 as found in an article
 learning_rate = 0.001
 # lr_decay = 1e-8         # rather low because model.fit will be called very often with little input
-gamma = 0.85
+gamma = 0.9
 
-target_upd_cycles = 40   # amount of NN trainings before target NN gets updated
+target_upd_cycles = 50   # amount of NN trainings before target NN gets updated
 episodes = 200000
 warmup_capacity = 2000  # amount of memory units to generate before starting to train
 batch_size = 128
@@ -45,13 +45,13 @@ longest_path, coordinates, game = initTrainingConstantsAdv(coordinate_anchors, g
 
 # 2 Initialize NN
 # Detectives
-layersizesDet = [128, 128, 128, 64, 64, 64, 64, 64, 32, 32, 32, 32, 32, 32, 16, 16, 16]
+layersizesDet = [128, 128, 64, 64, 32, 32, 16, 16]
 modelDet = newDenseModel(modelinputsizeDet, layersizesDet, learning_rate)  # ks.models.load_model("ai\ml\models\DetDense[128, 128, 128, 64, 64, 64, 32, 32, 32, 32, 32, 32, 16, 16, 16, 16, 16, 8, 8]_solodet_1556089964")
-NAMEDet = f'Dense{layersizesDet}_adv_Det_gamma{gamma}_{int(time.time())}'
+NAMEDet = f'Dense{layersizesDet}_adv_Det_{int(time.time())}'
 # Mr X
-layersizesMrX = [128, 128, 128, 64, 64, 64, 64, 64, 32, 32, 32, 32, 32, 32, 16, 16, 16]
+layersizesMrX = [128, 128, 64, 64, 32, 32, 16, 16]
 modelMrX = newDenseModel(modelinputsizeMrX, layersizesMrX, learning_rate)  # ks.models.load_model("ai\ml\models\DetDense[128, 128, 128, 64, 64, 64, 32, 32, 32, 32, 32, 32, 16, 16, 16, 16, 16, 8, 8]_solodet_1556089964")
-NAMEMrX = f'Dense{layersizesMrX}_adv_MrX_gamma{gamma}_{int(time.time())}'
+NAMEMrX = f'Dense{layersizesMrX}_adv_{int(time.time())}'
 
 # 3 Clone NN = targetNN
 targetNNDet = newDenseModel(modelinputsizeDet, layersizesDet, learning_rate)
@@ -140,7 +140,7 @@ for i in range(0, episodes):
     target_batchMrX = []
     for s in sampleMrX:
         if s.nextMrXState is not None:
-            _, targetQ = chooseActionMrX(targetNNMrX, s.nextPossActions, s.nextMrXState, 0, longest_path, coordinates)
+            _, targetQ = chooseActionMrX(targetNNMrX, s.nextPossActions, s.nextMrXState, 0, longest_path, coordinates)     
             target_batchMrX.append(s.reward + gamma * targetQ)
         else:   # game ended, no more rewards can be earned => cumulative rewards (=Q) should be zero => targetQ = 0
             target_batchMrX.append(s.reward)
@@ -149,7 +149,7 @@ for i in range(0, episodes):
     print(f'Loss for Mr X: {modelMrX.train_on_batch(arrbatch, np.reshape(np.array(target_batchMrX), (batch_size, 1)))}')
 
     if i % target_upd_cycles == 0:
-        print('Updating target NN')
+        print(f'Updating target NN after {target_upd_cycles} cycles')
         targetNNMrX.set_weights(modelMrX.get_weights())
 
     if i % 10 == 0:

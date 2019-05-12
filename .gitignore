@@ -1,6 +1,10 @@
 #configuration
 settings.ini
 
+# models
+ai/ml/models/*
+ai/ml/MrXmodels/*
+
 # extra
 .vscode/
 .flake8

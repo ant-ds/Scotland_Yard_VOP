@@ -18,7 +18,8 @@ import tensorflow as tf
 # returns state action as numpy array for NN input
 def formalizeStateAction(detstate, action, longest_path, coordinates):
     # add acting detective's position and cards
-    vec = [detstate.detectivepos] + detstate.detectivecards   # merge 2 lists into a new one TODO FIX POSITIE
+    # vec = [detstate.detectivepos] + detstate.detectivecards
+    vec = [x / longest_path for x in coordinates[action[0] - 1]] + detstate.detectivecards   # merge 2 lists into a new one TODO FIX POSITIE
 
     # add other detective's position
     for otherp in detstate.otherpos:
@@ -41,6 +42,8 @@ def formalizeStateAction(detstate, action, longest_path, coordinates):
         vec.extend([0, 0, 0])
 
     vec = np.append(np.array(vec), detstate.possiblemrx)
+    # print(len(vec))
+
     return vec.reshape(-1, len(vec))
 
 
