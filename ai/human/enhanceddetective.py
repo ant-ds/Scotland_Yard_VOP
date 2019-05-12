@@ -46,8 +46,8 @@ class ExampleAIImplementationDetective(Detective):
 
         disperseTurns = [1] # makes decission for turn 1 and 2 at the same time
         closeinTurns = [3, 4, 8, 13, 18, 24, 25]
-        encircleTurns = [5, 6, 7, 9, 10, 11, 14, 15, 16, 19, 20, 21, 22, 23]
-        broadenTurns = [12, 17]
+        encircleTurns = [5, 6, 7, 9, 10, 11, 12, 14, 15, 16, 17, 19, 20, 21, 22, 23]
+        randomTurns = []
         
         # Decide everything in first detective decide call of this turn
         if 1 in self.living and self.id == self.living.index(1):
@@ -77,7 +77,7 @@ class ExampleAIImplementationDetective(Detective):
                 self.closein()
             elif self.trn in encircleTurns:
                 self.encircle(decisiondepth=2)
-            elif self.trn in broadenTurns:
+            elif self.trn in randomTurns:
                 self.broaden()
 
         self.print_(f"getting decision for id::{self.id}\nFuture:{self.futureNodes, self.futureTransports}")
@@ -414,7 +414,7 @@ class ExampleAIImplementationDetective(Detective):
             self.futureTransports[i].append(decission[1])
     
 
-    def broaden(self):
+    def random(self):
 
         self.emptyFutureLists()
         self.print_("---Broaden algo---")
