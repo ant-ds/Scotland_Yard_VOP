@@ -1,0 +1,1590 @@
+manylayermodel0: 2011
+	Detectives: 302; (15.017%)
+	Mrx: 1709; (84.983%)
+manylayermodel0VRandom: 500
+	Detectives: 188; (37.600%)
+	Mrx: 312; (62.400%)
+manylayermodel200: 1000
+	Detectives: 71; (7.100%)
+	Mrx: 929; (92.900%)
+manylayermodel400: 1000
+	Detectives: 90; (9.000%)
+	Mrx: 910; (91.000%)
+manylayermodel600: 2000
+	Detectives: 216; (10.800%)
+	Mrx: 1784; (89.200%)
+manylayermodel600VRandom: 500
+	Detectives: 235; (47.000%)
+	Mrx: 265; (53.000%)
+manylayermodel800: 1000
+	Detectives: 95; (9.500%)
+	Mrx: 905; (90.500%)
+manylayermodel1000: 1000
+	Detectives: 154; (15.400%)
+	Mrx: 846; (84.600%)
+manylayermodel1200: 2000
+	Detectives: 237; (11.850%)
+	Mrx: 1763; (88.150%)
+manylayermodel1200VRandom: 500
+	Detectives: 240; (48.000%)
+	Mrx: 260; (52.000%)
+manylayermodel1400: 1000
+	Detectives: 114; (11.400%)
+	Mrx: 886; (88.600%)
+manylayermodel1600: 1000
+	Detectives: 120; (12.000%)
+	Mrx: 880; (88.000%)
+manylayermodel1800: 2000
+	Detectives: 238; (11.900%)
+	Mrx: 1762; (88.100%)
+manylayermodel1800VRandom: 500
+	Detectives: 251; (50.200%)
+	Mrx: 249; (49.800%)
+manylayermodel2000: 1000
+	Detectives: 144; (14.400%)
+	Mrx: 856; (85.600%)
+manylayermodel2200: 1000
+	Detectives: 145; (14.500%)
+	Mrx: 855; (85.500%)
+manylayermodel2400: 2013
+	Detectives: 324; (16.095%)
+	Mrx: 1689; (83.905%)
+manylayermodel2400VRandom: 500
+	Detectives: 238; (47.600%)
+	Mrx: 262; (52.400%)
+manylayermodel2600: 1078
+	Detectives: 137; (12.709%)
+	Mrx: 941; (87.291%)
+manylayermodel2800: 1000
+	Detectives: 151; (15.100%)
+	Mrx: 849; (84.900%)
+manylayermodel3000: 2000
+	Detectives: 312; (15.600%)
+	Mrx: 1688; (84.400%)
+manylayermodel3000VRandom: 500
+	Detectives: 274; (54.800%)
+	Mrx: 226; (45.200%)
+manylayermodel3200: 1000
+	Detectives: 144; (14.400%)
+	Mrx: 856; (85.600%)
+manylayermodel3400: 1000
+	Detectives: 132; (13.200%)
+	Mrx: 868; (86.800%)
+manylayermodel3600: 2000
+	Detectives: 324; (16.200%)
+	Mrx: 1676; (83.800%)
+manylayermodel3600VRandom: 500
+	Detectives: 275; (55.000%)
+	Mrx: 225; (45.000%)
+manylayermodel3800: 1000
+	Detectives: 164; (16.400%)
+	Mrx: 836; (83.600%)
+manylayermodel4000: 1000
+	Detectives: 162; (16.200%)
+	Mrx: 838; (83.800%)
+manylayermodel4200: 2000
+	Detectives: 339; (16.950%)
+	Mrx: 1661; (83.050%)
+manylayermodel4200VRandom: 500
+	Detectives: 282; (56.400%)
+	Mrx: 218; (43.600%)
+manylayermodel4400: 1000
+	Detectives: 147; (14.700%)
+	Mrx: 853; (85.300%)
+manylayermodel4600: 1000
+	Detectives: 192; (19.200%)
+	Mrx: 808; (80.800%)
+manylayermodel4800: 2000
+	Detectives: 372; (18.600%)
+	Mrx: 1628; (81.400%)
+manylayermodel4800VRandom: 500
+	Detectives: 316; (63.200%)
+	Mrx: 184; (36.800%)
+manylayermodel5000: 1000
+	Detectives: 195; (19.500%)
+	Mrx: 805; (80.500%)
+manylayermodel5200: 1000
+	Detectives: 218; (21.800%)
+	Mrx: 782; (78.200%)
+manylayermodel5400: 2000
+	Detectives: 411; (20.550%)
+	Mrx: 1589; (79.450%)
+manylayermodel5400VRandom: 500
+	Detectives: 313; (62.600%)
+	Mrx: 187; (37.400%)
+manylayermodel5600: 1000
+	Detectives: 215; (21.500%)
+	Mrx: 785; (78.500%)
+manylayermodel5800: 1000
+	Detectives: 204; (20.400%)
+	Mrx: 796; (79.600%)
+manylayermodel6000: 2000
+	Detectives: 478; (23.900%)
+	Mrx: 1522; (76.100%)
+manylayermodel6000VRandom: 500
+	Detectives: 348; (69.600%)
+	Mrx: 152; (30.400%)
+manylayermodel6200: 1000
+	Detectives: 211; (21.100%)
+	Mrx: 789; (78.900%)
+manylayermodel6400: 1000
+	Detectives: 232; (23.200%)
+	Mrx: 768; (76.800%)
+manylayermodel6600: 2000
+	Detectives: 482; (24.100%)
+	Mrx: 1518; (75.900%)
+manylayermodel6600VRandom: 500
+	Detectives: 322; (64.400%)
+	Mrx: 178; (35.600%)
+manylayermodel6800: 1000
+	Detectives: 205; (20.500%)
+	Mrx: 795; (79.500%)
+manylayermodel7000: 1000
+	Detectives: 195; (19.500%)
+	Mrx: 805; (80.500%)
+manylayermodel7200: 2000
+	Detectives: 502; (25.100%)
+	Mrx: 1498; (74.900%)
+manylayermodel7200VRandom: 500
+	Detectives: 342; (68.400%)
+	Mrx: 158; (31.600%)
+manylayermodel7400: 1000
+	Detectives: 244; (24.400%)
+	Mrx: 756; (75.600%)
+manylayermodel7600: 1000
+	Detectives: 218; (21.800%)
+	Mrx: 782; (78.200%)
+manylayermodel7800: 2000
+	Detectives: 581; (29.050%)
+	Mrx: 1419; (70.950%)
+manylayermodel7800VRandom: 500
+	Detectives: 359; (71.800%)
+	Mrx: 141; (28.200%)
+manylayermodel8000: 1000
+	Detectives: 247; (24.700%)
+	Mrx: 753; (75.300%)
+manylayermodel8200: 1000
+	Detectives: 248; (24.800%)
+	Mrx: 752; (75.200%)
+manylayermodel8400: 2000
+	Detectives: 427; (21.350%)
+	Mrx: 1573; (78.650%)
+manylayermodel8400VRandom: 500
+	Detectives: 362; (72.400%)
+	Mrx: 138; (27.600%)
+manylayermodel8600: 1000
+	Detectives: 280; (28.000%)
+	Mrx: 720; (72.000%)
+manylayermodel8800: 1000
+	Detectives: 262; (26.200%)
+	Mrx: 738; (73.800%)
+manylayermodel9000: 2000
+	Detectives: 583; (29.150%)
+	Mrx: 1417; (70.850%)
+manylayermodel9000VRandom: 500
+	Detectives: 377; (75.400%)
+	Mrx: 123; (24.600%)
+manylayermodel9200: 1000
+	Detectives: 323; (32.300%)
+	Mrx: 677; (67.700%)
+manylayermodel9400: 1000
+	Detectives: 292; (29.200%)
+	Mrx: 708; (70.800%)
+manylayermodel9600: 2000
+	Detectives: 714; (35.700%)
+	Mrx: 1286; (64.300%)
+manylayermodel9600VRandom: 500
+	Detectives: 385; (77.000%)
+	Mrx: 115; (23.000%)
+manylayermodel9800: 1000
+	Detectives: 344; (34.400%)
+	Mrx: 656; (65.600%)
+manylayermodel10000: 1007
+	Detectives: 343; (34.062%)
+	Mrx: 664; (65.938%)
+manylayermodel10200: 2000
+	Detectives: 626; (31.300%)
+	Mrx: 1374; (68.700%)
+manylayermodel10200VRandom: 500
+	Detectives: 391; (78.200%)
+	Mrx: 109; (21.800%)
+manylayermodel10400: 1000
+	Detectives: 371; (37.100%)
+	Mrx: 629; (62.900%)
+manylayermodel10600: 1000
+	Detectives: 393; (39.300%)
+	Mrx: 607; (60.700%)
+manylayermodel10800: 2000
+	Detectives: 749; (37.450%)
+	Mrx: 1251; (62.550%)
+manylayermodel10800VRandom: 500
+	Detectives: 388; (77.600%)
+	Mrx: 112; (22.400%)
+manylayermodel11000: 1000
+	Detectives: 322; (32.200%)
+	Mrx: 678; (67.800%)
+manylayermodel11200: 1000
+	Detectives: 322; (32.200%)
+	Mrx: 678; (67.800%)
+manylayermodel11400: 2000
+	Detectives: 655; (32.750%)
+	Mrx: 1345; (67.250%)
+manylayermodel11400VRandom: 500
+	Detectives: 402; (80.400%)
+	Mrx: 98; (19.600%)
+manylayermodel11600: 1000
+	Detectives: 350; (35.000%)
+	Mrx: 650; (65.000%)
+manylayermodel11800: 1000
+	Detectives: 372; (37.200%)
+	Mrx: 628; (62.800%)
+manylayermodel12000: 2000
+	Detectives: 744; (37.200%)
+	Mrx: 1256; (62.800%)
+manylayermodel12000VRandom: 500
+	Detectives: 384; (76.800%)
+	Mrx: 116; (23.200%)
+manylayermodel12200: 1000
+	Detectives: 396; (39.600%)
+	Mrx: 604; (60.400%)
+manylayermodel12400: 1000
+	Detectives: 419; (41.900%)
+	Mrx: 581; (58.100%)
+manylayermodel12600: 2000
+	Detectives: 694; (34.700%)
+	Mrx: 1306; (65.300%)
+manylayermodel12600VRandom: 500
+	Detectives: 393; (78.600%)
+	Mrx: 107; (21.400%)
+manylayermodel12800: 1000
+	Detectives: 379; (37.900%)
+	Mrx: 621; (62.100%)
+manylayermodel13000: 1000
+	Detectives: 380; (38.000%)
+	Mrx: 620; (62.000%)
+manylayermodel13200: 2000
+	Detectives: 774; (38.700%)
+	Mrx: 1226; (61.300%)
+manylayermodel13200VRandom: 500
+	Detectives: 398; (79.600%)
+	Mrx: 102; (20.400%)
+manylayermodel13400: 1000
+	Detectives: 419; (41.900%)
+	Mrx: 581; (58.100%)
+manylayermodel13600: 1000
+	Detectives: 435; (43.500%)
+	Mrx: 565; (56.500%)
+manylayermodel13700episodes: 1083
+	Detectives: 411; (37.950%)
+	Mrx: 672; (62.050%)
+manylayermodel13700episodesVRandom: 1000
+	Detectives: 806; (80.600%)
+	Mrx: 194; (19.400%)
+manylayermodel13800: 2000
+	Detectives: 861; (43.050%)
+	Mrx: 1139; (56.950%)
+manylayermodel13800VRandom: 500
+	Detectives: 396; (79.200%)
+	Mrx: 104; (20.800%)
+manylayermodel14000: 1000
+	Detectives: 379; (37.900%)
+	Mrx: 621; (62.100%)
+manylayermodel14200: 1000
+	Detectives: 426; (42.600%)
+	Mrx: 574; (57.400%)
+manylayermodel14400: 2000
+	Detectives: 801; (40.050%)
+	Mrx: 1199; (59.950%)
+manylayermodel14400VRandom: 500
+	Detectives: 381; (76.200%)
+	Mrx: 119; (23.800%)
+manylayermodel14600: 1000
+	Detectives: 386; (38.600%)
+	Mrx: 614; (61.400%)
+manylayermodel14800: 1000
+	Detectives: 482; (48.200%)
+	Mrx: 518; (51.800%)
+manylayermodel15000: 2000
+	Detectives: 903; (45.150%)
+	Mrx: 1097; (54.850%)
+manylayermodel15000VRandom: 500
+	Detectives: 412; (82.400%)
+	Mrx: 88; (17.600%)
+manylayermodel15200: 1000
+	Detectives: 498; (49.800%)
+	Mrx: 502; (50.200%)
+manylayermodel15300episodes: 1004
+	Detectives: 424; (42.231%)
+	Mrx: 580; (57.769%)
+manylayermodel15300episodesVRandom: 1000
+	Detectives: 823; (82.300%)
+	Mrx: 177; (17.700%)
+manylayermodel15400: 1000
+	Detectives: 505; (50.500%)
+	Mrx: 495; (49.500%)
+manylayermodel15600: 2000
+	Detectives: 918; (45.900%)
+	Mrx: 1082; (54.100%)
+manylayermodel15600VRandom: 500
+	Detectives: 425; (85.000%)
+	Mrx: 75; (15.000%)
+manylayermodel15800: 1000
+	Detectives: 428; (42.800%)
+	Mrx: 572; (57.200%)
+manylayermodel16000: 1000
+	Detectives: 461; (46.100%)
+	Mrx: 539; (53.900%)
+manylayermodel16200: 2000
+	Detectives: 922; (46.100%)
+	Mrx: 1078; (53.900%)
+manylayermodel16200VRandom: 500
+	Detectives: 412; (82.400%)
+	Mrx: 88; (17.600%)
+manylayermodel16400: 1000
+	Detectives: 507; (50.700%)
+	Mrx: 493; (49.300%)
+manylayermodel16600: 1000
+	Detectives: 447; (44.700%)
+	Mrx: 553; (55.300%)
+manylayermodel16800: 2000
+	Detectives: 893; (44.650%)
+	Mrx: 1107; (55.350%)
+manylayermodel16800VRandom: 500
+	Detectives: 413; (82.600%)
+	Mrx: 87; (17.400%)
+manylayermodel17000: 1000
+	Detectives: 611; (61.100%)
+	Mrx: 389; (38.900%)
+manylayermodel17200: 1000
+	Detectives: 520; (52.000%)
+	Mrx: 480; (48.000%)
+manylayermodel17400: 2000
+	Detectives: 1037; (51.850%)
+	Mrx: 963; (48.150%)
+manylayermodel17400VRandom: 500
+	Detectives: 422; (84.400%)
+	Mrx: 78; (15.600%)
+manylayermodel17600: 1345
+	Detectives: 704; (52.342%)
+	Mrx: 641; (47.658%)
+manylayermodel17800: 1000
+	Detectives: 471; (47.100%)
+	Mrx: 529; (52.900%)
+manylayermodel18000: 2000
+	Detectives: 883; (44.150%)
+	Mrx: 1117; (55.850%)
+manylayermodel18000VRandom: 500
+	Detectives: 424; (84.800%)
+	Mrx: 76; (15.200%)
+manylayermodel18200: 1000
+	Detectives: 510; (51.000%)
+	Mrx: 490; (49.000%)
+manylayermodel18400: 1000
+	Detectives: 511; (51.100%)
+	Mrx: 489; (48.900%)
+manylayermodel18600: 2000
+	Detectives: 1155; (57.750%)
+	Mrx: 845; (42.250%)
+manylayermodel18600VRandom: 500
+	Detectives: 408; (81.600%)
+	Mrx: 92; (18.400%)
+manylayermodel18800: 1000
+	Detectives: 506; (50.600%)
+	Mrx: 494; (49.400%)
+manylayermodel19000: 1000
+	Detectives: 454; (45.400%)
+	Mrx: 546; (54.600%)
+manylayermodel19200: 2000
+	Detectives: 848; (42.400%)
+	Mrx: 1152; (57.600%)
+manylayermodel19200VRandom: 500
+	Detectives: 402; (80.400%)
+	Mrx: 98; (19.600%)
+manylayermodel19400: 1000
+	Detectives: 479; (47.900%)
+	Mrx: 521; (52.100%)
+manylayermodel19600: 1000
+	Detectives: 401; (40.100%)
+	Mrx: 599; (59.900%)
+manylayermodel19800: 2000
+	Detectives: 791; (39.550%)
+	Mrx: 1209; (60.450%)
+manylayermodel19800episodes: 1010
+	Detectives: 474; (46.931%)
+	Mrx: 536; (53.069%)
+manylayermodel19800episodesVRandom: 1000
+	Detectives: 824; (82.400%)
+	Mrx: 176; (17.600%)
+manylayermodel19800VRandom: 500
+	Detectives: 390; (78.000%)
+	Mrx: 110; (22.000%)
+manylayermodel20000: 3614
+	Detectives: 1367; (37.825%)
+	Mrx: 2247; (62.175%)
+manylayermodel20000VRandom: 1700
+	Detectives: 1285; (75.588%)
+	Mrx: 415; (24.412%)
+manylayermodel20200: 3600
+	Detectives: 1751; (48.639%)
+	Mrx: 1849; (51.361%)
+manylayermodel20200VRandom: 1700
+	Detectives: 1453; (85.471%)
+	Mrx: 247; (14.529%)
+manylayermodel20400: 4600
+	Detectives: 2404; (52.261%)
+	Mrx: 2196; (47.739%)
+manylayermodel20400VRandom: 2200
+	Detectives: 1827; (83.045%)
+	Mrx: 373; (16.955%)
+manylayermodel20600: 3600
+	Detectives: 1678; (46.611%)
+	Mrx: 1922; (53.389%)
+manylayermodel20600VRandom: 1283
+	Detectives: 1060; (82.619%)
+	Mrx: 223; (17.381%)
+manylayermodel20800: 3290
+	Detectives: 1549; (47.082%)
+	Mrx: 1741; (52.918%)
+manylayermodel20800VRandom: 1000
+	Detectives: 809; (80.900%)
+	Mrx: 191; (19.100%)
+manylayermodel21000: 4000
+	Detectives: 2321; (58.025%)
+	Mrx: 1679; (41.975%)
+manylayermodel21000VRandom: 1500
+	Detectives: 1243; (82.867%)
+	Mrx: 257; (17.133%)
+manylayermodel21200: 3000
+	Detectives: 1864; (62.133%)
+	Mrx: 1136; (37.867%)
+manylayermodel21200VRandom: 1000
+	Detectives: 856; (85.600%)
+	Mrx: 144; (14.400%)
+manylayermodel21400: 3000
+	Detectives: 1481; (49.367%)
+	Mrx: 1519; (50.633%)
+manylayermodel21400VRandom: 1000
+	Detectives: 830; (83.000%)
+	Mrx: 170; (17.000%)
+manylayermodel21600: 4000
+	Detectives: 2241; (56.025%)
+	Mrx: 1759; (43.975%)
+manylayermodel21600VRandom: 1500
+	Detectives: 1255; (83.667%)
+	Mrx: 245; (16.333%)
+manylayermodel21800: 3000
+	Detectives: 1481; (49.367%)
+	Mrx: 1519; (50.633%)
+manylayermodel21800VRandom: 1000
+	Detectives: 822; (82.200%)
+	Mrx: 178; (17.800%)
+manylayermodel22000: 3000
+	Detectives: 1538; (51.267%)
+	Mrx: 1462; (48.733%)
+manylayermodel22000VRandom: 1000
+	Detectives: 806; (80.600%)
+	Mrx: 194; (19.400%)
+manylayermodel22200: 4000
+	Detectives: 1917; (47.925%)
+	Mrx: 2083; (52.075%)
+manylayermodel22200VRandom: 1500
+	Detectives: 1239; (82.600%)
+	Mrx: 261; (17.400%)
+manylayermodel22400: 3000
+	Detectives: 1827; (60.900%)
+	Mrx: 1173; (39.100%)
+manylayermodel22400VRandom: 1000
+	Detectives: 834; (83.400%)
+	Mrx: 166; (16.600%)
+manylayermodel22600: 3000
+	Detectives: 1532; (51.067%)
+	Mrx: 1468; (48.933%)
+manylayermodel22600VRandom: 1000
+	Detectives: 831; (83.100%)
+	Mrx: 169; (16.900%)
+manylayermodel22800: 4000
+	Detectives: 2210; (55.250%)
+	Mrx: 1790; (44.750%)
+manylayermodel22800VRandom: 1500
+	Detectives: 1254; (83.600%)
+	Mrx: 246; (16.400%)
+manylayermodel23000: 3000
+	Detectives: 1548; (51.600%)
+	Mrx: 1452; (48.400%)
+manylayermodel23000episodes: 1048
+	Detectives: 539; (51.431%)
+	Mrx: 509; (48.569%)
+manylayermodel23000episodesVRandom: 1000
+	Detectives: 868; (86.800%)
+	Mrx: 132; (13.200%)
+manylayermodel23000VRandom: 1000
+	Detectives: 843; (84.300%)
+	Mrx: 157; (15.700%)
+manylayermodel23200: 3000
+	Detectives: 1381; (46.033%)
+	Mrx: 1619; (53.967%)
+manylayermodel23200VRandom: 1000
+	Detectives: 836; (83.600%)
+	Mrx: 164; (16.400%)
+manylayermodel23400: 4629
+	Detectives: 1850; (39.965%)
+	Mrx: 2779; (60.035%)
+manylayermodel23400VRandom: 2502
+	Detectives: 1904; (76.099%)
+	Mrx: 598; (23.901%)
+manylayermodel23600: 3002
+	Detectives: 1430; (47.635%)
+	Mrx: 1572; (52.365%)
+manylayermodel23600VRandom: 2002
+	Detectives: 1646; (82.218%)
+	Mrx: 356; (17.782%)
+manylayermodel23800: 3002
+	Detectives: 1394; (46.436%)
+	Mrx: 1608; (53.564%)
+manylayermodel23800VRandom: 2002
+	Detectives: 1640; (81.918%)
+	Mrx: 362; (18.082%)
+manylayermodel24000: 4000
+	Detectives: 2227; (55.675%)
+	Mrx: 1773; (44.325%)
+manylayermodel24000VRandom: 2500
+	Detectives: 2060; (82.400%)
+	Mrx: 440; (17.600%)
+manylayermodel24200: 3000
+	Detectives: 1618; (53.933%)
+	Mrx: 1382; (46.067%)
+manylayermodel24200VRandom: 2000
+	Detectives: 1616; (80.800%)
+	Mrx: 384; (19.200%)
+manylayermodel24400: 3000
+	Detectives: 1350; (45.000%)
+	Mrx: 1650; (55.000%)
+manylayermodel24400VRandom: 2000
+	Detectives: 1546; (77.300%)
+	Mrx: 454; (22.700%)
+manylayermodel24600: 4000
+	Detectives: 2210; (55.250%)
+	Mrx: 1790; (44.750%)
+manylayermodel24600VRandom: 2500
+	Detectives: 2041; (81.640%)
+	Mrx: 459; (18.360%)
+manylayermodel24800: 3287
+	Detectives: 1663; (50.593%)
+	Mrx: 1624; (49.407%)
+manylayermodel24800VRandom: 2000
+	Detectives: 1597; (79.850%)
+	Mrx: 403; (20.150%)
+manylayermodel25000: 3000
+	Detectives: 1550; (51.667%)
+	Mrx: 1450; (48.333%)
+manylayermodel25000VRandom: 2000
+	Detectives: 1636; (81.800%)
+	Mrx: 364; (18.200%)
+manylayermodel25200: 4000
+	Detectives: 2187; (54.675%)
+	Mrx: 1813; (45.325%)
+manylayermodel25200VRandom: 2500
+	Detectives: 2093; (83.720%)
+	Mrx: 407; (16.280%)
+manylayermodel25400: 2322
+	Detectives: 1278; (55.039%)
+	Mrx: 1044; (44.961%)
+manylayermodel25400VRandom: 1000
+	Detectives: 797; (79.700%)
+	Mrx: 203; (20.300%)
+manylayermodel25600: 2000
+	Detectives: 1002; (50.100%)
+	Mrx: 998; (49.900%)
+manylayermodel25600VRandom: 1000
+	Detectives: 797; (79.700%)
+	Mrx: 203; (20.300%)
+manylayermodel25800: 3000
+	Detectives: 1442; (48.067%)
+	Mrx: 1558; (51.933%)
+manylayermodel25800VRandom: 1500
+	Detectives: 1191; (79.400%)
+	Mrx: 309; (20.600%)
+manylayermodel26000: 2000
+	Detectives: 841; (42.050%)
+	Mrx: 1159; (57.950%)
+manylayermodel26000VRandom: 1000
+	Detectives: 822; (82.200%)
+	Mrx: 178; (17.800%)
+manylayermodel26200: 2000
+	Detectives: 1081; (54.050%)
+	Mrx: 919; (45.950%)
+manylayermodel26200VRandom: 1000
+	Detectives: 782; (78.200%)
+	Mrx: 218; (21.800%)
+manylayermodel26400: 3000
+	Detectives: 1765; (58.833%)
+	Mrx: 1235; (41.167%)
+manylayermodel26400VRandom: 1500
+	Detectives: 1243; (82.867%)
+	Mrx: 257; (17.133%)
+manylayermodel26600: 2000
+	Detectives: 991; (49.550%)
+	Mrx: 1009; (50.450%)
+manylayermodel26600VRandom: 1000
+	Detectives: 847; (84.700%)
+	Mrx: 153; (15.300%)
+manylayermodel26800: 3000
+	Detectives: 1734; (57.800%)
+	Mrx: 1266; (42.200%)
+manylayermodel26800VRandom: 2000
+	Detectives: 1627; (81.350%)
+	Mrx: 373; (18.650%)
+manylayermodel27000: 4208
+	Detectives: 2450; (58.222%)
+	Mrx: 1758; (41.778%)
+manylayermodel27000VRandom: 2500
+	Detectives: 2005; (80.200%)
+	Mrx: 495; (19.800%)
+manylayermodel27200: 3000
+	Detectives: 1471; (49.033%)
+	Mrx: 1529; (50.967%)
+manylayermodel27200VRandom: 2000
+	Detectives: 1640; (82.000%)
+	Mrx: 360; (18.000%)
+manylayermodel27400: 3000
+	Detectives: 1791; (59.700%)
+	Mrx: 1209; (40.300%)
+manylayermodel27400VRandom: 2000
+	Detectives: 1621; (81.050%)
+	Mrx: 379; (18.950%)
+manylayermodel27600: 4000
+	Detectives: 2199; (54.975%)
+	Mrx: 1801; (45.025%)
+manylayermodel27600VRandom: 2500
+	Detectives: 2039; (81.560%)
+	Mrx: 461; (18.440%)
+manylayermodel27800: 3000
+	Detectives: 1816; (60.533%)
+	Mrx: 1184; (39.467%)
+manylayermodel27800VRandom: 2000
+	Detectives: 1691; (84.550%)
+	Mrx: 309; (15.450%)
+manylayermodel28000: 3000
+	Detectives: 1630; (54.333%)
+	Mrx: 1370; (45.667%)
+manylayermodel28000VRandom: 2000
+	Detectives: 1632; (81.600%)
+	Mrx: 368; (18.400%)
+manylayermodel28200: 4000
+	Detectives: 2512; (62.800%)
+	Mrx: 1488; (37.200%)
+manylayermodel28200VRandom: 2500
+	Detectives: 2077; (83.080%)
+	Mrx: 423; (16.920%)
+manylayermodel28400: 3000
+	Detectives: 1683; (56.100%)
+	Mrx: 1317; (43.900%)
+manylayermodel28400VRandom: 2000
+	Detectives: 1672; (83.600%)
+	Mrx: 328; (16.400%)
+manylayermodel28600: 3000
+	Detectives: 1806; (60.200%)
+	Mrx: 1194; (39.800%)
+manylayermodel28600VRandom: 2000
+	Detectives: 1661; (83.050%)
+	Mrx: 339; (16.950%)
+manylayermodel28800: 3724
+	Detectives: 2049; (55.021%)
+	Mrx: 1675; (44.979%)
+manylayermodel28800VRandom: 1500
+	Detectives: 1279; (85.267%)
+	Mrx: 221; (14.733%)
+manylayermodel29000: 2000
+	Detectives: 1181; (59.050%)
+	Mrx: 819; (40.950%)
+manylayermodel29000VRandom: 1000
+	Detectives: 827; (82.700%)
+	Mrx: 173; (17.300%)
+manylayermodel29200: 2000
+	Detectives: 908; (45.400%)
+	Mrx: 1092; (54.600%)
+manylayermodel29200VRandom: 1000
+	Detectives: 794; (79.400%)
+	Mrx: 206; (20.600%)
+manylayermodel29400: 3000
+	Detectives: 1366; (45.533%)
+	Mrx: 1634; (54.467%)
+manylayermodel29400VRandom: 1500
+	Detectives: 1226; (81.733%)
+	Mrx: 274; (18.267%)
+manylayermodel29600: 2000
+	Detectives: 961; (48.050%)
+	Mrx: 1039; (51.950%)
+manylayermodel29600VRandom: 1000
+	Detectives: 814; (81.400%)
+	Mrx: 186; (18.600%)
+manylayermodel29800: 2000
+	Detectives: 1071; (53.550%)
+	Mrx: 929; (46.450%)
+manylayermodel29800VRandom: 1000
+	Detectives: 852; (85.200%)
+	Mrx: 148; (14.800%)
+manylayermodel30000: 5514
+	Detectives: 2180; (39.536%)
+	Mrx: 3334; (60.464%)
+manylayermodel30000VRandom: 2200
+	Detectives: 1694; (77.000%)
+	Mrx: 506; (23.000%)
+manylayermodel30200: 3567
+	Detectives: 1684; (47.211%)
+	Mrx: 1883; (52.789%)
+manylayermodel30200VRandom: 1200
+	Detectives: 909; (75.750%)
+	Mrx: 291; (24.250%)
+manylayermodel30400: 3500
+	Detectives: 1851; (52.886%)
+	Mrx: 1649; (47.114%)
+manylayermodel30400VRandom: 1200
+	Detectives: 980; (81.667%)
+	Mrx: 220; (18.333%)
+manylayermodel30600: 4500
+	Detectives: 2450; (54.444%)
+	Mrx: 2050; (45.556%)
+manylayermodel30600VRandom: 1700
+	Detectives: 1421; (83.588%)
+	Mrx: 279; (16.412%)
+manylayermodel30800: 3239
+	Detectives: 1997; (61.655%)
+	Mrx: 1242; (38.345%)
+manylayermodel30800VRandom: 1000
+	Detectives: 831; (83.100%)
+	Mrx: 169; (16.900%)
+manylayermodel31000: 3000
+	Detectives: 1858; (61.933%)
+	Mrx: 1142; (38.067%)
+manylayermodel31000VRandom: 1000
+	Detectives: 803; (80.300%)
+	Mrx: 197; (19.700%)
+manylayermodel31200: 4000
+	Detectives: 2066; (51.650%)
+	Mrx: 1934; (48.350%)
+manylayermodel31200VRandom: 1500
+	Detectives: 1204; (80.267%)
+	Mrx: 296; (19.733%)
+manylayermodel31400: 3000
+	Detectives: 1766; (58.867%)
+	Mrx: 1234; (41.133%)
+manylayermodel31400VRandom: 1000
+	Detectives: 817; (81.700%)
+	Mrx: 183; (18.300%)
+manylayermodel31600: 3000
+	Detectives: 1923; (64.100%)
+	Mrx: 1077; (35.900%)
+manylayermodel31600VRandom: 1000
+	Detectives: 837; (83.700%)
+	Mrx: 163; (16.300%)
+manylayermodel31800: 4000
+	Detectives: 2067; (51.675%)
+	Mrx: 1933; (48.325%)
+manylayermodel31800VRandom: 1500
+	Detectives: 1266; (84.400%)
+	Mrx: 234; (15.600%)
+manylayermodel32000: 3058
+	Detectives: 1697; (55.494%)
+	Mrx: 1361; (44.506%)
+manylayermodel32000VRandom: 1000
+	Detectives: 855; (85.500%)
+	Mrx: 145; (14.500%)
+manylayermodel32200: 3000
+	Detectives: 1602; (53.400%)
+	Mrx: 1398; (46.600%)
+manylayermodel32200VRandom: 1000
+	Detectives: 795; (79.500%)
+	Mrx: 205; (20.500%)
+manylayermodel32400: 4000
+	Detectives: 2573; (64.325%)
+	Mrx: 1427; (35.675%)
+manylayermodel32400VRandom: 1500
+	Detectives: 1247; (83.133%)
+	Mrx: 253; (16.867%)
+manylayermodel32600: 3000
+	Detectives: 1824; (60.800%)
+	Mrx: 1176; (39.200%)
+manylayermodel32600VRandom: 1000
+	Detectives: 861; (86.100%)
+	Mrx: 139; (13.900%)
+manylayermodel32800: 3000
+	Detectives: 1980; (66.000%)
+	Mrx: 1020; (34.000%)
+manylayermodel32800VRandom: 1000
+	Detectives: 898; (89.800%)
+	Mrx: 102; (10.200%)
+manylayermodel33000: 4000
+	Detectives: 2054; (51.350%)
+	Mrx: 1946; (48.650%)
+manylayermodel33000VRandom: 1500
+	Detectives: 1264; (84.267%)
+	Mrx: 236; (15.733%)
+manylayermodel33200: 3000
+	Detectives: 1680; (56.000%)
+	Mrx: 1320; (44.000%)
+manylayermodel33200VRandom: 1000
+	Detectives: 837; (83.700%)
+	Mrx: 163; (16.300%)
+manylayermodel33400: 3462
+	Detectives: 1993; (57.568%)
+	Mrx: 1469; (42.432%)
+manylayermodel33400VRandom: 2000
+	Detectives: 1710; (85.500%)
+	Mrx: 290; (14.500%)
+manylayermodel33600: 4000
+	Detectives: 2149; (53.725%)
+	Mrx: 1851; (46.275%)
+manylayermodel33600VRandom: 2500
+	Detectives: 2127; (85.080%)
+	Mrx: 373; (14.920%)
+manylayermodel33800: 3000
+	Detectives: 2137; (71.233%)
+	Mrx: 863; (28.767%)
+manylayermodel33800episodes: 3000
+	Detectives: 2130; (71.000%)
+	Mrx: 870; (29.000%)
+manylayermodel33800episodesVRandom: 1000
+	Detectives: 856; (85.600%)
+	Mrx: 144; (14.400%)
+manylayermodel33800VRandom: 2000
+	Detectives: 1722; (86.100%)
+	Mrx: 278; (13.900%)
+manylayermodel34000: 3000
+	Detectives: 1837; (61.233%)
+	Mrx: 1163; (38.767%)
+manylayermodel34000VRandom: 2000
+	Detectives: 1702; (85.100%)
+	Mrx: 298; (14.900%)
+manylayermodel34200: 4000
+	Detectives: 2160; (54.000%)
+	Mrx: 1840; (46.000%)
+manylayermodel34200VRandom: 2500
+	Detectives: 2130; (85.200%)
+	Mrx: 370; (14.800%)
+manylayermodel34400: 3000
+	Detectives: 1809; (60.300%)
+	Mrx: 1191; (39.700%)
+manylayermodel34400VRandom: 2000
+	Detectives: 1676; (83.800%)
+	Mrx: 324; (16.200%)
+manylayermodel34600: 3000
+	Detectives: 1553; (51.767%)
+	Mrx: 1447; (48.233%)
+manylayermodel34600VRandom: 2000
+	Detectives: 1647; (82.350%)
+	Mrx: 353; (17.650%)
+manylayermodel34800: 4000
+	Detectives: 2050; (51.250%)
+	Mrx: 1950; (48.750%)
+manylayermodel34800VRandom: 2500
+	Detectives: 2009; (80.360%)
+	Mrx: 491; (19.640%)
+manylayermodel35000: 3000
+	Detectives: 1817; (60.567%)
+	Mrx: 1183; (39.433%)
+manylayermodel35000VRandom: 2000
+	Detectives: 1617; (80.850%)
+	Mrx: 383; (19.150%)
+manylayermodel35200: 3000
+	Detectives: 1511; (50.367%)
+	Mrx: 1489; (49.633%)
+manylayermodel35200VRandom: 2000
+	Detectives: 1662; (83.100%)
+	Mrx: 338; (16.900%)
+manylayermodel35400: 3901
+	Detectives: 2167; (55.550%)
+	Mrx: 1734; (44.450%)
+manylayermodel35400VRandom: 1500
+	Detectives: 1231; (82.067%)
+	Mrx: 269; (17.933%)
+manylayermodel35600: 2000
+	Detectives: 1284; (64.200%)
+	Mrx: 716; (35.800%)
+manylayermodel35600VRandom: 1000
+	Detectives: 869; (86.900%)
+	Mrx: 131; (13.100%)
+manylayermodel35800: 2000
+	Detectives: 1013; (50.650%)
+	Mrx: 987; (49.350%)
+manylayermodel35800VRandom: 1000
+	Detectives: 850; (85.000%)
+	Mrx: 150; (15.000%)
+manylayermodel36000: 3000
+	Detectives: 1744; (58.133%)
+	Mrx: 1256; (41.867%)
+manylayermodel36000VRandom: 1500
+	Detectives: 1288; (85.867%)
+	Mrx: 212; (14.133%)
+manylayermodel36200: 2000
+	Detectives: 1339; (66.950%)
+	Mrx: 661; (33.050%)
+manylayermodel36200VRandom: 1000
+	Detectives: 863; (86.300%)
+	Mrx: 137; (13.700%)
+manylayermodel36400: 2000
+	Detectives: 1118; (55.900%)
+	Mrx: 882; (44.100%)
+manylayermodel36400VRandom: 1000
+	Detectives: 875; (87.500%)
+	Mrx: 125; (12.500%)
+manylayermodel36600: 3000
+	Detectives: 1718; (57.267%)
+	Mrx: 1282; (42.733%)
+manylayermodel36600VRandom: 1500
+	Detectives: 1271; (84.733%)
+	Mrx: 229; (15.267%)
+manylayermodel36800: 3000
+	Detectives: 1740; (58.000%)
+	Mrx: 1260; (42.000%)
+manylayermodel36800VRandom: 2000
+	Detectives: 1752; (87.600%)
+	Mrx: 248; (12.400%)
+manylayermodel37000: 3000
+	Detectives: 1961; (65.367%)
+	Mrx: 1039; (34.633%)
+manylayermodel37000VRandom: 2000
+	Detectives: 1759; (87.950%)
+	Mrx: 241; (12.050%)
+manylayermodel37200: 4000
+	Detectives: 2541; (63.525%)
+	Mrx: 1459; (36.475%)
+manylayermodel37200VRandom: 2500
+	Detectives: 2213; (88.520%)
+	Mrx: 287; (11.480%)
+manylayermodel37400: 3000
+	Detectives: 2107; (70.233%)
+	Mrx: 893; (29.767%)
+manylayermodel37400VRandom: 2000
+	Detectives: 1800; (90.000%)
+	Mrx: 200; (10.000%)
+manylayermodel37600: 3000
+	Detectives: 1809; (60.300%)
+	Mrx: 1191; (39.700%)
+manylayermodel37600VRandom: 2000
+	Detectives: 1733; (86.650%)
+	Mrx: 267; (13.350%)
+manylayermodel37800: 4000
+	Detectives: 2719; (67.975%)
+	Mrx: 1281; (32.025%)
+manylayermodel37800VRandom: 2500
+	Detectives: 2198; (87.920%)
+	Mrx: 302; (12.080%)
+manylayermodel38000: 3000
+	Detectives: 1942; (64.733%)
+	Mrx: 1058; (35.267%)
+manylayermodel38000VRandom: 2000
+	Detectives: 1699; (84.950%)
+	Mrx: 301; (15.050%)
+manylayermodel38100episodes: 1010
+	Detectives: 628; (62.178%)
+	Mrx: 382; (37.822%)
+manylayermodel38100episodesVRandom: 1010
+	Detectives: 872; (86.337%)
+	Mrx: 138; (13.663%)
+manylayermodel38200: 3000
+	Detectives: 1882; (62.733%)
+	Mrx: 1118; (37.267%)
+manylayermodel38200VRandom: 2000
+	Detectives: 1751; (87.550%)
+	Mrx: 249; (12.450%)
+manylayermodel38400: 4000
+	Detectives: 2258; (56.450%)
+	Mrx: 1742; (43.550%)
+manylayermodel38400VRandom: 2500
+	Detectives: 2128; (85.120%)
+	Mrx: 372; (14.880%)
+manylayermodel38600: 3000
+	Detectives: 1618; (53.933%)
+	Mrx: 1382; (46.067%)
+manylayermodel38600VRandom: 2000
+	Detectives: 1739; (86.950%)
+	Mrx: 261; (13.050%)
+manylayermodel38800: 3000
+	Detectives: 1794; (59.800%)
+	Mrx: 1206; (40.200%)
+manylayermodel38800VRandom: 1886
+	Detectives: 1628; (86.320%)
+	Mrx: 258; (13.680%)
+manylayermodel39000: 3000
+	Detectives: 1688; (56.267%)
+	Mrx: 1312; (43.733%)
+manylayermodel39000VRandom: 1500
+	Detectives: 1304; (86.933%)
+	Mrx: 196; (13.067%)
+manylayermodel39200: 2000
+	Detectives: 1031; (51.550%)
+	Mrx: 969; (48.450%)
+manylayermodel39200VRandom: 1000
+	Detectives: 840; (84.000%)
+	Mrx: 160; (16.000%)
+manylayermodel39400: 2000
+	Detectives: 1041; (52.050%)
+	Mrx: 959; (47.950%)
+manylayermodel39400VRandom: 1000
+	Detectives: 853; (85.300%)
+	Mrx: 147; (14.700%)
+manylayermodel39600: 3000
+	Detectives: 2005; (66.833%)
+	Mrx: 995; (33.167%)
+manylayermodel39600VRandom: 1500
+	Detectives: 1314; (87.600%)
+	Mrx: 186; (12.400%)
+manylayermodel39800: 2000
+	Detectives: 1189; (59.450%)
+	Mrx: 811; (40.550%)
+manylayermodel39800VRandom: 1000
+	Detectives: 867; (86.700%)
+	Mrx: 133; (13.300%)
+manylayermodel40000: 4527
+	Detectives: 3092; (68.301%)
+	Mrx: 1435; (31.699%)
+manylayermodel40000VRandom: 1700
+	Detectives: 1527; (89.824%)
+	Mrx: 173; (10.176%)
+manylayermodel40200: 5753
+	Detectives: 3962; (68.868%)
+	Mrx: 1791; (31.132%)
+manylayermodel40200VRandom: 2200
+	Detectives: 1954; (88.818%)
+	Mrx: 246; (11.182%)
+manylayermodel40400: 3500
+	Detectives: 1958; (55.943%)
+	Mrx: 1542; (44.057%)
+manylayermodel40400VRandom: 1200
+	Detectives: 1007; (83.917%)
+	Mrx: 193; (16.083%)
+manylayermodel40600: 3500
+	Detectives: 2135; (61.000%)
+	Mrx: 1365; (39.000%)
+manylayermodel40600VRandom: 1200
+	Detectives: 1020; (85.000%)
+	Mrx: 180; (15.000%)
+manylayermodel40800: 4433
+	Detectives: 2611; (58.899%)
+	Mrx: 1822; (41.101%)
+manylayermodel40800VRandom: 1500
+	Detectives: 1304; (86.933%)
+	Mrx: 196; (13.067%)
+manylayermodel41000: 3000
+	Detectives: 1835; (61.167%)
+	Mrx: 1165; (38.833%)
+manylayermodel41000VRandom: 1000
+	Detectives: 840; (84.000%)
+	Mrx: 160; (16.000%)
+manylayermodel41200: 3000
+	Detectives: 1957; (65.233%)
+	Mrx: 1043; (34.767%)
+manylayermodel41200VRandom: 1000
+	Detectives: 891; (89.100%)
+	Mrx: 109; (10.900%)
+manylayermodel41400: 4000
+	Detectives: 2449; (61.225%)
+	Mrx: 1551; (38.775%)
+manylayermodel41400VRandom: 1500
+	Detectives: 1281; (85.400%)
+	Mrx: 219; (14.600%)
+manylayermodel41600: 3000
+	Detectives: 1616; (53.867%)
+	Mrx: 1384; (46.133%)
+manylayermodel41600episodes: 1010
+	Detectives: 562; (55.644%)
+	Mrx: 448; (44.356%)
+manylayermodel41600episodesVRandom: 1010
+	Detectives: 807; (79.901%)
+	Mrx: 203; (20.099%)
+manylayermodel41600VRandom: 1000
+	Detectives: 813; (81.300%)
+	Mrx: 187; (18.700%)
+manylayermodel41800: 3000
+	Detectives: 1731; (57.700%)
+	Mrx: 1269; (42.300%)
+manylayermodel41800VRandom: 1000
+	Detectives: 851; (85.100%)
+	Mrx: 149; (14.900%)
+manylayermodel42000: 4000
+	Detectives: 1892; (47.300%)
+	Mrx: 2108; (52.700%)
+manylayermodel42000VRandom: 1500
+	Detectives: 1222; (81.467%)
+	Mrx: 278; (18.533%)
+manylayermodel42200: 3000
+	Detectives: 1656; (55.200%)
+	Mrx: 1344; (44.800%)
+manylayermodel42200VRandom: 1000
+	Detectives: 855; (85.500%)
+	Mrx: 145; (14.500%)
+manylayermodel42400: 3000
+	Detectives: 1745; (58.167%)
+	Mrx: 1255; (41.833%)
+manylayermodel42400VRandom: 1000
+	Detectives: 834; (83.400%)
+	Mrx: 166; (16.600%)
+manylayermodel42600: 4000
+	Detectives: 2278; (56.950%)
+	Mrx: 1722; (43.050%)
+manylayermodel42600VRandom: 1500
+	Detectives: 1240; (82.667%)
+	Mrx: 260; (17.333%)
+manylayermodel42800: 3000
+	Detectives: 1759; (58.633%)
+	Mrx: 1241; (41.367%)
+manylayermodel42800VRandom: 1000
+	Detectives: 886; (88.600%)
+	Mrx: 114; (11.400%)
+manylayermodel43000: 3000
+	Detectives: 1694; (56.467%)
+	Mrx: 1306; (43.533%)
+manylayermodel43000VRandom: 1000
+	Detectives: 844; (84.400%)
+	Mrx: 156; (15.600%)
+manylayermodel43200: 4000
+	Detectives: 2246; (56.150%)
+	Mrx: 1754; (43.850%)
+manylayermodel43200VRandom: 1500
+	Detectives: 1275; (85.000%)
+	Mrx: 225; (15.000%)
+manylayermodel43400: 3987
+	Detectives: 2415; (60.572%)
+	Mrx: 1572; (39.428%)
+manylayermodel43400VRandom: 2000
+	Detectives: 1699; (84.950%)
+	Mrx: 301; (15.050%)
+manylayermodel43600: 3000
+	Detectives: 1853; (61.767%)
+	Mrx: 1147; (38.233%)
+manylayermodel43600VRandom: 2000
+	Detectives: 1754; (87.700%)
+	Mrx: 246; (12.300%)
+manylayermodel43800: 4195
+	Detectives: 2435; (58.045%)
+	Mrx: 1760; (41.955%)
+manylayermodel43800VRandom: 2500
+	Detectives: 2161; (86.440%)
+	Mrx: 339; (13.560%)
+manylayermodel43900episodes: 1010
+	Detectives: 668; (66.139%)
+	Mrx: 342; (33.861%)
+manylayermodel43900episodesVRandom: 1010
+	Detectives: 895; (88.614%)
+	Mrx: 115; (11.386%)
+manylayermodel44000: 3000
+	Detectives: 1886; (62.867%)
+	Mrx: 1114; (37.133%)
+manylayermodel44000VRandom: 2000
+	Detectives: 1707; (85.350%)
+	Mrx: 293; (14.650%)
+manylayermodel44200: 3000
+	Detectives: 1602; (53.400%)
+	Mrx: 1398; (46.600%)
+manylayermodel44200VRandom: 2000
+	Detectives: 1741; (87.050%)
+	Mrx: 259; (12.950%)
+manylayermodel44400: 4000
+	Detectives: 2294; (57.350%)
+	Mrx: 1706; (42.650%)
+manylayermodel44400VRandom: 2500
+	Detectives: 2122; (84.880%)
+	Mrx: 378; (15.120%)
+manylayermodel44600: 3000
+	Detectives: 2009; (66.967%)
+	Mrx: 991; (33.033%)
+manylayermodel44600VRandom: 2000
+	Detectives: 1756; (87.800%)
+	Mrx: 244; (12.200%)
+manylayermodel44800: 3000
+	Detectives: 1861; (62.033%)
+	Mrx: 1139; (37.967%)
+manylayermodel44800episodes: 1010
+	Detectives: 630; (62.376%)
+	Mrx: 380; (37.624%)
+manylayermodel44800episodesVRandom: 1010
+	Detectives: 881; (87.228%)
+	Mrx: 129; (12.772%)
+manylayermodel44800VRandom: 2000
+	Detectives: 1718; (85.900%)
+	Mrx: 282; (14.100%)
+manylayermodel45000: 4000
+	Detectives: 2544; (63.600%)
+	Mrx: 1456; (36.400%)
+manylayermodel45000VRandom: 2500
+	Detectives: 2190; (87.600%)
+	Mrx: 310; (12.400%)
+manylayermodel45200: 3000
+	Detectives: 1821; (60.700%)
+	Mrx: 1179; (39.300%)
+manylayermodel45200VRandom: 2000
+	Detectives: 1783; (89.150%)
+	Mrx: 217; (10.850%)
+manylayermodel45400: 3000
+	Detectives: 1905; (63.500%)
+	Mrx: 1095; (36.500%)
+manylayermodel45400VRandom: 1479
+	Detectives: 1305; (88.235%)
+	Mrx: 174; (11.765%)
+manylayermodel45600: 3000
+	Detectives: 1871; (62.367%)
+	Mrx: 1129; (37.633%)
+manylayermodel45600VRandom: 1500
+	Detectives: 1253; (83.533%)
+	Mrx: 247; (16.467%)
+manylayermodel45800: 2000
+	Detectives: 1294; (64.700%)
+	Mrx: 706; (35.300%)
+manylayermodel45800VRandom: 1000
+	Detectives: 860; (86.000%)
+	Mrx: 140; (14.000%)
+manylayermodel46000: 2000
+	Detectives: 1400; (70.000%)
+	Mrx: 600; (30.000%)
+manylayermodel46000VRandom: 1000
+	Detectives: 850; (85.000%)
+	Mrx: 150; (15.000%)
+manylayermodel46200: 3000
+	Detectives: 1709; (56.967%)
+	Mrx: 1291; (43.033%)
+manylayermodel46200VRandom: 1500
+	Detectives: 1320; (88.000%)
+	Mrx: 180; (12.000%)
+manylayermodel46400: 2000
+	Detectives: 1304; (65.200%)
+	Mrx: 696; (34.800%)
+manylayermodel46400VRandom: 1000
+	Detectives: 867; (86.700%)
+	Mrx: 133; (13.300%)
+manylayermodel46600: 2038
+	Detectives: 1187; (58.243%)
+	Mrx: 851; (41.757%)
+manylayermodel46600VRandom: 1000
+	Detectives: 863; (86.300%)
+	Mrx: 137; (13.700%)
+manylayermodel46800: 4000
+	Detectives: 2471; (61.775%)
+	Mrx: 1529; (38.225%)
+manylayermodel46800VRandom: 2500
+	Detectives: 2136; (85.440%)
+	Mrx: 364; (14.560%)
+manylayermodel47000: 3000
+	Detectives: 1867; (62.233%)
+	Mrx: 1133; (37.767%)
+manylayermodel47000VRandom: 2000
+	Detectives: 1716; (85.800%)
+	Mrx: 284; (14.200%)
+manylayermodel47200: 3000
+	Detectives: 1916; (63.867%)
+	Mrx: 1084; (36.133%)
+manylayermodel47200VRandom: 2000
+	Detectives: 1705; (85.250%)
+	Mrx: 295; (14.750%)
+manylayermodel47400: 4000
+	Detectives: 2746; (68.650%)
+	Mrx: 1254; (31.350%)
+manylayermodel47400VRandom: 2500
+	Detectives: 2193; (87.720%)
+	Mrx: 307; (12.280%)
+manylayermodel47600: 3000
+	Detectives: 1851; (61.700%)
+	Mrx: 1149; (38.300%)
+manylayermodel47600VRandom: 2000
+	Detectives: 1749; (87.450%)
+	Mrx: 251; (12.550%)
+manylayermodel47800: 3000
+	Detectives: 1686; (56.200%)
+	Mrx: 1314; (43.800%)
+manylayermodel47800VRandom: 2000
+	Detectives: 1725; (86.250%)
+	Mrx: 275; (13.750%)
+manylayermodel48000: 4000
+	Detectives: 2754; (68.850%)
+	Mrx: 1246; (31.150%)
+manylayermodel48000VRandom: 2500
+	Detectives: 2198; (87.920%)
+	Mrx: 302; (12.080%)
+manylayermodel48200: 3000
+	Detectives: 1866; (62.200%)
+	Mrx: 1134; (37.800%)
+manylayermodel48200VRandom: 2000
+	Detectives: 1773; (88.650%)
+	Mrx: 227; (11.350%)
+manylayermodel48400: 3000
+	Detectives: 1850; (61.667%)
+	Mrx: 1150; (38.333%)
+manylayermodel48400VRandom: 2000
+	Detectives: 1736; (86.800%)
+	Mrx: 264; (13.200%)
+manylayermodel48600: 4000
+	Detectives: 2271; (56.775%)
+	Mrx: 1729; (43.225%)
+manylayermodel48600VRandom: 2500
+	Detectives: 2027; (81.080%)
+	Mrx: 473; (18.920%)
+manylayermodel48800: 3000
+	Detectives: 1814; (60.467%)
+	Mrx: 1186; (39.533%)
+manylayermodel48800VRandom: 1534
+	Detectives: 1349; (87.940%)
+	Mrx: 185; (12.060%)
+manylayermodel49000: 2000
+	Detectives: 1184; (59.200%)
+	Mrx: 816; (40.800%)
+manylayermodel49000VRandom: 1000
+	Detectives: 865; (86.500%)
+	Mrx: 135; (13.500%)
+manylayermodel49200: 3000
+	Detectives: 1627; (54.233%)
+	Mrx: 1373; (45.767%)
+manylayermodel49200VRandom: 1500
+	Detectives: 1301; (86.733%)
+	Mrx: 199; (13.267%)
+manylayermodel49400: 2000
+	Detectives: 1259; (62.950%)
+	Mrx: 741; (37.050%)
+manylayermodel49400VRandom: 1000
+	Detectives: 882; (88.200%)
+	Mrx: 118; (11.800%)
+manylayermodel49600: 2000
+	Detectives: 1388; (69.400%)
+	Mrx: 612; (30.600%)
+manylayermodel49600VRandom: 1000
+	Detectives: 863; (86.300%)
+	Mrx: 137; (13.700%)
+manylayermodel49800: 3000
+	Detectives: 1635; (54.500%)
+	Mrx: 1365; (45.500%)
+manylayermodel49800VRandom: 1500
+	Detectives: 1263; (84.200%)
+	Mrx: 237; (15.800%)
+manylayermodel50000: 4517
+	Detectives: 2388; (52.867%)
+	Mrx: 2129; (47.133%)
+manylayermodel50000VRandom: 1700
+	Detectives: 1394; (82.000%)
+	Mrx: 306; (18.000%)
+manylayermodel50200: 3586
+	Detectives: 2098; (58.505%)
+	Mrx: 1488; (41.495%)
+manylayermodel50200VRandom: 1200
+	Detectives: 1000; (83.333%)
+	Mrx: 200; (16.667%)
+manylayermodel50400: 4735
+	Detectives: 2547; (53.791%)
+	Mrx: 2188; (46.209%)
+manylayermodel50400VRandom: 1700
+	Detectives: 1446; (85.059%)
+	Mrx: 254; (14.941%)
+manylayermodel50600: 3500
+	Detectives: 2543; (72.657%)
+	Mrx: 957; (27.343%)
+manylayermodel50600VRandom: 1200
+	Detectives: 1063; (88.583%)
+	Mrx: 137; (11.417%)
+manylayermodel50800: 3500
+	Detectives: 2399; (68.543%)
+	Mrx: 1101; (31.457%)
+manylayermodel50800VRandom: 1083
+	Detectives: 924; (85.319%)
+	Mrx: 159; (14.681%)
+manylayermodel51000: 4000
+	Detectives: 2728; (68.200%)
+	Mrx: 1272; (31.800%)
+manylayermodel51000VRandom: 1500
+	Detectives: 1331; (88.733%)
+	Mrx: 169; (11.267%)
+manylayermodel51200: 3000
+	Detectives: 1972; (65.733%)
+	Mrx: 1028; (34.267%)
+manylayermodel51200VRandom: 1000
+	Detectives: 891; (89.100%)
+	Mrx: 109; (10.900%)
+manylayermodel51400: 3000
+	Detectives: 2054; (68.467%)
+	Mrx: 946; (31.533%)
+manylayermodel51400VRandom: 1000
+	Detectives: 856; (85.600%)
+	Mrx: 144; (14.400%)
+manylayermodel51600: 4000
+	Detectives: 2817; (70.425%)
+	Mrx: 1183; (29.575%)
+manylayermodel51600VRandom: 1500
+	Detectives: 1351; (90.067%)
+	Mrx: 149; (9.933%)
+manylayermodel51800: 3000
+	Detectives: 1929; (64.300%)
+	Mrx: 1071; (35.700%)
+manylayermodel51800VRandom: 1000
+	Detectives: 874; (87.400%)
+	Mrx: 126; (12.600%)
+manylayermodel52000: 3000
+	Detectives: 1704; (56.800%)
+	Mrx: 1296; (43.200%)
+manylayermodel52000VRandom: 1000
+	Detectives: 851; (85.100%)
+	Mrx: 149; (14.900%)
+manylayermodel52200: 4105
+	Detectives: 2111; (51.425%)
+	Mrx: 1994; (48.575%)
+manylayermodel52200VRandom: 1500
+	Detectives: 1256; (83.733%)
+	Mrx: 244; (16.267%)
+manylayermodel52400: 3000
+	Detectives: 1692; (56.400%)
+	Mrx: 1308; (43.600%)
+manylayermodel52400VRandom: 1000
+	Detectives: 876; (87.600%)
+	Mrx: 124; (12.400%)
+manylayermodel52600: 3000
+	Detectives: 1890; (63.000%)
+	Mrx: 1110; (37.000%)
+manylayermodel52600VRandom: 1000
+	Detectives: 847; (84.700%)
+	Mrx: 153; (15.300%)
+manylayermodel52800: 4000
+	Detectives: 2557; (63.925%)
+	Mrx: 1443; (36.075%)
+manylayermodel52800VRandom: 1500
+	Detectives: 1299; (86.600%)
+	Mrx: 201; (13.400%)
+manylayermodel53000: 3000
+	Detectives: 1829; (60.967%)
+	Mrx: 1171; (39.033%)
+manylayermodel53000VRandom: 1000
+	Detectives: 859; (85.900%)
+	Mrx: 141; (14.100%)
+manylayermodel53200: 3318
+	Detectives: 2056; (61.965%)
+	Mrx: 1262; (38.035%)
+manylayermodel53200VRandom: 2000
+	Detectives: 1674; (83.700%)
+	Mrx: 326; (16.300%)
+manylayermodel53400: 4000
+	Detectives: 2263; (56.575%)
+	Mrx: 1737; (43.425%)
+manylayermodel53400VRandom: 2500
+	Detectives: 2119; (84.760%)
+	Mrx: 381; (15.240%)
+manylayermodel53600: 3511
+	Detectives: 1921; (54.714%)
+	Mrx: 1590; (45.286%)
+manylayermodel53600VRandom: 2000
+	Detectives: 1725; (86.250%)
+	Mrx: 275; (13.750%)
+manylayermodel53800: 3000
+	Detectives: 1967; (65.567%)
+	Mrx: 1033; (34.433%)
+manylayermodel53800VRandom: 2000
+	Detectives: 1738; (86.900%)
+	Mrx: 262; (13.100%)
+manylayermodel54000: 4000
+	Detectives: 2296; (57.400%)
+	Mrx: 1704; (42.600%)
+manylayermodel54000VRandom: 2500
+	Detectives: 2132; (85.280%)
+	Mrx: 368; (14.720%)
+manylayermodel54200: 3000
+	Detectives: 1732; (57.733%)
+	Mrx: 1268; (42.267%)
+manylayermodel54200VRandom: 2000
+	Detectives: 1683; (84.150%)
+	Mrx: 317; (15.850%)
+manylayermodel54400: 3000
+	Detectives: 1808; (60.267%)
+	Mrx: 1192; (39.733%)
+manylayermodel54400VRandom: 2000
+	Detectives: 1745; (87.250%)
+	Mrx: 255; (12.750%)
+manylayermodel54600: 4000
+	Detectives: 2458; (61.450%)
+	Mrx: 1542; (38.550%)
+manylayermodel54600VRandom: 2500
+	Detectives: 2143; (85.720%)
+	Mrx: 357; (14.280%)
+manylayermodel54800: 3000
+	Detectives: 1897; (63.233%)
+	Mrx: 1103; (36.767%)
+manylayermodel54800VRandom: 2000
+	Detectives: 1761; (88.050%)
+	Mrx: 239; (11.950%)
+manylayermodel55000: 3000
+	Detectives: 1542; (51.400%)
+	Mrx: 1458; (48.600%)
+manylayermodel55000VRandom: 2000
+	Detectives: 1673; (83.650%)
+	Mrx: 327; (16.350%)
+manylayermodel55200: 3614
+	Detectives: 2230; (61.704%)
+	Mrx: 1384; (38.296%)
+manylayermodel55200VRandom: 1500
+	Detectives: 1260; (84.000%)
+	Mrx: 240; (16.000%)
+manylayermodel55400: 2000
+	Detectives: 1165; (58.250%)
+	Mrx: 835; (41.750%)
+manylayermodel55400VRandom: 1000
+	Detectives: 841; (84.100%)
+	Mrx: 159; (15.900%)
+manylayermodel55600: 3000
+	Detectives: 1673; (55.767%)
+	Mrx: 1327; (44.233%)
+manylayermodel55600VRandom: 2000
+	Detectives: 1718; (85.900%)
+	Mrx: 282; (14.100%)
+manylayermodel55800: 4000
+	Detectives: 2365; (59.125%)
+	Mrx: 1635; (40.875%)
+manylayermodel55800VRandom: 2500
+	Detectives: 2183; (87.320%)
+	Mrx: 317; (12.680%)
+manylayermodel56000: 3000
+	Detectives: 1837; (61.233%)
+	Mrx: 1163; (38.767%)
+manylayermodel56000VRandom: 2000
+	Detectives: 1734; (86.700%)
+	Mrx: 266; (13.300%)
+manylayermodel56200: 3000
+	Detectives: 1712; (57.067%)
+	Mrx: 1288; (42.933%)
+manylayermodel56200VRandom: 2000
+	Detectives: 1695; (84.750%)
+	Mrx: 305; (15.250%)
+manylayermodel56400: 4000
+	Detectives: 2590; (64.750%)
+	Mrx: 1410; (35.250%)
+manylayermodel56400VRandom: 2500
+	Detectives: 2164; (86.560%)
+	Mrx: 336; (13.440%)
+manylayermodel56600: 3000
+	Detectives: 1862; (62.067%)
+	Mrx: 1138; (37.933%)
+manylayermodel56600VRandom: 2000
+	Detectives: 1676; (83.800%)
+	Mrx: 324; (16.200%)
+manylayermodel56800: 3000
+	Detectives: 1902; (63.400%)
+	Mrx: 1098; (36.600%)
+manylayermodel56800VRandom: 2000
+	Detectives: 1738; (86.900%)
+	Mrx: 262; (13.100%)
+manylayermodel57000: 4000
+	Detectives: 2200; (55.000%)
+	Mrx: 1800; (45.000%)
+manylayermodel57000VRandom: 2500
+	Detectives: 2138; (85.520%)
+	Mrx: 362; (14.480%)
+manylayermodel57200: 3000
+	Detectives: 1608; (53.600%)
+	Mrx: 1392; (46.400%)
+manylayermodel57200VRandom: 2000
+	Detectives: 1691; (84.550%)
+	Mrx: 309; (15.450%)
+manylayermodel57400: 3000
+	Detectives: 2053; (68.433%)
+	Mrx: 947; (31.567%)
+manylayermodel57400VRandom: 2000
+	Detectives: 1773; (88.650%)
+	Mrx: 227; (11.350%)
+manylayermodel57600: 4000
+	Detectives: 2457; (61.425%)
+	Mrx: 1543; (38.575%)
+manylayermodel57600VRandom: 1553
+	Detectives: 1346; (86.671%)
+	Mrx: 207; (13.329%)

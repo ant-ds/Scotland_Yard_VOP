@@ -1,0 +1,6 @@
+randomDetvGuilEvaluation05052019: 20000
+	Detectives: 2097; (10.485%)
+	Mrx: 17903; (89.515%)
+randomDetvRandomEvaluation05052019: 20000
+	Detectives: 5879; (29.395%)
+	Mrx: 14121; (70.605%)
