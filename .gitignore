@@ -1,21 +1,24 @@
 #configuration
 settings.ini
 
-# models
-ai/ml/models/*
-ai/ml/MrXmodels/*
-
 # extra
 .vscode/
 .flake8
 
+# models
+ai/ml/models/*
+ai/ml/MrXmodels/*
+
+
 # local (test)files
 test.py
 notes.txt
-history/
+history*/
 storage/
 run.sh
 training.sh
+
+analytics/*.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
