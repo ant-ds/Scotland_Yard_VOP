@@ -6,8 +6,9 @@ settings.ini
 .flake8
 
 # models
-ai/ml/models/*
+ai/ml/models/OtherModels/*
 ai/ml/MrXmodels/*
+ai/ml/stats/*
 
 
 # local (test)files
