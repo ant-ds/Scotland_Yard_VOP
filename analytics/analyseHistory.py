@@ -36,8 +36,13 @@ def readHistoryFile(fpath, arr, filepath=True):
         return readFile([status], arr)
     else:
         fp = fpath
-        lines = fp.readlines()
-        status = int(lines[0])
+        try:
+            lines = fp.readlines()
+            status = int(lines[0])
+        except Exception as e:
+            print(fp)
+            print(e)
+            return arr
         return readFile([status], arr)
 
 
