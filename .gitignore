@@ -2,8 +2,9 @@
 settings.ini
 
 # models
-ai/ml/models/*
+ai/ml/models/OtherModels/*
 ai/ml/MrXmodels/*
+ai/ml/stats/*
 
 # extra
 .vscode/
