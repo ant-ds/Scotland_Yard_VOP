@@ -23,7 +23,10 @@ class Player():
         self.defeated = False
 
     def update(self):
+        nextReveal = min([revturn for revturn in const.MRX_OPEN_TURNS if revturn >= self.turn])
+
         self.print_("-------------------------------------")
+        self.print_(f"Currently playing turn {self.turn}; Next reveal on turn {nextReveal}")
         self.print_(f"{self}'s turn")
         self.print_(f"Current position: {self.position}")
 
