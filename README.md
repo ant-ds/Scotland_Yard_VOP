@@ -1,6 +1,6 @@
 # VOP: Project - Gravensburger
 This project originates from "Ingenieursproject II" in the bachelor of civil engineering at Ghent University, computer science.
-It aims at making a computer opponent for the boardgame Ravensburger by use of a manually written algorithm, and a machine learning algorithm.
+It aims at making a computer opponent for the boardgame Scotland Yard by Ravensburger by use of a manually written algorithm, and a machine learning algorithm.
 
 ## Custom Settings and parameters
 
