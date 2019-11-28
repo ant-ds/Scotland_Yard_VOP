@@ -1,4 +1,5 @@
 # VOP: Project - Gravensburger
+This project aims at making a computer opponent for the boardgame Ravensburger.
 
 ## Custom Settings and parameters
 
